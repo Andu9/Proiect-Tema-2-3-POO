@@ -129,6 +129,14 @@ add_executable(${PROJECT_NAME}
     main.cpp
     generated/src/Helper.cpp
     env_fixes.h
+        generated/include/Player.h
+        generated/include/Player.h
+        generated/src/Player.cpp
+        generated/src/Player.cpp
+        generated/include/Thing.h
+        generated/src/Thing.cpp
+        generated/include/MoveableThing.h
+        generated/src/MoveableThing.cpp
 )
 
 ###############################################################################
