@@ -1,8 +1,21 @@
 #include "Player.h"
+#include "Collision.h"
+#include "Platform.h"
+
+#include <vector>
+#include <ctime>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Poor bunny!", sf::Style::Default);
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
+    sf::RenderWindow window(sf::VideoMode(400, 600), "Poor bunny!", sf::Style::Default);
     Player player{window};
+    window.setFramerateLimit(60);
+
+    const int SIZE = 20;
+    static const float gravity = 1.f;
+
+
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -12,19 +25,18 @@ int main() {
             } else if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Escape) {
                     window.close();
-                } else if (event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::Left) {
-                    player.moveHorizontal(-1.f);
-                } else if (event.key.code == sf::Keyboard::D || event.key.code == sf::Keyboard::Right) {
-                    player.moveHorizontal(1.f);
-                } else if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up) {
-                    player.jump();
                 }
             }
         }
 
+        player.move(window);
+        player.setPosition();
+
         window.clear();
         player.draw(window);
+
         window.display();
     }
     return 0;
 }
+

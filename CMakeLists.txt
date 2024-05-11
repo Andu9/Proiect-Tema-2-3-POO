@@ -137,6 +137,14 @@ add_executable(${PROJECT_NAME}
         generated/src/Thing.cpp
         generated/include/MoveableThing.h
         generated/src/MoveableThing.cpp
+        generated/include/Collision.h
+        generated/include/Collision.h
+        generated/src/Collision.cpp
+        generated/src/Collision.cpp
+        generated/include/Platform.h
+        generated/include/Platform.h
+        generated/src/Platform.cpp
+        generated/src/Platform.cpp
 )
 
 ###############################################################################
