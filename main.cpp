@@ -1,21 +1,26 @@
 #include "Player.h"
 #include "Collision.h"
-#include "Platform.h"
 
-#include <vector>
-#include <ctime>
 
 int main() {
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-    sf::RenderWindow window(sf::VideoMode(400, 600), "Poor bunny!", sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(1044, 585), "Poor bunny!", sf::Style::Default);
     Player player{window};
     window.setFramerateLimit(60);
 
-    const int SIZE = 20;
-    static const float gravity = 1.f;
 
+    std::array<Thing, 8> platforms;
 
+    platforms[0] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{225, 358});
+    platforms[1] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{472, 358});
+    platforms[2] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{757, 358});
+
+    platforms[3] = Thing(sf::Vector2f{115, 27}, sf::Vector2f{290, 237});
+    platforms[4] = Thing(sf::Vector2f{115, 27}, sf::Vector2f{640, 237});
+
+    platforms[5] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{225, 114});
+    platforms[6] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{472, 114});
+    platforms[7] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{757, 114});
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -29,11 +34,16 @@ int main() {
             }
         }
 
-        player.move(window);
+        player.move(window, platforms);
         player.setPosition();
 
         window.clear();
         player.draw(window);
+
+        for (auto& platform: platforms) {
+            platform.setPosition();
+            platform.draw(window);
+        }
 
         window.display();
     }

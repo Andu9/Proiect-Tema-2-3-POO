@@ -15,8 +15,11 @@ class Thing {
     public:
         Thing();
         Thing(sf::Vector2f _size, sf::Vector2f _position);
+        sf::Vector2f getSize() const;
+        sf::Vector2f getPosition() const;
         virtual void draw(sf::RenderWindow& window);
         void setPosition();
+        bool checkCollision(Thing& other);
 };
 
 #endif //OOP_THING_H

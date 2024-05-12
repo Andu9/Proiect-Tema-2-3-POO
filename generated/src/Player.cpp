@@ -1,20 +1,40 @@
 #include "Player.h"
 
-Player::Player(sf::RenderWindow& window) : health(3), jumpFlag(false), dy(0) {
+Player::Player(sf::RenderWindow& window) : health(3), jumpFlag(false), isOnPlatform(false), dy(0), i(0) {
     position.x = (window.getSize().x - size.x) / 2;
-    position.y = window.getSize().y - size.y - 10;
-
-    std::cout << "health: " << health << '\n';
-    std::cout << "speed: " << speed << '\n';
-    std::cout << "position: " << box.getPosition().x << ' ' << box.getPosition().y << '\n';
-    std::cout << "size: " << size.x << ' ' << size.y << '\n';
+    position.y = window.getSize().y - size.y - 111;
 }
 
-void Player::move(sf::RenderWindow& window) {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
+    sf::Vector2f pos, sz;
+    for (int i = 0; i < 8; i += 1) {
+        Thing currentPlatform = platforms[i];
+
+        if (position.y + size.y == currentPlatform.getPosition().y
+         && position.x + size.x >= currentPlatform.getPosition().x
+         && position.x <= currentPlatform.getPosition().x + currentPlatform.getSize().x) {
+            pos = currentPlatform.getPosition(), sz = currentPlatform.getSize();
+            isOnPlatform = true; break;
+        }
+    }
+
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed((sf::Keyboard::Left))) {
         position.x += speed;
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+
+        if (isOnPlatform && position.x >= pos.x + sz.x) {
+            isOnPlatform = false;
+            jumpFlag = true;
+            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { dy = 0; }
+        }
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed((sf::Keyboard::Right))) {
         position.x -= speed;
+
+        if (isOnPlatform && position.x + size.x <= pos.x) {
+            isOnPlatform = false;
+            jumpFlag = true;
+            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { dy = 0; }
+        }
     }
 
     if (position.x <= 0) { position.x = 0; }
@@ -22,32 +42,46 @@ void Player::move(sf::RenderWindow& window) {
         position.x = window.getSize().x - size.x;
     }
 
-    const float gravity = 0.5f;
-    const float jumpVelocity = -10.f;
+    const float gravity = 0.6;
+    const float jumpVelocity = -15.f;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !jumpFlag) {
         jumpFlag = true;
         dy = jumpVelocity;
     }
 
+
     if (jumpFlag) {
         dy += gravity;
         position.y += dy;
 
-        if (position.y >= window.getSize().y - size.y) {
-            position.y = window.getSize().y - size.y;
+        for (const auto& platform : platforms) {
+            sf::FloatRect playerBounds(position, size);
+            sf::FloatRect platformBounds(platform.getPosition(), platform.getSize());
+
+            // Check if player is touching the bottom side of the platform
+            if (playerBounds.intersects(platformBounds)) {
+                if (position.y + size.y >= platformBounds.top  // Player's bottom reaches or goes below platform's top
+                    && position.y + size.y <= platformBounds.top + 10 // Player's bottom is within 10 pixels of platform's top
+                    && dy >= 0) {  // Player is moving downwards (falling)
+
+                    std::cout << dy << '\n';
+
+                    // Snap player on top of the platform
+                    position.y = platformBounds.top - size.y;
+                    jumpFlag = false;
+                    dy = 50.f;
+
+                    isOnPlatform = true;
+                }
+            }
+        }
+
+
+        if (position.y >= window.getSize().y - size.y - 111) {
+            position.y = window.getSize().y - size.y - 111;
             jumpFlag = false;
             dy = 0.f;
         }
     }
-
-/*        jumpFlag = true;
-        dy += 0.2;
-        position.y += dy;
-
-        if (position.y >= window.getSize().y - size.y) {
-            jumpFlag = false;
-            dy -= 10.f;
-        }
-    */
 }

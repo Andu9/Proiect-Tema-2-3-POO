@@ -1,6 +1,6 @@
 #include "MoveableThing.h"
 
-MoveableThing::MoveableThing() : speed(2.f) {}
+MoveableThing::MoveableThing() : speed(8.f) {}
 
 MoveableThing::MoveableThing(float _speed) : speed(_speed) {}
 
