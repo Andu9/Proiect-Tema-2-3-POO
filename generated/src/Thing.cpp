@@ -1,6 +1,6 @@
 #include "Thing.h"
 
-Thing::Thing() : size{100, 100}, position{10, 10} {
+Thing::Thing() : size{50, 50}, position{10, 10} {
     box.setSize(size);
     box.setFillColor(sf::Color::White);
 }
