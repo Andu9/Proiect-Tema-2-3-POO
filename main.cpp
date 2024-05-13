@@ -1,6 +1,6 @@
+#include "GoldenCarrot.h"
 #include "Player.h"
 #include "Collision.h"
-
 
 int main() {
 
@@ -8,6 +8,8 @@ int main() {
     Player player{window};
     window.setFramerateLimit(60);
 
+    Carrot currentCarrot(window, 1);
+    GoldenCarrot goldenCarrot(window);
 
     std::array<Thing, 8> platforms;
 
@@ -44,6 +46,27 @@ int main() {
             platform.setPosition();
             platform.draw(window);
         }
+
+        currentCarrot.setPosition();
+        currentCarrot.draw(window);
+
+        goldenCarrot.setPosition();
+        goldenCarrot.draw(window);
+
+        if (player.checkCollision(currentCarrot)) {
+            player.increaseScore(currentCarrot.getScore());
+            currentCarrot.resetCoordinates(window);
+
+            std::cout << player.getScore() << '\n';
+        }
+
+        if (player.checkCollision(goldenCarrot)) {
+            player.increaseScore(goldenCarrot.getScore());
+            goldenCarrot.isTaken();
+
+            std::cout << player.getScore() << '\n';
+        }
+
 
         window.display();
     }

@@ -24,5 +24,8 @@ void Thing::draw(sf::RenderWindow& window) {
 }
 
 bool Thing::checkCollision(Thing& other) {
+    sf::FloatRect playerBounds(position, size);
+    sf::FloatRect carrotBounds(other.getPosition(), other.getSize());
 
+    return playerBounds.intersects(carrotBounds);
 }

@@ -141,6 +141,12 @@ add_executable(${PROJECT_NAME}
         generated/include/Collision.h
         generated/src/Collision.cpp
         generated/src/Collision.cpp
+        generated/include/Carrot.h
+        generated/include/Carrot.h
+        generated/src/Carrot.cpp
+        generated/src/Carrot.cpp
+        generated/include/GoldenCarrot.h
+        generated/src/GoldenCarrot.cpp
 )
 
 ###############################################################################

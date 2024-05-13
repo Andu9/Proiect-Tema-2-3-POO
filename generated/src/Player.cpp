@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(sf::RenderWindow& window) : health(3), jumpFlag(false), isOnPlatform(false), dy(0), i(0) {
+Player::Player(sf::RenderWindow& window) : health(3), jumpFlag(false), isOnPlatform(false), dy(0), score(0), i(0) {
     position.x = (window.getSize().x - size.x) / 2;
     position.y = window.getSize().y - size.y - 111;
 }
@@ -59,19 +59,19 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
         position.y += dy;
 
         for (const auto& platform : platforms) {
-            sf::FloatRect playerBounds(position, size);
-            sf::FloatRect platformBounds(platform.getPosition(), platform.getSize());
+            ///sf::FloatRect playerBounds(position, size);
+            ///sf::FloatRect platformBounds(platform.getPosition(), platform.getSize());
 
             // Check if player is touching the bottom side of the platform
 
                 if (position.y + size.y >= platform.getPosition().y  // Player's bottom reaches or goes below platform's top
-                    && position.y + size.y <= platformBounds.getPosition().y + 20 // Player's bottom is within 10 pixels of platform's top
+                    && position.y + size.y <= platform.getPosition().y + 25 // Player's bottom is within 10 pixels of platform's top
                     && position.x + size.x >= platform.getPosition().x
                     && position.x <= platform.getPosition().x + platform.getSize().x
                     && dy > 0) {  // Player is moving downwards (falling)
 
                     // Snap player on top of the platform
-                    position.y = platformBounds.top - size.y;
+                    position.y = platform.getPosition().y - size.y;
                     jumpFlag = false;
                     dy = 0.f;
 
@@ -88,3 +88,7 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
         }
     }
 }
+
+void Player::increaseScore(int addedScore) { score += addedScore; }
+
+int Player::getScore() const  { return score; }
