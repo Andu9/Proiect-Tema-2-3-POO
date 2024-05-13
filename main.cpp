@@ -67,6 +67,10 @@ int main() {
         currentArrow.setPosition();
         currentArrow.draw(window);
 
+        b.move(window);
+        b.setPosition();
+        b.draw(window);
+
         goldenCarrot.setPosition();
         goldenCarrot.draw(window);
 
@@ -105,8 +109,9 @@ int main() {
         }
 
         if (player.checkCollision(a)) {
-            player.decreaseHealth(a.getDamage());
+            player.decreaseHealth(b.getDamage());
             a.resetCoordinates();
+
 
             if (player.getHealth() <= 0) {
                 window.close();

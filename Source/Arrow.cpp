@@ -1,7 +1,7 @@
 #include "../Headers/Arrow.h"
 #include <random>
 
-const float Arrow::gravity = 0.3f;
+const float Arrow::gravity = 0.2f;
 
 float Arrow::getRandom(float Min, float Max) {
     static std::random_device rd;

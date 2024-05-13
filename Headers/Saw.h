@@ -5,7 +5,8 @@
 
 class Saw : public FiniteChoice {
     private:
-        int sign;
+        int signOnGround, signFly;
+        bool onGround;
         std::pair<float, float> initialPosition;
 
     public:

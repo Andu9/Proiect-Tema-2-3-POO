@@ -1,6 +1,7 @@
 #include "../Headers/Saw.h"
 
-Saw::Saw() : FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 400.f}, {500.f, 400.f}}) {}
+Saw::Saw() : FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 420.f}, {500.f, 420.f}}),
+             onGround(true), signFly(-1) {}
 
 void Saw::spawn() {
     initialPosition = this->choose();
@@ -16,19 +17,38 @@ void Saw::spawn() {
     box.setFillColor(sf::Color::Magenta);
 
     if (initialPosition.first == 130.f) {
-        sign = 1;
+        signOnGround = 1;
     } else {
-        sign = -1;
+        signOnGround = -1;
     }
 
     speed = 7.f;
 }
 
 void Saw::move(sf::RenderWindow& window) {
+    if (onGround == true) {
+        position.x += float(signOnGround) * speed;
+
+        if (position.x <= 0.f || int(position.x + size.x) >= int(window.getSize().x)) {
+            signOnGround = -signOnGround;
+            onGround = false;
+        }
+    } else {
+        position.y += float(signFly) * speed;
+
+        if (position.y <= 0) {
+            signFly = -signFly;
+        } else if (position.y + size.y >= window.getSize().y - 111.f) {
+            signFly = -signFly;
+            onGround = true;
+        }
+    }
+
+/*
     position.x += float(sign) * speed;
 
     if (position.x <= 0.f || int(position.x + size.x) >= int(window.getSize().x)) {
         sign = -sign;
-        std::cout << "Coliziune\n";
-    }
+
+    }*/
 }
