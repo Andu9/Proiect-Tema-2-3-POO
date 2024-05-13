@@ -1,11 +1,11 @@
 #include "../Headers/Cannonball.h"
 
-CannonBall::CannonBall() : sign(-1), FiniteChoice(std::vector<std::pair<float, float>> {{91.f, 376.f},
+CannonBall::CannonBall() : FiniteChoice(std::vector<std::pair<float, float>> {{91.f, 376.f},
                                                                               {91.f, 256.f},
                                                                               {91.f, 136.f},
                                                                               {951.f, 376.f},
                                                                               {951.f, 256.f},
-                                                                              {951.f, 136.f}}) {}
+                                                                              {951.f, 136.f}}), sign(-1) {}
 
 
 void CannonBall::spawn() {
