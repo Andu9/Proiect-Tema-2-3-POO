@@ -22,7 +22,7 @@ void Thing::draw(sf::RenderWindow& window) {
     window.draw(box);
 }
 
-bool Thing::checkCollision(Thing& other) {
+bool Thing::checkCollision(const Thing& other) {
     sf::FloatRect playerBounds(position, size);
     sf::FloatRect carrotBounds(other.getPosition(), other.getSize());
 

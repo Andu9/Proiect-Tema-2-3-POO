@@ -17,7 +17,7 @@ class FiniteChoice : public Trap {
     public:
         std::pair<float, float> choose();
         bool checkEmpty();
-        explicit FiniteChoice(std::vector<std::pair<float, float>> _choices);
+        explicit FiniteChoice(const std::vector<std::pair<float, float>>& _choices);
 };
 
 #endif

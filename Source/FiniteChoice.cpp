@@ -2,7 +2,7 @@
 
 #include <random>
 
-FiniteChoice::FiniteChoice(std::vector<std::pair<float, float>> _choices) : Trap(1.f), choices(_choices) {}
+FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices) : Trap(1.f), choices(_choices) {}
 
 int FiniteChoice::getRandom(int Max) {
     std::random_device rd;
