@@ -44,7 +44,7 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
         position.x = window.getSize().x - size.x;
     }
 
-    const float gravity = 0.6;
+    const float gravity = 0.6f;
     const float jumpVelocity = -15.f;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !jumpFlag) {
