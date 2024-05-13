@@ -17,7 +17,7 @@ class Thing {
         sf::Vector2f getPosition() const;
         void draw(sf::RenderWindow& window);
         void setPosition();
-        bool checkCollision(Thing& other);
+        bool checkCollision(const Thing& other);
 };
 
 #endif
