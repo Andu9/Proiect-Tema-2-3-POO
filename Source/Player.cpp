@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "../Headers/Player.h"
 
 Player::Player(sf::RenderWindow& window) : health(3.f), jumpFlag(false), isOnPlatform(false), dy(0), score(0) {
     position.x = (window.getSize().x - size.x) / 2;

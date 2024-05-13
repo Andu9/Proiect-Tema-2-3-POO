@@ -1,4 +1,4 @@
-#include "GoldenCarrot.h"
+#include "../Headers/GoldenCarrot.h"
 
 GoldenCarrot::GoldenCarrot(sf::RenderWindow& window) : Carrot(window, 3), timer(), appears(false) {
     box.setFillColor(sf::Color::Yellow);

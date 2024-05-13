@@ -1,4 +1,4 @@
-#include "Saw.h"
+#include "../Headers/Saw.h"
 
 Saw::Saw() : FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 400.f}, {500.f, 400.f}}) {}
 

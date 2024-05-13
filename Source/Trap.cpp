@@ -1,4 +1,4 @@
-#include "Trap.h"
+#include "../Headers/Trap.h"
 
 Trap::Trap(float _damage) : timer(), damage(_damage) {}
 

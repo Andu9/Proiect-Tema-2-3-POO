@@ -1,4 +1,4 @@
-#include "MoveableThing.h"
+#include "../Headers/MoveableThing.h"
 
 MoveableThing::MoveableThing() : speed(8.f) {}
 

@@ -1,4 +1,4 @@
-#include "Thing.h"
+#include "../Headers/Thing.h"
 
 Thing::Thing() : size{50, 50}, position{10, 10} {
     box.setSize(size);

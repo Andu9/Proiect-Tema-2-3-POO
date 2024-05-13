@@ -1,9 +1,9 @@
-#include "GoldenCarrot.h"
-#include "Player.h"
-#include "Collision.h"
-#include "Arrow.h"
-#include "Cannonball.h"
-#include "Saw.h"
+#include "Headers/GoldenCarrot.h"
+#include "Headers/Player.h"
+#include "Headers/Collision.h"
+#include "Headers/Arrow.h"
+#include "Headers/Cannonball.h"
+#include "Headers/Saw.h"
 
 int main() {
 

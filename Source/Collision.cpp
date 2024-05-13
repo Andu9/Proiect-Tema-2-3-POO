@@ -1,4 +1,4 @@
-#include "Collision.h"
+#include "../Headers/Collision.h"
 #include <cmath>
 
 Collision::Collision(sf::RectangleShape& _shape) : shape(_shape) {}

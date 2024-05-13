@@ -1,4 +1,4 @@
-#include "FiniteChoice.h"
+#include "../Headers/FiniteChoice.h"
 
 #include <random>
 

@@ -127,39 +127,38 @@ endif()
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
     main.cpp
-    generated/src/Helper.cpp
-    env_fixes.h
-        generated/include/Player.h
-        generated/include/Player.h
-        generated/src/Player.cpp
-        generated/src/Player.cpp
-        generated/include/Thing.h
-        generated/src/Thing.cpp
-        generated/include/MoveableThing.h
-        generated/src/MoveableThing.cpp
-        generated/include/Collision.h
-        generated/include/Collision.h
-        generated/src/Collision.cpp
-        generated/src/Collision.cpp
-        generated/include/Carrot.h
-        generated/include/Carrot.h
-        generated/src/Carrot.cpp
-        generated/src/Carrot.cpp
-        generated/include/GoldenCarrot.h
-        generated/src/GoldenCarrot.cpp
-        generated/include/Trap.h
-        generated/include/Trap.h
-        generated/src/Trap.cpp
-        generated/src/Trap.cpp
-        generated/include/Arrow.h
-        generated/src/Arrow.cpp
-        generated/include/FiniteChoice.h
-        generated/src/FiniteChoice.cpp
-        generated/include/Cannonball.h
-        generated/include/Cannonball.h
-        generated/src/Cannonball.cpp
-        generated/include/Saw.h
-        generated/src/Saw.cpp
+        env_fixes.h
+        Headers/Player.h
+        Headers/Player.h
+        Source/Player.cpp
+        Source/Player.cpp
+        Headers/Thing.h
+        Source/Thing.cpp
+        Headers/MoveableThing.h
+        Source/MoveableThing.cpp
+        Headers/Collision.h
+        Headers/Collision.h
+        Source/Collision.cpp
+        Source/Collision.cpp
+        Headers/Carrot.h
+        Headers/Carrot.h
+        Source/Carrot.cpp
+        Source/Carrot.cpp
+        Headers/GoldenCarrot.h
+        Source/GoldenCarrot.cpp
+        Headers/Trap.h
+        Headers/Trap.h
+        Source/Trap.cpp
+        Source/Trap.cpp
+        Headers/Arrow.h
+        Source/Arrow.cpp
+        Headers/FiniteChoice.h
+        Source/FiniteChoice.cpp
+        Headers/Cannonball.h
+        Headers/Cannonball.h
+        Source/Cannonball.cpp
+        Headers/Saw.h
+        Source/Saw.cpp
 )
 
 ###############################################################################
