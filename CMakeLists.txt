@@ -136,10 +136,6 @@ add_executable(${PROJECT_NAME}
         Source/Thing.cpp
         Headers/MoveableThing.h
         Source/MoveableThing.cpp
-        Headers/Collision.h
-        Headers/Collision.h
-        Source/Collision.cpp
-        Source/Collision.cpp
         Headers/Carrot.h
         Headers/Carrot.h
         Source/Carrot.cpp

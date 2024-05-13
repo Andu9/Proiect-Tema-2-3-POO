@@ -5,7 +5,7 @@
 #include <random>
 #include <SFML/Graphics.hpp>
 
-class Carrot : public Thing {
+class Carrot : virtual public Thing {
     protected:
         int score;
 

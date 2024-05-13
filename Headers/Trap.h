@@ -9,7 +9,7 @@ class Trap : virtual public MoveableThing {
         float damage;
 
     public:
-        Trap(float _damage);
+        explicit Trap(float _damage);
         float getDamage() const;
 };
 

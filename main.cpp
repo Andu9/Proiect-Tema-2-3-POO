@@ -1,6 +1,5 @@
 #include "Headers/GoldenCarrot.h"
 #include "Headers/Player.h"
-#include "Headers/Collision.h"
 #include "Headers/Arrow.h"
 #include "Headers/Cannonball.h"
 #include "Headers/Saw.h"

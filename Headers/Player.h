@@ -13,7 +13,7 @@ class Player : public MoveableThing {
         int score;
 
     public:
-        Player(sf::RenderWindow& window);
+        explicit Player(sf::RenderWindow& window);
         void move(sf::RenderWindow& window, std::array<Thing, 8> platforms);
         void decreaseHealth(float damage);
         void increaseScore(int addedScore);

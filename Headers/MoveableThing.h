@@ -9,7 +9,7 @@ class MoveableThing : public Thing {
 
     public:
         MoveableThing();
-        MoveableThing(float _speed);
+        explicit MoveableThing(float _speed);
         MoveableThing(sf::Vector2f _size, sf::Vector2f _position, float speed);
 };
 

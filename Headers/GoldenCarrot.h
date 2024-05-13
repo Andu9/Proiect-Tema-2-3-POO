@@ -9,7 +9,7 @@ class GoldenCarrot : public Carrot {
         bool appears;
 
     public:
-        GoldenCarrot(sf::RenderWindow& window);
+        explicit GoldenCarrot(sf::RenderWindow& window);
         void draw(sf::RenderWindow& window);
         void isTaken();
 };

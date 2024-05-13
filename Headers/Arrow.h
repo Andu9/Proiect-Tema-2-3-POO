@@ -10,7 +10,7 @@ class Arrow : public Trap {
 
         static float getRandom(float Min, float Max);
     public:
-        Arrow(sf::RenderWindow& window);
+        explicit Arrow(sf::RenderWindow& window);
         void resetCoordinates(sf::RenderWindow& window);
         void move(sf::RenderWindow& window);
 };
