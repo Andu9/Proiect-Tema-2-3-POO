@@ -1,7 +1,7 @@
 #include "../Headers/Saw.h"
 
-Saw::Saw() : signOnGround(-1), signFly(-1), onGround(true),
-             FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 420.f}, {500.f, 420.f}}) {}
+Saw::Saw() : FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 420.f}, {500.f, 420.f}}),
+            signOnGround(-1), signFly(-1), onGround(true) {}
 
 void Saw::spawn() {
     initialPosition = this->choose();
