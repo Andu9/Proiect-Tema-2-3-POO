@@ -1,6 +1,8 @@
 #include "GoldenCarrot.h"
 #include "Player.h"
 #include "Collision.h"
+#include "Arrow.h"
+#include "Cannonball.h"
 
 int main() {
 
@@ -8,10 +10,15 @@ int main() {
     Player player{window};
     window.setFramerateLimit(60);
 
+    Arrow currentArrow(window);
+
     Carrot currentCarrot(window, 1);
     GoldenCarrot goldenCarrot(window);
 
     std::array<Thing, 8> platforms;
+
+    CannonBall a;
+    a.spawn();
 
     platforms[0] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{225, 358});
     platforms[1] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{472, 358});
@@ -36,10 +43,29 @@ int main() {
             }
         }
 
+        window.clear();
+
+        currentCarrot.setPosition();
+        currentCarrot.draw(window);
+
+        for (auto& platform: platforms) {
+            platform.setPosition();
+            platform.draw(window);
+        }
+
+        currentArrow.move(window);
+        currentArrow.setPosition();
+        currentArrow.draw(window);
+
+        a.move(window);
+        a.setPosition();
+        a.draw(window);
+
+        goldenCarrot.setPosition();
+        goldenCarrot.draw(window);
+
         player.move(window, platforms);
         player.setPosition();
-
-        window.clear();
         player.draw(window);
 
         for (auto& platform: platforms) {
@@ -47,26 +73,39 @@ int main() {
             platform.draw(window);
         }
 
-        currentCarrot.setPosition();
-        currentCarrot.draw(window);
-
-        goldenCarrot.setPosition();
-        goldenCarrot.draw(window);
-
         if (player.checkCollision(currentCarrot)) {
             player.increaseScore(currentCarrot.getScore());
             currentCarrot.resetCoordinates(window);
 
-            std::cout << player.getScore() << '\n';
+            std::cout << "Scor: " << player.getScore() << '\n';
         }
 
         if (player.checkCollision(goldenCarrot)) {
             player.increaseScore(goldenCarrot.getScore());
             goldenCarrot.isTaken();
 
-            std::cout << player.getScore() << '\n';
+            std::cout << "Scor: " << player.getScore() << '\n';
         }
 
+        if (player.checkCollision(currentArrow)) {
+            player.decreaseHealth(currentArrow.getDamage());
+            currentArrow.resetCoordinates(window);
+
+            if (player.getHealth() <= 0) {
+                window.close();
+            }
+
+            std::cout << "Viata: " << player.getHealth() << '\n';
+        }
+
+        if (player.checkCollision(a)) {
+            player.decreaseHealth(a.getDamage());
+            a.resetCoordinates();
+
+            if (player.getHealth() <= 0) {
+                window.close();
+            }
+        }
 
         window.display();
     }

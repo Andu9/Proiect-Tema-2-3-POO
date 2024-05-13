@@ -1,13 +1,11 @@
 #include "Player.h"
 
-Player::Player(sf::RenderWindow& window) : health(3), jumpFlag(false), isOnPlatform(false), dy(0), score(0), i(0) {
+Player::Player(sf::RenderWindow& window) : health(3.f), jumpFlag(false), isOnPlatform(false), dy(0), score(0) {
     position.x = (window.getSize().x - size.x) / 2;
     position.y = window.getSize().y - size.y - 111;
 }
 
 void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
-
-
     sf::Vector2f pos, sz;
     for (int i = 0; i < 8; i += 1) {
         Thing currentPlatform = platforms[i];
@@ -91,4 +89,8 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
 
 void Player::increaseScore(int addedScore) { score += addedScore; }
 
+void Player::decreaseHealth(float damage) { health -= damage; }
+
 int Player::getScore() const  { return score; }
+
+float Player::getHealth() const { return health; }

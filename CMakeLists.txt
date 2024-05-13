@@ -147,6 +147,17 @@ add_executable(${PROJECT_NAME}
         generated/src/Carrot.cpp
         generated/include/GoldenCarrot.h
         generated/src/GoldenCarrot.cpp
+        generated/include/Trap.h
+        generated/include/Trap.h
+        generated/src/Trap.cpp
+        generated/src/Trap.cpp
+        generated/include/Arrow.h
+        generated/src/Arrow.cpp
+        generated/include/FiniteChoice.h
+        generated/src/FiniteChoice.cpp
+        generated/include/Cannonball.h
+        generated/include/Cannonball.h
+        generated/src/Cannonball.cpp
 )
 
 ###############################################################################

@@ -11,7 +11,6 @@ class MoveableThing : public Thing {
         MoveableThing();
         MoveableThing(float _speed);
         MoveableThing(sf::Vector2f _size, sf::Vector2f _position, float speed);
-
 };
 
 #endif

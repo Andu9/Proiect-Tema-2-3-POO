@@ -6,18 +6,19 @@
 
 class Player : public MoveableThing {
     private:
-        unsigned int health;
+        float health;
         bool jumpFlag;
         bool isOnPlatform;
         float dy;
         int score;
-        int i;
 
     public:
         Player(sf::RenderWindow& window);
         void move(sf::RenderWindow& window, std::array<Thing, 8> platforms);
+        void decreaseHealth(float damage);
         void increaseScore(int addedScore);
         int getScore() const;
+        float getHealth() const;
 };
 
 
