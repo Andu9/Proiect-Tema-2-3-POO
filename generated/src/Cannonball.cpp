@@ -9,7 +9,7 @@ CannonBall::CannonBall() : FiniteChoice(std::vector<std::pair<float, float>> {{9
 
 
 void CannonBall::spawn() {
-    initialPosition = choose();
+    initialPosition = this->choose();
 
     position.x = initialPosition.first;
     position.y = initialPosition.second;
@@ -22,6 +22,8 @@ void CannonBall::spawn() {
 
     size.x = 40.f;
     size.y = 40.f;
+
+    box.setSize(size);
 
     speed = 5.f;
 }

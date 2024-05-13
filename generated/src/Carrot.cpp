@@ -9,6 +9,7 @@ float Carrot::getRandom(float Min, float Max) {
 
 Carrot::Carrot(sf::RenderWindow& window, int _score) : score(_score) {
     size = sf::Vector2f(63.f, 61.f);
+    box.setSize(size);
     position.x = getRandom(0, window.getSize().x - size.x);
     position.y = getRandom(0, window.getSize().y - 111 - size.y);
     box.setFillColor(sf::Color(255, 165, 0));

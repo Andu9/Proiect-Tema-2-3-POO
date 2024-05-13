@@ -158,6 +158,8 @@ add_executable(${PROJECT_NAME}
         generated/include/Cannonball.h
         generated/include/Cannonball.h
         generated/src/Cannonball.cpp
+        generated/include/Saw.h
+        generated/src/Saw.cpp
 )
 
 ###############################################################################

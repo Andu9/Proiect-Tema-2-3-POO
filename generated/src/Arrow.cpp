@@ -12,6 +12,7 @@ float Arrow::getRandom(float Min, float Max) {
 
 Arrow::Arrow(sf::RenderWindow& window) : Trap(0.5f), verticalSpeed(0) {
     size.x = 35.f, size.y = 85.f;
+    box.setSize(size);
     position.y = -size.y;
     position.x = getRandom(0, window.getSize().x - size.x);
     box.setFillColor(sf::Color::Cyan);

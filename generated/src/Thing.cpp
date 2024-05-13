@@ -10,7 +10,6 @@ Thing::Thing(sf::Vector2f _size, sf::Vector2f _position) : size(_size), position
     box.setFillColor(sf::Color::White);
 }
 
-
 sf::Vector2f Thing::getSize() const { return size; }
 
 sf::Vector2f Thing::getPosition() const { return position; }

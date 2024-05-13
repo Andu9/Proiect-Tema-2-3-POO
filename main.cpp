@@ -3,6 +3,7 @@
 #include "Collision.h"
 #include "Arrow.h"
 #include "Cannonball.h"
+#include "Saw.h"
 
 int main() {
 
@@ -17,8 +18,17 @@ int main() {
 
     std::array<Thing, 8> platforms;
 
-    CannonBall a;
-    a.spawn();
+    CannonBall a, x;
+    a.spawn(), x.spawn();
+
+    Saw b;
+    b.spawn();
+
+    Saw c;
+    c.spawn();
+    c.setPosition();
+
+    std::cout << c.getSize().x << ' ' << c.getSize().y << '\n';
 
     platforms[0] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{225, 358});
     platforms[1] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{472, 358});
@@ -56,10 +66,6 @@ int main() {
         currentArrow.move(window);
         currentArrow.setPosition();
         currentArrow.draw(window);
-
-        a.move(window);
-        a.setPosition();
-        a.draw(window);
 
         goldenCarrot.setPosition();
         goldenCarrot.draw(window);
