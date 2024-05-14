@@ -12,11 +12,11 @@ class Saw : public FiniteChoice {
 
     public:
         Saw();
-        void spawn();
+        //void spawn();
         void move(sf::RenderWindow& window);
-        void resetCoordinates();
-        bool getHasCollided() const;
-        void setHasCollided(bool collided);
+        //void resetCoordinates();
+        //bool getHasCollided() const;
+        //void setHasCollided(bool collided);
 };
 
 #endif
