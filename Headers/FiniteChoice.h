@@ -10,7 +10,7 @@
 
 class FiniteChoice : public Trap {
     protected:
-        std::vector<std::pair<float, float>> choices;
+        static std::vector<std::pair<float, float>> choices;
 
         static int getRandom(int Max);
 

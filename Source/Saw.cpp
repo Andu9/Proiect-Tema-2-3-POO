@@ -1,7 +1,7 @@
 #include "../Headers/Saw.h"
 
 Saw::Saw() : FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 420.f}, {500.f, 420.f}}),
-            signOnGround(-1), signFly(-1), onGround(true) {}
+            signOnGround(-1), signFly(-1), onGround(true), hasCollided(false) {}
 
 void Saw::spawn() {
     initialPosition = this->choose();
@@ -25,6 +25,11 @@ void Saw::spawn() {
     speed = 7.f;
 }
 
+void Saw::resetCoordinates() {
+    position.x = initialPosition.first;
+    position.y = initialPosition.second;
+}
+
 void Saw::move(sf::RenderWindow& window) {
     if (onGround == true) {
         position.x += float(signOnGround) * speed;
@@ -36,6 +41,7 @@ void Saw::move(sf::RenderWindow& window) {
     } else {
         position.y += float(signFly) * speed;
 
+
         if (position.y <= 0) {
             signFly = -signFly;
         } else if (position.y + size.y >= window.getSize().y - 111.f) {
@@ -43,12 +49,8 @@ void Saw::move(sf::RenderWindow& window) {
             onGround = true;
         }
     }
-
-/*
-    position.x += float(sign) * speed;
-
-    if (position.x <= 0.f || int(position.x + size.x) >= int(window.getSize().x)) {
-        sign = -sign;
-
-    }*/
 }
+
+bool Saw::getHasCollided() const { return hasCollided; }
+
+void Saw::setHasCollided(bool collided) { hasCollided = collided; }

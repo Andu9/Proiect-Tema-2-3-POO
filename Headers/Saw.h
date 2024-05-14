@@ -8,11 +8,15 @@ class Saw : public FiniteChoice {
         int signOnGround, signFly;
         bool onGround;
         std::pair<float, float> initialPosition;
+        bool hasCollided;
 
     public:
         Saw();
         void spawn();
         void move(sf::RenderWindow& window);
+        void resetCoordinates();
+        bool getHasCollided() const;
+        void setHasCollided(bool collided);
 };
 
 #endif
