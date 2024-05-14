@@ -3,6 +3,7 @@
 #include "Headers/Arrow.h"
 #include "Headers/Cannonball.h"
 #include "Headers/Saw.h"
+#include "Headers/SpikeyBall.h"
 
 int main() {
 
@@ -20,12 +21,15 @@ int main() {
     CannonBall a, x;
     a.spawn(), x.spawn();
 
-    Saw b, c;
+    SpikeyBall f;
+    f.spawn();
+
+   /* Saw b, c;
     b.spawn();
     c.spawn();
-
-    std::cout << c.getPosition().x << ' ' << c.getPosition().y << '\n';
-    std::cout << b.getPosition().x << ' ' << b.getPosition().y << '\n';
+*/
+ //   std::cout << c.getPosition().x << ' ' << c.getPosition().y << '\n';
+ //   std::cout << b.getPosition().x << ' ' << b.getPosition().y << '\n';
 
     platforms[0] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{225, 358});
     platforms[1] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{472, 358});
@@ -61,6 +65,11 @@ int main() {
         currentArrow.setPosition();
         currentArrow.draw(window);
 
+        f.move(window);
+        f.setPosition();
+        f.draw(window);
+
+/*
         a.move(window);
         a.setPosition();
         a.draw(window);
@@ -72,7 +81,7 @@ int main() {
         c.move(window);
         c.setPosition();
         c.draw(window);
-
+*/
         player.move(window, platforms);
         player.setPosition();
         player.draw(window);
@@ -119,7 +128,7 @@ int main() {
             std::cout << "Viata: " << player.getHealth() << '\n';
         }
 
-        if (player.checkCollision(b)) {
+      /*  if (player.checkCollision(b)) {
             if (b.getHasCollided() == false) {
                 player.decreaseHealth(b.getDamage());
                 b.setHasCollided(true);
@@ -147,7 +156,7 @@ int main() {
             }
         } else {
             c.setHasCollided(false);
-        }
+        }*/
 
         window.display();
     }

@@ -155,6 +155,9 @@ add_executable(${PROJECT_NAME}
         Source/Cannonball.cpp
         Headers/Saw.h
         Source/Saw.cpp
+        Headers/SpikeyBall.h
+        Headers/SpikeyBall.h
+        Source/SpikeyBall.h.cpp
 )
 
 ###############################################################################
