@@ -8,7 +8,7 @@ class Saw : public FiniteChoice {
         int signOnGround, signFly;
         bool onGround;
         std::pair<float, float> initialPosition;
-        bool hasCollided;
+        //bool hasCollided;
 
     public:
         Saw();
