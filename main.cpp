@@ -9,26 +9,27 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1044, 585), "Poor bunny!", sf::Style::Default);
 
     sf::Texture backText;
-    backText.loadFromFile("Background.png");
+    backText.loadFromFile("Background.jpg");
 
     sf::Sprite background;
     background.setTexture(backText);
+    background.setPosition(0, 0);
 
     Player player{window, "Iepuri.png"};
     window.setFramerateLimit(60);
 
     std::array<Thing, 8> platforms;
 
-    platforms[0] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{225, 358}, "SmallPlatform.png");
-    platforms[1] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{472, 358}, "BigPlatform.png");
-    platforms[2] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{757, 358}, "SmallPlatform.png");
+    platforms[0] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{232, 358}, "SmallPlatform.png");
+    platforms[1] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{467, 358}, "BigPlatform.png");
+    platforms[2] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{763, 358}, "SmallPlatform.png");
 
     platforms[3] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{290, 237}, "BigPlatform.png");
     platforms[4] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{640, 237}, "BigPlatform.png");
 
-    platforms[5] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{225, 114}, "SmallPlatform.png");
-    platforms[6] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{472, 114}, "BigPlatform.png");
-    platforms[7] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{757, 114}, "SmallPlatform.png");
+    platforms[5] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{232, 120}, "SmallPlatform.png");
+    platforms[6] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{468, 118}, "BigPlatform.png");
+    platforms[7] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{762, 120}, "SmallPlatform.png");
 
     Arrow currentArrow(window, "Arrow.png");
 
@@ -58,6 +59,8 @@ int main() {
 
          window.clear();
 
+
+
          window.draw(background);
 
          int i = 0;
@@ -76,7 +79,7 @@ int main() {
          currentArrow.initTextures("Arrow.png");
          currentArrow.setPosition();
          currentArrow.draw(window);
-/*
+
          f.move(window);
          f.initTextures("SpikeyBall.png");
          f.setPosition();
@@ -97,7 +100,7 @@ int main() {
          c.initTextures("Saw.png");
          c.setPosition();
          c.draw(window);
-*/
+
          player.move(window, platforms);
          player.setPosition();
          player.draw(window);
@@ -133,8 +136,9 @@ int main() {
 
              std::cout << "Viata: " << player.getHealth() << '\n';
          }
-/*
+
          if (player.checkCollision(a)) {
+
              player.decreaseHealth(a.getDamage());
              a.resetCoordinates();
 
@@ -145,7 +149,7 @@ int main() {
              std::cout << "Viata: " << player.getHealth() << '\n';
          }
 
-     /*    if (player.checkCollision(b)) {
+         if (player.checkCollision(b)) {
              if (b.getHasCollided() == false) {
                  player.decreaseHealth(b.getDamage());
                  b.setHasCollided(true);
@@ -174,7 +178,7 @@ int main() {
          } else {
              c.setHasCollided(false);
          }
-*/
+
          window.display();
      }
      return 0;

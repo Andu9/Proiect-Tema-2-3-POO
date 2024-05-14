@@ -1,18 +1,18 @@
 #include "../Headers/Cannonball.h"
 
-CannonBall::CannonBall(const std::string& fileName) : FiniteChoice(std::vector<std::pair<float, float>> {{91.f, 376.f},
-                                                                                                                {91.f, 256.f},
-                                                                                                                {91.f, 136.f},
-                                                                                                                {951.f, 376.f},
-                                                                                                                {951.f, 256.f},
-                                                                                                                {951.f, 136.f}}, fileName), sign(-1) {
+CannonBall::CannonBall(const std::string& fileName) : FiniteChoice(std::vector<std::pair<float, float>> {{40.f, 376.f},
+                                                                                                                {40.f, 256.f},
+                                                                                                                {40.f, 136.f},
+                                                                                                                {904.f, 376.f},
+                                                                                                                {904.f, 256.f},
+                                                                                                                {904.f, 136.f}}, fileName), sign(-1) {
 }
 
 
 void CannonBall::spawn() {
     initialPosition = this->choose();
 
-    if (initialPosition.first == 91.f) {
+    if (initialPosition.first == 40.f) {
         textureCannon.loadFromFile("./CannonLeft.png");
         cannon.setTexture(textureCannon);
         cannon.setPosition(initialPosition.first, initialPosition.second);
@@ -27,7 +27,7 @@ void CannonBall::spawn() {
 
     cannon.setPosition(position.x, position.y);
 
-    if (initialPosition.first == 91.f) {
+    if (initialPosition.first == 40.f) {
         sign = 1;
     } else {
         sign = -1;

@@ -24,12 +24,6 @@ void Saw::spawn() {
     }
 }
 
-void Saw::resetCoordinates() {
-    position.x = initialPosition.first;
-    position.y = initialPosition.second;
-}
-
-
 void Saw::move(sf::RenderWindow& window) {
     if (onGround == true) {
         position.x += float(signOnGround) * speed;
