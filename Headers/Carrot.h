@@ -12,7 +12,7 @@ class Carrot : virtual public Thing {
         static float getRandom(float Min, float Max);
 
     public:
-        Carrot(sf::RenderWindow& window, int _score);
+        Carrot(sf::RenderWindow& window, int _score, const std::string& fileName);
         void resetCoordinates(sf::RenderWindow& window);
         int getScore() const;
 };

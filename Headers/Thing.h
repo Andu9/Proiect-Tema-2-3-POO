@@ -10,11 +10,18 @@ class Thing {
         sf::Vector2f position;
         sf::RectangleShape box;
 
+        sf::Texture texture;
+        sf::Sprite image;
+
     public:
-        Thing();
-        Thing(sf::Vector2f _size, sf::Vector2f _position);
+        Thing() = default;
+        explicit Thing(const std::string& fileName);
+        Thing(sf::Vector2f _size, sf::Vector2f _position, const std::string& fileName);
+        void initTextures(const std::string& fileName);
+
         sf::Vector2f getSize() const;
         sf::Vector2f getPosition() const;
+
         void draw(sf::RenderWindow& window);
         void setPosition();
         bool checkCollision(const Thing& other);

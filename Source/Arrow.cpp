@@ -10,7 +10,7 @@ float Arrow::getRandom(float Min, float Max) {
     return gen(eng);
 }
 
-Arrow::Arrow(sf::RenderWindow& window) : Trap(0.5f), verticalSpeed(0) {
+Arrow::Arrow(sf::RenderWindow& window, const std::string& fileName) : Trap(0.5f, fileName), verticalSpeed(0) {
     size.x = 35.f, size.y = 85.f;
     box.setSize(size);
     position.y = -size.y;

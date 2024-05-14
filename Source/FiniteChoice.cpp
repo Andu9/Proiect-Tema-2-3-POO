@@ -4,7 +4,7 @@
 
 std::vector<std::pair<float, float>> FiniteChoice::choices{};
 
-FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices) : Trap(1.f) {
+FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName) : Trap(1.f, fileName) {
     choices = _choices;
 }
 

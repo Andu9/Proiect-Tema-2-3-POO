@@ -1,6 +1,6 @@
 #include "../Headers/GoldenCarrot.h"
 
-GoldenCarrot::GoldenCarrot(sf::RenderWindow& window) : Carrot(window, 3), timer(), appears(false) {
+GoldenCarrot::GoldenCarrot(sf::RenderWindow& window, const std::string& fileName) : Carrot(window, 3, fileName), timer(), appears(false) {
     box.setFillColor(sf::Color::Yellow);
 }
 

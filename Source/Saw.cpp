@@ -1,9 +1,9 @@
 #include "../Headers/Saw.h"
 
-Saw::Saw() : MoveableThing(7.f), FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 420.f}, {500.f, 420.f}}),
-            signOnGround(-1), signFly(-1), onGround(true)/*, hasCollided(false) */{}
+Saw::Saw(const std::string& fileName) : FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 420.f}, {500.f, 420.f}}, fileName),
+                                        signOnGround(-1), signFly(-1), onGround(true), hasCollided(false) {}
 
-            /*
+
 void Saw::spawn() {
     initialPosition = this->choose();
 
@@ -22,13 +22,13 @@ void Saw::spawn() {
     } else {
         signOnGround = -1;
     }
-}*/
-/*
+}
+
 void Saw::resetCoordinates() {
     position.x = initialPosition.first;
     position.y = initialPosition.second;
 }
-*/
+
 
 void Saw::move(sf::RenderWindow& window) {
     if (onGround == true) {
@@ -50,7 +50,7 @@ void Saw::move(sf::RenderWindow& window) {
         }
     }
 }
-/*
+
 bool Saw::getHasCollided() const { return hasCollided; }
 
-void Saw::setHasCollided(bool collided) { hasCollided = collided; }*/
+void Saw::setHasCollided(bool collided) { hasCollided = collided; }

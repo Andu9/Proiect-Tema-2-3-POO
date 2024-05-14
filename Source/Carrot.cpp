@@ -7,7 +7,7 @@ float Carrot::getRandom(float Min, float Max) {
     return gen(eng);
 }
 
-Carrot::Carrot(sf::RenderWindow& window, int _score) : score(_score) {
+Carrot::Carrot(sf::RenderWindow& window, int _score, const std::string& fileName) : Thing(fileName), score(_score)  {
     size = sf::Vector2f(63.f, 61.f);
     box.setSize(size);
     position.x = getRandom(0, window.getSize().x - size.x);

@@ -3,13 +3,13 @@
 
 #include "MoveableThing.h"
 
-class Trap : virtual public MoveableThing {
+class Trap : public MoveableThing {
     protected:
         sf::Clock timer;
         float damage;
 
     public:
-        explicit Trap(float _damage);
+        explicit Trap(float _damage, const std::string& fileName);
         float getDamage() const;
 };
 

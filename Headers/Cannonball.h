@@ -6,10 +6,12 @@
 class CannonBall : public FiniteChoice {
     private:
         int sign;
+        sf::Texture textureCannon;
+        sf::Sprite cannon;
         std::pair<float, float> initialPosition;
 
     public:
-        CannonBall();
+        CannonBall(const std::string& fileName);
         void spawn();
         void resetCoordinates();
         void move(sf::RenderWindow& window);
