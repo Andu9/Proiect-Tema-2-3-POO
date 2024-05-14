@@ -1,7 +1,7 @@
 #include "../Headers/Saw.h"
 
 Saw::Saw() : MoveableThing(7.f), FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 420.f}, {500.f, 420.f}}),
-            signOnGround(-1), signFly(-1), onGround(true), hasCollided(false) {}
+            signOnGround(-1), signFly(-1), onGround(true)/*, hasCollided(false) */{}
 
             /*
 void Saw::spawn() {
