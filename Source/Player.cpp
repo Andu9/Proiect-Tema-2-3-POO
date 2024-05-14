@@ -24,21 +24,21 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
     }
 
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed((sf::Keyboard::Left))) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed((sf::Keyboard::A))) {
         position.x += speed;
 
         if (isOnPlatform && position.x >= pos.x + sz.x) {
             isOnPlatform = false;
             jumpFlag = true;
-            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { dy = 0; }
+            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { dy = 0; }
         }
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed((sf::Keyboard::Right))) {
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed((sf::Keyboard::D))) {
         position.x -= speed;
 
         if (isOnPlatform && position.x + size.x <= pos.x) {
             isOnPlatform = false;
             jumpFlag = true;
-            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { dy = 0; }
+            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { dy = 0; }
         }
     }
 
@@ -50,7 +50,7 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
     const float gravity = 0.6f;
     const float jumpVelocity = -15.f;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !jumpFlag) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !jumpFlag) {
         jumpFlag = true;
         dy = jumpVelocity;
         isOnPlatform = false;
