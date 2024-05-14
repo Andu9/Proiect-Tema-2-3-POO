@@ -11,7 +11,7 @@ class Saw : public FiniteChoice {
         bool hasCollided;
 
     public:
-        Saw(const std::string& fileName);
+        explicit Saw(const std::string& fileName);
         void spawn();
         void move(sf::RenderWindow& window);
         void resetCoordinates();

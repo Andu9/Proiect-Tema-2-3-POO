@@ -11,7 +11,7 @@ class CannonBall : public FiniteChoice {
         std::pair<float, float> initialPosition;
 
     public:
-        CannonBall(const std::string& fileName);
+        explicit CannonBall(const std::string& fileName);
         void spawn();
         void resetCoordinates();
         void move(sf::RenderWindow& window);

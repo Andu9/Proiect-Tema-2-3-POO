@@ -9,7 +9,7 @@ class SpikeyBall : public FiniteChoice {
         int signVertical, signHorizontal;
 
     public:
-        SpikeyBall(const std::string& fileName);
+        explicit SpikeyBall(const std::string& fileName);
         void spawn();
         void move(sf::RenderWindow& window);
 };
