@@ -1,4 +1,4 @@
-# Poor bunny!
+# Poor bunny! 🐰
 
 The poor bunny need to collect as many carrots 🥕 as he can! But be careful! The farmers have set up traps for you!
 
