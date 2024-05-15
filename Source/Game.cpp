@@ -9,7 +9,7 @@ Game::Game() : window{sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titleb
     background.setPosition(0, 0);
     window.setFramerateLimit(60);
 
-    font.loadFromFile("./arcadeClassic.ttf");
+    font.loadFromFile("./yoster.ttf");
 
     currentHealth.setFont(font);
     currentHealth.setCharacterSize(30.f);
@@ -89,21 +89,148 @@ void Game::drawThings() {
     }
 }
 
+void Game::reset() {
+    lost = false;
+    choices = {0, 0, 0, 0, 0, 0, 1, 1, 1};
+
+    player = Player{window, "./Iepuri.png"};
+    player.initTextures("./Iepuri.png");
+
+    currentArrow = Arrow{window, "./Arrow.png"};
+    currentArrow.initTextures("./Arrow.png");
+
+    currentCarrot = Carrot{window, 1, "./Carrot.png"};
+    currentCarrot.initTextures("./Carrot.png");
+
+    goldenCarrot = GoldenCarrot{window, "./GoldenCarrot.png"};
+    goldenCarrot.initTextures("./GoldenCarrot.png");
+    traps.clear();
+}
+
+void Game::drawLost() {
+    static int sec = totalTimer.getElapsedTime().asSeconds();
+
+    sf::Text youLost, timeSpent, lose;
+    youLost.setCharacterSize(100.f);
+    youLost.setFont(font);
+    youLost.setString("You lost : (");
+    youLost.setFillColor(sf::Color::Black);
+    youLost.setPosition(200.f, 150.f);
+
+    lose.setCharacterSize(50.f);
+    lose.setFont(font);
+    lose.setString("Score:  " + std::to_string(player.getScore()));
+    lose.setFillColor(sf::Color::Black);
+    lose.setPosition(250.f, 300.f);
+
+    timeSpent.setString("Time: " + std::to_string(sec));
+    timeSpent.setCharacterSize(50.f);
+    timeSpent.setFillColor(sf::Color::Black);
+    timeSpent.setFont(font);
+    timeSpent.setPosition(550.f, 300.f);
+
+    window.draw(background);
+    window.draw(lose);
+    window.draw(youLost);
+    window.draw(timeSpent);
+
+    sf::RectangleShape escape, playAgain;
+
+    escape.setSize(sf::Vector2f{100.f, 70.f}), playAgain.setSize(sf::Vector2f{100.f, 70.f});
+    escape.setFillColor(sf::Color::Red), playAgain.setFillColor(sf::Color::Green);
+    escape.setOutlineColor(sf::Color::Black), playAgain.setOutlineColor(sf::Color::Black);
+    escape.setOutlineThickness(4.f), playAgain.setOutlineThickness(4.f);
+    escape.setPosition(300.f, 400.f), playAgain.setPosition(600.f, 400.f);
+
+    sf::Text leave, play;
+    leave.setFont(font), play.setFont(font);
+    leave.setFillColor(sf::Color::Black), play.setFillColor(sf::Color::Black);
+    leave.setOutlineColor(sf::Color::White), play.setOutlineColor(sf::Color::White);
+    leave.setOutlineThickness(3.f), play.setOutlineThickness(3.f);
+    leave.setCharacterSize(10.f), play.setCharacterSize(10.f);
+    leave.setPosition(330.f, 380.f), play.setPosition(630.f, 380.f);
+
+    window.draw(escape), window.draw(playAgain);
+    window.draw(leave), window.draw(play);
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        sf::Vector2f posMouse = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+        if (posMouse.x >= escape.getPosition().x && posMouse.x <= escape.getPosition().x + escape.getSize().x &&
+            posMouse.y >= escape.getPosition().y && posMouse.y <= escape.getPosition().y + escape.getSize().y) {
+            window.close();
+        } else if (posMouse.x >= playAgain.getPosition().x && posMouse.x <= playAgain.getPosition().x + playAgain.getSize().x &&
+                   posMouse.y >= playAgain.getPosition().y && posMouse.y <= playAgain.getPosition().y + playAgain.getSize().y) {
+            this->reset();
+            this->run();
+        }
+    }
+}
+
+void Game::drawPause() {
+    sf::Text paused;
+    paused.setCharacterSize(100.f);
+    paused.setFont(font);
+    paused.setString("Pause");
+    paused.setFillColor(sf::Color::Black);
+    paused.setPosition(350.f, 150.f);
+
+
+    window.draw(background);
+    window.draw(paused);
+
+
+    sf::RectangleShape escape, playAgain;
+
+    escape.setSize(sf::Vector2f{100.f, 70.f}), playAgain.setSize(sf::Vector2f{100.f, 70.f});
+    escape.setFillColor(sf::Color::Red), playAgain.setFillColor(sf::Color::Green);
+    escape.setOutlineColor(sf::Color::Black), playAgain.setOutlineColor(sf::Color::Black);
+    escape.setOutlineThickness(4.f), playAgain.setOutlineThickness(4.f);
+    escape.setPosition(300.f, 400.f), playAgain.setPosition(600.f, 400.f);
+
+    sf::Text leave, play;
+    leave.setFont(font), play.setFont(font);
+    leave.setFillColor(sf::Color::Black), play.setFillColor(sf::Color::Black);
+    leave.setOutlineColor(sf::Color::White), play.setOutlineColor(sf::Color::White);
+    leave.setOutlineThickness(3.f), play.setOutlineThickness(3.f);
+    leave.setCharacterSize(10.f), play.setCharacterSize(10.f);
+    leave.setPosition(330.f, 380.f), play.setPosition(630.f, 380.f);
+
+    window.draw(escape), window.draw(playAgain);
+    window.draw(leave), window.draw(play);
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        sf::Vector2f posMouse = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+        if (posMouse.x >= escape.getPosition().x && posMouse.x <= escape.getPosition().x + escape.getSize().x &&
+            posMouse.y >= escape.getPosition().y && posMouse.y <= escape.getPosition().y + escape.getSize().y) {
+            window.close();
+        } else if ((posMouse.x >= playAgain.getPosition().x && posMouse.x <= playAgain.getPosition().x + playAgain.getSize().x &&
+                   posMouse.y >= playAgain.getPosition().y && posMouse.y <= playAgain.getPosition().y + playAgain.getSize().y) ||
+                   sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+            pause = false;
+        }
+    }
+}
+
 void Game::run() {
     timer.restart();
+    totalTimer.restart();
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
+            } else if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Key::P) {
+                    pause = true;
+                }
             }
 
         }
 
         window.clear();
 
-        if (!lost) {
-            if (timer.getElapsedTime().asSeconds() >= 7.f && !choices.empty()) {
+        if (!lost && !pause) {
+            if (timer.getElapsedTime().asSeconds() >= 1.f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);
@@ -164,8 +291,12 @@ void Game::run() {
                     elem->setHasCollided(false);
                 }
             }
-        } else {
-            window.draw(background);
+        } else if (lost) {
+            static int sec = totalTimer.getElapsedTime().asSeconds();
+
+            drawLost();
+        } else if (pause) {
+            drawPause();
         }
 
 

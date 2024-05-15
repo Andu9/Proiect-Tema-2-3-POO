@@ -29,9 +29,10 @@ class Game {
         Carrot currentCarrot;
         GoldenCarrot goldenCarrot;
 
-        bool lost;
+        bool lost, pause;
 
         sf::Clock timer;
+        sf::Clock totalTimer;
         std::vector<FiniteChoice *> traps;
         std::vector<int> choices;
 
@@ -41,6 +42,9 @@ class Game {
         Game();
         void drawThings();
         void run();
+        void drawLost();
+        void reset();
+        void drawPause();
 };
 
 #endif
