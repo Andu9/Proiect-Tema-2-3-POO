@@ -109,7 +109,7 @@ void Game::run() {
                 int index = getRandom(int(choices.size()) - 1);
                 int trapType = choices[index];
 
-                FiniteChoice *newTrap;
+                FiniteChoice *newTrap = nullptr;
                 if (trapType == 0) {
                     newTrap = new CannonBall("./CannonBall.png");
                 } else if (trapType == 1) {
