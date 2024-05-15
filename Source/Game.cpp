@@ -3,7 +3,7 @@
 Game::Game() : window{sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titlebar | sf::Style::Close},
                player{window, "./Iepuri.png"}, currentArrow{window, "./Arrow.png"},
                currentCarrot{window, 1, "./Carrot.png"}, goldenCarrot{window, "./GoldenCarrot.png"},
-               lost(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1}) {
+               lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1})  {
     texture.loadFromFile("./Background.jpg");
     background.setTexture(texture);
     background.setPosition(0, 0);
