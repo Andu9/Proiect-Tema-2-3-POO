@@ -212,9 +212,6 @@ void Game::drawPause() {
 }
 
 void Game::run() {
-    audio.openFromFile("./loop.ogg");
-
-
     timer.restart();
     totalTimer.restart();
     while (window.isOpen()) {

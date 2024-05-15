@@ -8,7 +8,6 @@
 #include "../Headers/SpikeyBall.h"
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 
 class Game {
     private:
@@ -36,8 +35,6 @@ class Game {
         sf::Clock totalTimer;
         std::vector<FiniteChoice *> traps;
         std::vector<int> choices;
-
-        static sf::Music audio;
 
         static int getRandom(int Maxim);
 
