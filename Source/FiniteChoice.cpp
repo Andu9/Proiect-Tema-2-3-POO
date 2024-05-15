@@ -32,7 +32,7 @@ std::pair<float, float> FiniteChoice::choose(int which) {
         chosen = choices1[index];
         choices1.erase(choices1.begin() + index);
     } else {
-        index = getRandom(int(choices2.size()));
+        index = getRandom(int(choices2.size()) - 1);
         chosen = choices2[index];
         choices2.erase(choices2.begin() + index);
     }

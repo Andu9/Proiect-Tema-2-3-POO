@@ -3,7 +3,7 @@
 Game::Game() : window{sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titlebar | sf::Style::Close},
                player{window, "./Iepuri.png"}, currentArrow{window, "./Arrow.png"},
                currentCarrot{window, 1, "./Carrot.png"}, goldenCarrot{window, "./GoldenCarrot.png"},
-               lost(false), choices({0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1}) {
+               lost(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1}) {
     texture.loadFromFile("./Background.jpg");
     background.setTexture(texture);
     background.setPosition(0, 0);
@@ -34,13 +34,10 @@ Game::Game() : window{sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titleb
 }
 
 int Game::getRandom(int Maxim) {
-    if (Maxim > 0) {
-        std::random_device rd;
-        std::mt19937 eng(rd());
-        std::uniform_int_distribution<int> gen(0, Maxim);
-        return gen(eng);
-    }
-    return -1;
+    std::random_device rd;
+    std::mt19937 eng(rd());
+    std::uniform_int_distribution<int> gen(0, Maxim);
+    return gen(eng);
 }
 
 void Game::drawThings() {
@@ -106,29 +103,22 @@ void Game::run() {
         window.clear();
 
         if (!lost) {
-            if (timer.getElapsedTime().asSeconds() >= 8.f) {
-                int index = getRandom(int(choices.size()) - 1);
+            if (timer.getElapsedTime().asSeconds() >= 7.f && !choices.empty()) {
                 timer.restart();
 
+                int index = getRandom(int(choices.size()) - 1);
+                int trapType = choices[index];
 
-                if (index != -1) {
-                    int trapType = choices[index];
-                    choices.erase(choices.begin() + index);
-
-
-                    std::cout << "Generate trap: " << trapType << '\n';
-
-                    FiniteChoice * newTrap;
-                    if (trapType == 0) {
-                        newTrap = new CannonBall("./CannonBall.png");
-                        newTrap->spawn();
-                    } else if (trapType == 1) {
-                        newTrap = new SpikeyBall("./SpikeyBall.png");
-                        newTrap->spawn();
-                    }
-
-                    traps.emplace_back(newTrap);
+                FiniteChoice *newTrap;
+                if (trapType == 0) {
+                    newTrap = new CannonBall("./CannonBall.png");
+                } else if (trapType == 1) {
+                    newTrap = new SpikeyBall("./SpikeyBall.png");
                 }
+
+                newTrap->spawn();
+                traps.emplace_back(newTrap);
+                choices.erase(choices.begin() + index);
             }
 
             drawThings();
@@ -159,7 +149,7 @@ void Game::run() {
             }
 
             for (auto& elem : traps) {
-                if (player.checkCollision(dynamic_cast<const Thing&>(*elem))) {
+                if (player.checkCollision(static_cast<const Thing&>(*elem))) {
                     if (elem->getHasCollided() == false) {
                         player.decreaseHealth(elem->getDamage());
                         elem->setHasCollided(true);
