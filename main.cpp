@@ -1,12 +1,9 @@
-#include "Headers/Player.h"
-#include "Headers/GoldenCarrot.h"
-#include "Headers/Arrow.h"
-#include "Headers/Cannonball.h"
-#include "Headers/SpikeyBall.h"
-#include "Headers/Saw.h"
+#include "Headers/Game.h"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1044, 585), "Poor bunny!", sf::Style::Default);
+    Game currentGame;
+    currentGame.run();
+ /*   sf::RenderWindow window(sf::VideoMode(1044, 585), "Poor bunny!", sf::Style::Default);
 
     sf::Texture backText;
     backText.loadFromFile("Background.jpg");
@@ -180,7 +177,7 @@ int main() {
          }
 
          window.display();
-     }
+     }*/
      return 0;
  }
 

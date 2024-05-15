@@ -10,14 +10,18 @@
 
 class FiniteChoice : public Trap {
     protected:
-        static std::vector<std::pair<float, float>> choices;
+        static std::vector<std::pair<float, float>> choices1;
+        static std::vector<std::pair<float, float>> choices2;
 
         static int getRandom(int Max);
 
     public:
-        std::pair<float, float> choose();
-        bool checkEmpty();
-        explicit FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName);
+
+        virtual void spawn() = 0;
+        virtual void move(sf::RenderWindow& window) = 0;
+
+        std::pair<float, float> choose(int which);
+        explicit FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName, int which);
 };
 
 #endif

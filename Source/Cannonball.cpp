@@ -5,21 +5,18 @@ CannonBall::CannonBall(const std::string& fileName) : FiniteChoice(std::vector<s
                                                                                                                 {40.f, 136.f},
                                                                                                                 {904.f, 376.f},
                                                                                                                 {904.f, 256.f},
-                                                                                                                {904.f, 136.f}}, fileName), sign(-1) {
-}
+                                                                                                                {904.f, 136.f}}, fileName, 1), sign(-1) {}
 
 
 void CannonBall::spawn() {
-    initialPosition = this->choose();
+    initialPosition = this->choose(1);
 
     if (initialPosition.first == 40.f) {
         textureCannon.loadFromFile("./CannonLeft.png");
         cannon.setTexture(textureCannon);
-        cannon.setPosition(initialPosition.first, initialPosition.second);
     } else {
         textureCannon.loadFromFile("./CannonRight.png");
         cannon.setTexture(textureCannon);
-        cannon.setPosition(initialPosition.first, initialPosition.second);
     }
 
     position.x = initialPosition.first;
@@ -27,7 +24,7 @@ void CannonBall::spawn() {
 
     cannon.setPosition(position.x, position.y);
 
-    if (initialPosition.first == 40.f) {
+    if (position.x == 40.f) {
         sign = 1;
     } else {
         sign = -1;
@@ -44,6 +41,7 @@ void CannonBall::spawn() {
 void CannonBall::resetCoordinates() {
     position.x = initialPosition.first;
 }
+
 
 void CannonBall::move(sf::RenderWindow& window) {
     window.draw(cannon);

@@ -12,9 +12,10 @@ class CannonBall : public FiniteChoice {
 
     public:
         explicit CannonBall(const std::string& fileName);
-        void spawn();
+        void spawn() override;
         void resetCoordinates();
-        void move(sf::RenderWindow& window);
+        void initTextures();
+        void move(sf::RenderWindow& window) override;
 };
 
 #endif

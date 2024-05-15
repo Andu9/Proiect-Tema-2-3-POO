@@ -10,8 +10,8 @@ class SpikeyBall : public FiniteChoice {
 
     public:
         explicit SpikeyBall(const std::string& fileName);
-        void spawn();
-        void move(sf::RenderWindow& window);
+        void spawn() override;
+        void move(sf::RenderWindow& window) override;
 };
 
 #endif

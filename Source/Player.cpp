@@ -1,8 +1,6 @@
 #include "../Headers/Player.h"
 
 Player::Player(sf::RenderWindow& window, const std::string& fileName) : MoveableThing(fileName), health(3.f), jumpFlag(false), isOnPlatform(false), dy(0), score(0) {
-    std::cout << size.x << ' ' << size.y << '\n';
-
     position.x = (window.getSize().x - size.x) / 2;
     position.y = window.getSize().y - size.y - 111;
 

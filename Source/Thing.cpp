@@ -27,7 +27,6 @@ void Thing::setPosition() {
 }
 
 void Thing::draw(sf::RenderWindow& window) {
-    //window.draw(box);
     window.draw(image);
 }
 

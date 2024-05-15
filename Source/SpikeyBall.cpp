@@ -1,12 +1,10 @@
 #include "../Headers/SpikeyBall.h"
 
-SpikeyBall::SpikeyBall(const std::string& fileName) : FiniteChoice(std::vector<std::pair<float, float>> {{505.f, 37.f}, {228.f, 37.f}, {760.f, 37.f}}, fileName),
-                                                      signVertical(-1.f), signHorizontal(1) {}
+SpikeyBall::SpikeyBall(const std::string& fileName) : FiniteChoice(std::vector<std::pair<float, float>> {{505.f, 37.f}, {228.f, 37.f}, {760.f, 37.f}}, fileName, 2),
+                                                      signVertical(1.f), signHorizontal(1.f) {}
 
 void SpikeyBall::spawn() {
-    initialPosition = this->choose();
-
-    std::cout << "Initial: " << initialPosition.first << ' ' << initialPosition.second << '\n';
+    initialPosition = this->choose(2);
 
     position.x = initialPosition.first;
     position.y = initialPosition.second;
