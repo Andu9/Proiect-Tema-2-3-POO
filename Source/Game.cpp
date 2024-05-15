@@ -292,8 +292,6 @@ void Game::run() {
                 }
             }
         } else if (lost) {
-            static int sec = totalTimer.getElapsedTime().asSeconds();
-
             drawLost();
         } else if (pause) {
             drawPause();
