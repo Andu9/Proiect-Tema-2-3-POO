@@ -5,7 +5,7 @@
 std::vector<std::pair<float, float>> FiniteChoice::choices1{};
 std::vector<std::pair<float, float>> FiniteChoice::choices2{};
 
-FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName, int which) : Trap(1.f, fileName) {
+FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName, int which) : Trap(1.f, fileName), hasCollided(false) {
     if (which == 1 && choices1.size() == 0) {
         choices1 = _choices;
     } else if (which == 2 && choices2.size() == 0) {
@@ -13,9 +13,13 @@ FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices,
     }
 }
 
+bool FiniteChoice::getHasCollided() const { return hasCollided; }
+
+void FiniteChoice::setHasCollided(bool _hasCollided) { hasCollided = _hasCollided; }
+
 int FiniteChoice::getRandom(int Max) {
-    std::random_device rd;
-    std::mt19937 eng(rd());
+    static std::random_device rd;
+    static std::mt19937 eng(rd());
     std::uniform_int_distribution<int> gen(0, Max);
     return gen(eng);
 }
@@ -24,7 +28,7 @@ std::pair<float, float> FiniteChoice::choose(int which) {
     int index = 0;
     std::pair<float, float> chosen{};
     if (which == 1) {
-        index = getRandom(int(choices1.size()));
+        index = getRandom(int(choices1.size()) - 1);
         chosen = choices1[index];
         choices1.erase(choices1.begin() + index);
     } else {

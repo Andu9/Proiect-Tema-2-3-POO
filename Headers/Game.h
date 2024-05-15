@@ -20,6 +20,11 @@ class Game {
 
         std::array<Thing, 8> platforms;
 
+        sf::Font font;
+
+        sf::Text currentScore;
+        sf::Text currentHealth;
+
         Arrow currentArrow;
         Carrot currentCarrot;
         GoldenCarrot goldenCarrot;

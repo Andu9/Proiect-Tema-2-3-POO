@@ -1,9 +1,15 @@
+#include "Headers/Player.h"
+#include "Headers/GoldenCarrot.h"
+#include "Headers/Arrow.h"
+#include "Headers/Cannonball.h"
+#include "Headers/SpikeyBall.h"
+
 #include "Headers/Game.h"
 
 int main() {
     Game currentGame;
     currentGame.run();
- /*   sf::RenderWindow window(sf::VideoMode(1044, 585), "Poor bunny!", sf::Style::Default);
+/*    sf::RenderWindow window(sf::VideoMode(1044, 585), "Poor bunny!", sf::Style::Default);
 
     sf::Texture backText;
     backText.loadFromFile("Background.jpg");
@@ -39,7 +45,7 @@ int main() {
     SpikeyBall f("SpikeyBall.png");
     f.spawn();
 
-    Saw b("Saw.png"), c("Saw.png");
+   Saw b("Saw.png"), c("Saw.png");
     b.spawn(), c.spawn();
 
      while (window.isOpen()) {
@@ -84,7 +90,7 @@ int main() {
 
 
          a.move(window);
-         a.initTextures("CannonBall.png");
+         //a.initTextures("CannonBall.png");
          a.setPosition();
          a.draw(window);
 
@@ -145,6 +151,7 @@ int main() {
 
              std::cout << "Viata: " << player.getHealth() << '\n';
          }
+
 
          if (player.checkCollision(b)) {
              if (b.getHasCollided() == false) {

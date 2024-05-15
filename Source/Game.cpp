@@ -3,11 +3,23 @@
 Game::Game() : window{sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titlebar | sf::Style::Close},
                player{window, "./Iepuri.png"}, currentArrow{window, "./Arrow.png"},
                currentCarrot{window, 1, "./Carrot.png"}, goldenCarrot{window, "./GoldenCarrot.png"},
-               lost(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1}) {
+               lost(false), choices({0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1}) {
     texture.loadFromFile("./Background.jpg");
     background.setTexture(texture);
     background.setPosition(0, 0);
     window.setFramerateLimit(60);
+
+    font.loadFromFile("./arcadeClassic.ttf");
+
+    currentHealth.setFont(font);
+    currentHealth.setCharacterSize(30.f);
+    currentHealth.setFillColor(sf::Color::Red);
+    currentHealth.setPosition(25.f, 75.f);
+
+    currentScore.setFont(font);
+    currentScore.setCharacterSize(30.f);
+    currentScore.setFillColor(sf::Color::Black);
+    currentScore.setPosition(25.f, 25.f);
 
     platforms[0] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{232, 358}, "SmallPlatform.png");
     platforms[1] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{467, 358}, "BigPlatform.png");
@@ -43,6 +55,20 @@ void Game::drawThings() {
         platforms[i].setPosition();
         platforms[i].draw(window);
     }
+
+    std::string aux = "";
+    int temp = player.getHealth() * 10;
+    if (temp % 10 == 0) {
+        aux = std::to_string(temp / 10);
+    } else {
+        aux = std::to_string(temp / 10) + "." + std::to_string(temp % 10);
+    }
+
+    currentScore.setString("Score:  " + std::to_string(player.getScore()));
+    currentHealth.setString("Health: " + aux);
+
+    window.draw(currentScore);
+    window.draw(currentHealth);
 
     player.move(window, platforms);
     player.setPosition();
@@ -80,8 +106,8 @@ void Game::run() {
         window.clear();
 
         if (!lost) {
-            if (timer.getElapsedTime().asSeconds() >= 10.f) {
-                int index = getRandom(choices.size());
+            if (timer.getElapsedTime().asSeconds() >= 8.f) {
+                int index = getRandom(int(choices.size()) - 1);
                 timer.restart();
 
 
@@ -89,6 +115,8 @@ void Game::run() {
                     int trapType = choices[index];
                     choices.erase(choices.begin() + index);
 
+
+                    std::cout << "Generate trap: " << trapType << '\n';
 
                     FiniteChoice * newTrap;
                     if (trapType == 0) {
@@ -109,14 +137,14 @@ void Game::run() {
                 player.increaseScore(currentCarrot.getScore());
                 currentCarrot.resetCoordinates(window);
 
-                std::cout << "Scor: " << player.getScore() << '\n';
+                std::cout << "Score: " << player.getScore() << '\n';
             }
 
             if (player.checkCollision(goldenCarrot)) {
                 player.increaseScore(goldenCarrot.getScore());
                 goldenCarrot.isTaken();
 
-                std::cout << "Scor: " << player.getScore() << '\n';
+                std::cout << "Score: " << player.getScore() << '\n';
             }
 
             if (player.checkCollision(currentArrow)) {
@@ -127,7 +155,24 @@ void Game::run() {
                     lost = true;
                 }
 
-                std::cout << "Viata: " << player.getHealth() << '\n';
+                std::cout << "Health: " << player.getHealth() << '\n';
+            }
+
+            for (auto& elem : traps) {
+                if (player.checkCollision(dynamic_cast<const Thing&>(*elem))) {
+                    if (elem->getHasCollided() == false) {
+                        player.decreaseHealth(elem->getDamage());
+                        elem->setHasCollided(true);
+
+                        if (player.getHealth() <= 0) {
+                            lost = true;
+                        }
+
+                        std::cout << "Health: " << player.getHealth() << '\n';
+                    }
+                } else {
+                    elem->setHasCollided(false);
+                }
             }
         } else {
             window.draw(background);

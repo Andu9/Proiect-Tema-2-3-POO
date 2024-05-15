@@ -10,6 +10,8 @@
 
 class FiniteChoice : public Trap {
     protected:
+        bool hasCollided;
+
         static std::vector<std::pair<float, float>> choices1;
         static std::vector<std::pair<float, float>> choices2;
 
@@ -19,6 +21,9 @@ class FiniteChoice : public Trap {
 
         virtual void spawn() = 0;
         virtual void move(sf::RenderWindow& window) = 0;
+
+        bool getHasCollided() const;
+        void setHasCollided(bool _hasCollided);
 
         std::pair<float, float> choose(int which);
         explicit FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName, int which);
