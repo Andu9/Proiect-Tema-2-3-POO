@@ -25,6 +25,8 @@ class Thing {
         void draw(sf::RenderWindow& window);
         void setPosition();
         bool checkCollision(const Thing& other);
+
+        virtual ~Thing() = default;
 };
 
 #endif
