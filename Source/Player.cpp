@@ -95,5 +95,7 @@ void Player::increaseScore(int addedScore) { score += addedScore; }
 void Player::decreaseHealth(float damage) { health -= damage; }
 
 int Player::getScore() const  { return score; }
-
 float Player::getHealth() const { return health; }
+
+void Player::setScore(int _score) { score = _score; }
+void Player::setHealth(float _health) { health = _health; }

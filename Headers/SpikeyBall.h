@@ -12,6 +12,7 @@ class SpikeyBall : public FiniteChoice {
         explicit SpikeyBall(const std::string& fileName);
         void spawn() override;
         void move(sf::RenderWindow& window) override;
+        FiniteChoice* clone() const override;
 };
 
 #endif

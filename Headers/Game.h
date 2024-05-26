@@ -11,7 +11,7 @@
 
 class Game {
     private:
-        sf::RenderWindow window;
+        sf::RenderWindow* window;
 
         sf::Texture texture;
         sf::Sprite background;
@@ -40,11 +40,13 @@ class Game {
 
     public:
         Game();
+        Game(Game& oth);
         void drawThings();
         void run();
         void drawLost();
         void reset();
         void drawPause();
+
 };
 
 #endif

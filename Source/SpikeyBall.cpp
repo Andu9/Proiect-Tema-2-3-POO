@@ -37,3 +37,6 @@ void SpikeyBall::move(sf::RenderWindow& window) {
     }
 }
 
+FiniteChoice* SpikeyBall::clone() const {
+    return new SpikeyBall(*this);
+}

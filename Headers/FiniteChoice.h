@@ -21,6 +21,7 @@ class FiniteChoice : public Trap {
 
         virtual void spawn() = 0;
         virtual void move(sf::RenderWindow& window) = 0;
+        virtual FiniteChoice* clone() const = 0;
 
         bool getHasCollided() const;
         void setHasCollided(bool _hasCollided);

@@ -1,15 +1,15 @@
 #include "../Headers/Game.h"
 
-Game::Game() : window{sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titlebar | sf::Style::Close},
-               currentArrow{window, "./Arrow.png"},
-               currentCarrot{window, 1, "./Carrot.png"}, goldenCarrot{window, "./GoldenCarrot.png"},
-               lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1})  {
-    player = new Player(window, "./Iepuri.png");
+Game::Game() : window(new sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titlebar | sf::Style::Close)),
+                      currentArrow{*window, "./Arrow.png"},
+                      currentCarrot{*window, 1, "./Carrot.png"}, goldenCarrot{*window, "./GoldenCarrot.png"},
+                      lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1})  {
+    player = new Player(*window, "./Iepuri.png");
 
     texture.loadFromFile("./Background.jpg");
     background.setTexture(texture);
     background.setPosition(0, 0);
-    window.setFramerateLimit(60);
+    window->setFramerateLimit(60);
 
     font.loadFromFile("./yoster.ttf");
 
@@ -43,7 +43,7 @@ int Game::getRandom(int Maxim) {
 }
 
 void Game::drawThings() {
-    window.draw(background);
+    window->draw(background);
 
     for (int i = 0; i < 8; i += 1) {
         if (i == 1 || i == 3 || i == 4 || i == 6) {
@@ -52,7 +52,7 @@ void Game::drawThings() {
             platforms[i].initTextures("./SmallPlatform.png");
         }
         platforms[i].setPosition();
-        platforms[i].draw(window);
+        platforms[i].draw(*window);
     }
 
     std::string aux = "";
@@ -66,45 +66,47 @@ void Game::drawThings() {
     currentScore.setString("Score:  " + std::to_string(dynamic_cast<Player *>(player)->getScore()));
     currentHealth.setString("Health: " + aux);
 
-    window.draw(currentScore);
-    window.draw(currentHealth);
+    window->draw(currentScore);
+    window->draw(currentHealth);
 
-    dynamic_cast<Player*>(player)->move(window, platforms);
+    dynamic_cast<Player*>(player)->move(*window, platforms);
     dynamic_cast<Player*>(player)->setPosition();
-    dynamic_cast<Player*>(player)->draw(window);
+    dynamic_cast<Player*>(player)->draw(*window);
 
-    currentArrow.move(window);
+    currentArrow.move(*window);
     currentArrow.setPosition();
-    currentArrow.draw(window);
+    currentArrow.draw(*window);
 
     currentCarrot.setPosition();
-    currentCarrot.draw(window);
+    currentCarrot.draw(*window);
 
     goldenCarrot.initTextures("./GoldenCarrot.png");
     goldenCarrot.setPosition();
-    goldenCarrot.draw(window);
+    goldenCarrot.draw(*window);
 
     for (auto& trap : traps) {
-        trap->move(window);
+        trap->move(*window);
         trap->setPosition();
-        trap->draw(window);
+        trap->draw(*window);
     }
 }
 
 void Game::reset() {
     lost = false;
+    dynamic_cast<Player*>(player)->setHealth(3);
+    dynamic_cast<Player*>(player)->setScore(3);
     choices = {0, 0, 0, 0, 0, 0, 1, 1, 1};
 
-    //player = Player{window, "./Iepuri.png"};
+    player = new Player(*window, "./Iepuri.png");
     dynamic_cast<Player*>(player)->initTextures("./Iepuri.png");
 
-    currentArrow = Arrow{window, "./Arrow.png"};
+    currentArrow = Arrow{*window, "./Arrow.png"};
     currentArrow.initTextures("./Arrow.png");
 
-    currentCarrot = Carrot{window, 1, "./Carrot.png"};
+    currentCarrot = Carrot{*window, 1, "./Carrot.png"};
     currentCarrot.initTextures("./Carrot.png");
 
-    goldenCarrot = GoldenCarrot{window, "./GoldenCarrot.png"};
+    goldenCarrot = GoldenCarrot{*window, "./GoldenCarrot.png"};
     goldenCarrot.initTextures("./GoldenCarrot.png");
     traps.clear();
 }
@@ -131,10 +133,10 @@ void Game::drawLost() {
     timeSpent.setFont(font);
     timeSpent.setPosition(550.f, 300.f);
 
-    window.draw(background);
-    window.draw(lose);
-    window.draw(youLost);
-    window.draw(timeSpent);
+    window->draw(background);
+    window->draw(lose);
+    window->draw(youLost);
+    window->draw(timeSpent);
 
     sf::RectangleShape escape, playAgain;
 
@@ -152,16 +154,17 @@ void Game::drawLost() {
     leave.setCharacterSize(10.f), play.setCharacterSize(10.f);
     leave.setPosition(330.f, 380.f), play.setPosition(630.f, 380.f);
 
-    window.draw(escape), window.draw(playAgain);
-    window.draw(leave), window.draw(play);
+    window->draw(escape), window->draw(playAgain);
+    window->draw(leave), window->draw(play);
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-        sf::Vector2f posMouse = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+        sf::Vector2f posMouse = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window));
         if (posMouse.x >= escape.getPosition().x && posMouse.x <= escape.getPosition().x + escape.getSize().x &&
             posMouse.y >= escape.getPosition().y && posMouse.y <= escape.getPosition().y + escape.getSize().y) {
-            window.close();
+            window->close();
         } else if (posMouse.x >= playAgain.getPosition().x && posMouse.x <= playAgain.getPosition().x + playAgain.getSize().x &&
                    posMouse.y >= playAgain.getPosition().y && posMouse.y <= playAgain.getPosition().y + playAgain.getSize().y) {
+
             this->reset();
             this->run();
         }
@@ -177,8 +180,8 @@ void Game::drawPause() {
     paused.setPosition(350.f, 150.f);
 
 
-    window.draw(background);
-    window.draw(paused);
+    window->draw(background);
+    window->draw(paused);
 
 
     sf::RectangleShape escape, playAgain;
@@ -197,14 +200,14 @@ void Game::drawPause() {
     leave.setCharacterSize(10.f), play.setCharacterSize(10.f);
     leave.setPosition(330.f, 380.f), play.setPosition(630.f, 380.f);
 
-    window.draw(escape), window.draw(playAgain);
-    window.draw(leave), window.draw(play);
+    window->draw(escape), window->draw(playAgain);
+    window->draw(leave), window->draw(play);
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-        sf::Vector2f posMouse = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+        sf::Vector2f posMouse = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window));
         if (posMouse.x >= escape.getPosition().x && posMouse.x <= escape.getPosition().x + escape.getSize().x &&
             posMouse.y >= escape.getPosition().y && posMouse.y <= escape.getPosition().y + escape.getSize().y) {
-            window.close();
+            window->close();
         } else if ((posMouse.x >= playAgain.getPosition().x && posMouse.x <= playAgain.getPosition().x + playAgain.getSize().x &&
                    posMouse.y >= playAgain.getPosition().y && posMouse.y <= playAgain.getPosition().y + playAgain.getSize().y) ||
                    sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
@@ -216,11 +219,11 @@ void Game::drawPause() {
 void Game::run() {
     timer.restart();
     totalTimer.restart();
-    while (window.isOpen()) {
+    while (window->isOpen()) {
         sf::Event event{};
-        while (window.pollEvent(event)) {
+        while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
-                window.close();
+                window->close();
             } else if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Key::P) {
                     pause = true;
@@ -229,7 +232,7 @@ void Game::run() {
 
         }
 
-        window.clear();
+        window->clear();
 
         if (!lost && !pause) {
             if (timer.getElapsedTime().asSeconds() >= 7.f && !choices.empty()) {
@@ -254,7 +257,7 @@ void Game::run() {
 
             if (dynamic_cast<Player*>(player)->checkCollision(currentCarrot)) {
                 dynamic_cast<Player*>(player)->increaseScore(currentCarrot.getScore());
-                currentCarrot.resetCoordinates(window);
+                currentCarrot.resetCoordinates(*window);
 
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
@@ -268,7 +271,7 @@ void Game::run() {
 
             if (dynamic_cast<Player*>(player)->checkCollision(currentArrow)) {
                 dynamic_cast<Player*>(player)->decreaseHealth(currentArrow.getDamage());
-                currentArrow.resetCoordinates(window);
+                currentArrow.resetCoordinates(*window);
 
                 if (dynamic_cast<Player*>(player)->getHealth() <= 0) {
                     lost = true;
@@ -300,7 +303,37 @@ void Game::run() {
         }
 
 
-        window.display();
+        window->display();
     }
+}
+
+Game::Game(Game& oth) :
+          window(oth.window),
+          texture(oth.texture),
+          background(oth.background),
+          font(oth.font),
+          currentScore(oth.currentScore),
+          currentHealth(oth.currentHealth),
+          currentArrow(oth.currentArrow),
+          currentCarrot(oth.currentCarrot),
+          goldenCarrot(oth.goldenCarrot),
+          lost(oth.lost),
+          pause(oth.pause),
+          timer(oth.timer),
+          totalTimer(oth.totalTimer) {
+
+    if (oth.player != nullptr) {
+        player = new Thing(*oth.player);
+    } else {
+        player = nullptr;
+    }
+
+    platforms = oth.platforms;
+
+    for (auto& trap : oth.traps) {
+        traps.push_back(trap->clone());
+    }
+
+    choices = oth.choices;
 }
 

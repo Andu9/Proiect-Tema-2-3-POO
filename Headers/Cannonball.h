@@ -14,8 +14,9 @@ class CannonBall : public FiniteChoice {
         explicit CannonBall(const std::string& fileName);
         void spawn() override;
         void resetCoordinates();
-        void initTextures();
         void move(sf::RenderWindow& window) override;
+
+        FiniteChoice* clone() const override;
 };
 
 #endif

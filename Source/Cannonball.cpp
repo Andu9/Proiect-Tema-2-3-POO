@@ -51,3 +51,7 @@ void CannonBall::move(sf::RenderWindow& window) {
     }
 }
 
+FiniteChoice* CannonBall::clone() const {
+    return new CannonBall(*this);
+}
+
