@@ -40,7 +40,9 @@ class Game {
 
     public:
         Game();
-        Game(Game& oth);
+        Game(const Game& oth);
+        Game& operator=(const Game& oth);
+
         void drawThings();
         void run();
         void drawLost();

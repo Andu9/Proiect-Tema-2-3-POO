@@ -307,7 +307,7 @@ void Game::run() {
     }
 }
 
-Game::Game(Game& oth) :
+Game::Game(const Game& oth) :
           window(oth.window),
           texture(oth.texture),
           background(oth.background),
@@ -335,5 +335,41 @@ Game::Game(Game& oth) :
     }
 
     choices = oth.choices;
+}
+
+Game& Game::operator=(const Game& oth) {
+    if (this != &oth) {
+        window = oth.window;
+        texture = oth.texture;
+        background = oth.background;
+        font = oth.font;
+        currentScore = oth.currentScore;
+        currentHealth = oth.currentHealth;
+        currentArrow = oth.currentArrow;
+        currentCarrot = oth.currentCarrot;
+        goldenCarrot = oth.goldenCarrot;
+        lost = oth.lost;
+        pause = oth.pause;
+        timer = oth.timer;
+        totalTimer = oth.totalTimer;
+        choices = oth.choices;
+
+        if (oth.player != nullptr) {
+            player = new Thing(*oth.player);
+        } else {
+            player = nullptr;
+        }
+
+        for (auto& trap : traps) {
+            delete trap;
+        }
+        traps.clear();
+        for (auto& trap : oth.traps) {
+            traps.push_back(trap->clone());
+        }
+
+        platforms = oth.platforms;
+    }
+    return *this;
 }
 
