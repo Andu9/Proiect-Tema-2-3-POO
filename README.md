@@ -4,6 +4,11 @@ The poor bunny needs to collect as many carrots 🥕 as he can! But be careful! 
 
 Movement: WASD
 
+Pause: P
+
+When in Pause or Lost menu, clicking the red button will close the game while clicking the green button will either
+resume the game or start a new one. 
+
 ### Important!
 Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar în folder-ul `generated`.
 Codul generat pus "ca să fie"/pe care nu îl înțelegeți se punctează doar pentru puncte bonus, doar în contextul

@@ -6,6 +6,7 @@
 #include "../Headers/Arrow.h"
 #include "../Headers/Cannonball.h"
 #include "../Headers/SpikeyBall.h"
+#include "../Headers/Saw.h"
 #include "../Headers/Exceptions.h"
 
 #include <SFML/Graphics.hpp>

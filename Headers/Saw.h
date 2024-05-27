@@ -8,15 +8,12 @@ class Saw : public FiniteChoice {
         int signOnGround, signFly;
         bool onGround;
         std::pair<float, float> initialPosition;
-        bool hasCollided;
 
     public:
         explicit Saw(const std::string& fileName);
-        void spawn();
-        void move(sf::RenderWindow& window);
-        void resetCoordinates();
-        bool getHasCollided() const;
-        void setHasCollided(bool collided);
+        void spawn() override;
+        void move(sf::RenderWindow& window) override;
+        FiniteChoice* clone() const override;
 };
 
 #endif

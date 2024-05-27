@@ -1,11 +1,11 @@
 #include "../Headers/Saw.h"
 
-Saw::Saw(const std::string& fileName) : FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 420.f}, {500.f, 420.f}}, fileName),
-                                        signOnGround(-1), signFly(-1), onGround(true), hasCollided(false) {}
+Saw::Saw(const std::string& fileName) : FiniteChoice(std::vector<std::pair<float, float>> {{800.f, 420.f}, {500.f, 420.f}}, fileName, 3),
+                                        signOnGround(-1), signFly(-1), onGround(true) {}
 
 
 void Saw::spawn() {
-    initialPosition = this->choose();
+    initialPosition = this->choose(3);
 
     position.x = initialPosition.first;
     position.y = initialPosition.second;
@@ -45,6 +45,6 @@ void Saw::move(sf::RenderWindow& window) {
     }
 }
 
-bool Saw::getHasCollided() const { return hasCollided; }
-
-void Saw::setHasCollided(bool collided) { hasCollided = collided; }
+FiniteChoice* Saw::clone() const {
+    return new Saw(*this);
+}

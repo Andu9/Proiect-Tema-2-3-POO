@@ -4,12 +4,15 @@
 
 std::vector<std::pair<float, float>> FiniteChoice::choices1{};
 std::vector<std::pair<float, float>> FiniteChoice::choices2{};
+std::vector<std::pair<float, float>> FiniteChoice::choices3{};
 
 FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName, int which) : Trap(1.f, fileName), hasCollided(false) {
-    if (which == 1 && choices1.size() == 0) {
+    if (which == 1 && choices1.empty()) {
         choices1 = _choices;
-    } else if (which == 2 && choices2.size() == 0) {
+    } else if (which == 2 && choices2.empty()) {
         choices2 = _choices;
+    } else if (which == 3 && choices3.empty()) {
+        choices3 = _choices;
     }
 }
 
@@ -31,10 +34,14 @@ std::pair<float, float> FiniteChoice::choose(int which) {
         index = getRandom(int(choices1.size()) - 1);
         chosen = choices1[index];
         choices1.erase(choices1.begin() + index);
-    } else {
+    } else if (which == 2) {
         index = getRandom(int(choices2.size()) - 1);
         chosen = choices2[index];
         choices2.erase(choices2.begin() + index);
+    } else {
+        index = getRandom(int(choices3.size()) - 1);
+        chosen = choices3[index];
+        choices3.erase(choices3.begin() + index);
     }
     return chosen;
 }

@@ -3,7 +3,7 @@
 Game::Game() : window(new sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titlebar | sf::Style::Close)),
                       currentArrow{*window, "./Arrow.png"},
                       currentCarrot{*window, 1, "./Carrot.png"}, goldenCarrot{*window, "./GoldenCarrot.png"},
-                      lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1})  {
+                      lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2})  {
     player = new Player(*window, "./Iepuri.png");
 
     if (!texture.loadFromFile("./Background.jpg")) {
@@ -99,7 +99,7 @@ void Game::reset() {
     lost = false;
     dynamic_cast<Player*>(player)->setHealth(3);
     dynamic_cast<Player*>(player)->setScore(3);
-    choices = {0, 0, 0, 0, 0, 0, 1, 1, 1};
+    choices = {0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2};
 
     player = new Player(*window, "./Iepuri.png");
     dynamic_cast<Player*>(player)->initTextures("./Iepuri.png");
@@ -239,17 +239,21 @@ void Game::run() {
         window->clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 7.f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 8.f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);
                 int trapType = choices[index];
+
+                //std::cout << trapType << '\n';
 
                 FiniteChoice *newTrap = nullptr;
                 if (trapType == 0) {
                     newTrap = new CannonBall("./CannonBall.png");
                 } else if (trapType == 1) {
                     newTrap = new SpikeyBall("./SpikeyBall.png");
+                } else if (trapType == 2) {
+                    newTrap = new Saw("./Saw.png");
                 }
 
                 newTrap->spawn();

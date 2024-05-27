@@ -14,6 +14,7 @@ class FiniteChoice : public Trap {
 
         static std::vector<std::pair<float, float>> choices1;
         static std::vector<std::pair<float, float>> choices2;
+        static std::vector<std::pair<float, float>> choices3;
 
         static int getRandom(int Max);
 
