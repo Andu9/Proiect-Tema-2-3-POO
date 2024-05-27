@@ -248,6 +248,7 @@ void Game::run() {
                 //std::cout << trapType << '\n';
 
                 FiniteChoice *newTrap = nullptr;
+
                 if (trapType == 0) {
                     newTrap = new CannonBall("./CannonBall.png");
                 } else if (trapType == 1) {

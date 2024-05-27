@@ -38,10 +38,12 @@ std::pair<float, float> FiniteChoice::choose(int which) {
         index = getRandom(int(choices2.size()) - 1);
         chosen = choices2[index];
         choices2.erase(choices2.begin() + index);
-    } else {
+    } else if (which == 3) {
         index = getRandom(int(choices3.size()) - 1);
         chosen = choices3[index];
         choices3.erase(choices3.begin() + index);
+    } else {
+        throw InvalidTrapType("No such trap type!\n");
     }
     return chosen;
 }

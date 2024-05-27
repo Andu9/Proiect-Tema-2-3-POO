@@ -7,6 +7,7 @@
 #include "Trap.h"
 
 #include <utility>
+#include "../Headers/Exceptions.h"
 
 class FiniteChoice : public Trap {
     protected:

@@ -20,4 +20,9 @@ class MissingTexture : public GeneralException {
         explicit MissingTexture(const std::string& error);
 };
 
+class InvalidTrapType : public GeneralException {
+    public:
+        explicit InvalidTrapType(const std::string& error);
+};
+
 #endif

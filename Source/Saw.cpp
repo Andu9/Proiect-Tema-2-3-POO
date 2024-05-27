@@ -5,7 +5,12 @@ Saw::Saw(const std::string& fileName) : FiniteChoice(std::vector<std::pair<float
 
 
 void Saw::spawn() {
-    initialPosition = this->choose(3);
+    try {
+        initialPosition = this->choose(3);
+    }
+    catch(InvalidTrapType&) {
+        std::cout << "No trap generated\n";
+    }
 
     position.x = initialPosition.first;
     position.y = initialPosition.second;

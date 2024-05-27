@@ -8,4 +8,6 @@ GeneralException::GeneralException(const std::string& error) : std::runtime_erro
 
 MissingFont::MissingFont(const std::string& error) : GeneralException(error) {}
 
-MissingTexture::MissingTexture(const std::string &error) : GeneralException(error) {}
+MissingTexture::MissingTexture(const std::string& error) : GeneralException(error) {}
+
+InvalidTrapType::InvalidTrapType(const std::string& error) : GeneralException(error) {}
