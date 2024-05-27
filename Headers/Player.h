@@ -16,6 +16,7 @@ class Player : public MoveableThing {
     public:
         explicit Player(sf::RenderWindow& window, const std::string& fileName);
         void move(sf::RenderWindow& window, std::array<Thing, 8> platforms);
+        void increaseHealth(float addedHealth);
         void decreaseHealth(float damage);
         void increaseScore(int addedScore);
         int getScore() const;

@@ -104,6 +104,7 @@ void Game::reset() {
     auxPlayer->setScore(3);
     choices = {0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2};
 
+    delete player;
     player = new Player(*window, "./Iepuri.png");
     auxPlayer->initTextures("./Iepuri.png");
 
@@ -245,7 +246,7 @@ void Game::run() {
         window->clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 0.1f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 7.f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);
@@ -278,6 +279,7 @@ void Game::run() {
             }
 
             if (auxPlayer->checkCollision(goldenCarrot)) {
+                auxPlayer->increaseHealth(1.f);
                 auxPlayer->increaseScore(goldenCarrot.getScore());
                 goldenCarrot.isTaken();
 

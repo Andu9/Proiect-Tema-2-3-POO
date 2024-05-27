@@ -92,6 +92,7 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
 
 void Player::increaseScore(int addedScore) { score += addedScore; }
 
+void Player::increaseHealth(float addedHealth) { health += addedHealth; }
 void Player::decreaseHealth(float damage) { health -= damage; }
 
 int Player::getScore() const  { return score; }
