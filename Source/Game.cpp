@@ -337,6 +337,8 @@ Game::Game(const Game& oth) :
           timer(oth.timer),
           totalTimer(oth.totalTimer) {
 
+    delete player;
+
     if (oth.player != nullptr) {
         player = new Thing(*oth.player);
     } else {
@@ -368,6 +370,8 @@ Game& Game::operator=(const Game& oth) {
         timer = oth.timer;
         totalTimer = oth.totalTimer;
         choices = oth.choices;
+
+        delete player;
 
         if (oth.player != nullptr) {
             player = new Thing(*oth.player);

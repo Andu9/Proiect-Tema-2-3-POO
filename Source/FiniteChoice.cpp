@@ -28,7 +28,7 @@ int FiniteChoice::getRandom(int Max) {
 }
 
 std::pair<float, float> FiniteChoice::choose(int which) {
-    int index = 0;
+    int index;
     std::pair<float, float> chosen{};
     if (which == 1) {
         index = getRandom(int(choices1.size()) - 1);
