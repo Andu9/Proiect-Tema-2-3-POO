@@ -396,3 +396,10 @@ void Game::close() {
     (*window).close();
 }
 
+Game::~Game() {
+    delete player;
+    for (int i = 0; i < (int) traps.size(); i += 1) {
+        delete traps[i];
+    }
+}
+

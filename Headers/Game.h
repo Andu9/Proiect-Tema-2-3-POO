@@ -51,7 +51,7 @@ class Game {
         void drawLost();
         void reset();
         void drawPause();
-
+        ~Game();
 };
 
 #endif
