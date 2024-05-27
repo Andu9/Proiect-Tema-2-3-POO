@@ -245,7 +245,7 @@ void Game::run() {
         window->clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 8.f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 0.1f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);
@@ -266,6 +266,7 @@ void Game::run() {
                 newTrap->spawn();
                 traps.emplace_back(newTrap);
                 choices.erase(choices.begin() + index);
+                delete newTrap;
             }
 
             drawThings();
@@ -398,6 +399,7 @@ void Game::close() {
 
 Game::~Game() {
     delete player;
+    delete window;
     for (int i = 0; i < (int) traps.size(); i += 1) {
         delete traps[i];
     }
