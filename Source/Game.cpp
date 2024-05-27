@@ -59,23 +59,25 @@ void Game::drawThings() {
         platforms[i].draw(*window);
     }
 
+    Player * auxPlayer = dynamic_cast<Player*>(player);
+
     std::string aux = "";
-    int temp = static_cast<int>(dynamic_cast<Player*>(player)->getHealth() * 10);
+    int temp = static_cast<int>(auxPlayer->getHealth() * 10);
     if (temp % 10 == 0) {
         aux = std::to_string(temp / 10);
     } else {
         aux = std::to_string(temp / 10) + "." + std::to_string(temp % 10);
     }
 
-    currentScore.setString("Score:  " + std::to_string(dynamic_cast<Player *>(player)->getScore()));
+    currentScore.setString("Score:  " + std::to_string(auxPlayer->getScore()));
     currentHealth.setString("Health: " + aux);
 
     window->draw(currentScore);
     window->draw(currentHealth);
 
-    dynamic_cast<Player*>(player)->move(*window, platforms);
-    dynamic_cast<Player*>(player)->setPosition();
-    dynamic_cast<Player*>(player)->draw(*window);
+    auxPlayer->move(*window, platforms);
+    auxPlayer->setPosition();
+    auxPlayer->draw(*window);
 
     currentArrow.move(*window);
     currentArrow.setPosition();
@@ -97,12 +99,13 @@ void Game::drawThings() {
 
 void Game::reset() {
     lost = false;
-    dynamic_cast<Player*>(player)->setHealth(3);
-    dynamic_cast<Player*>(player)->setScore(3);
+    Player * auxPlayer = dynamic_cast<Player*>(player);
+    auxPlayer->setHealth(3);
+    auxPlayer->setScore(3);
     choices = {0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2};
 
     player = new Player(*window, "./Iepuri.png");
-    dynamic_cast<Player*>(player)->initTextures("./Iepuri.png");
+    auxPlayer->initTextures("./Iepuri.png");
 
     currentArrow = Arrow{*window, "./Arrow.png"};
     currentArrow.initTextures("./Arrow.png");
@@ -223,6 +226,9 @@ void Game::drawPause() {
 void Game::run() {
     timer.restart();
     totalTimer.restart();
+
+    Player * auxPlayer = dynamic_cast<Player*>(player);
+
     while (window->isOpen()) {
         sf::Event event{};
         while (window->pollEvent(event)) {
@@ -264,25 +270,25 @@ void Game::run() {
 
             drawThings();
 
-            if (dynamic_cast<Player*>(player)->checkCollision(currentCarrot)) {
-                dynamic_cast<Player*>(player)->increaseScore(currentCarrot.getScore());
+            if (auxPlayer->checkCollision(currentCarrot)) {
+                auxPlayer->increaseScore(currentCarrot.getScore());
                 currentCarrot.resetCoordinates(*window);
 
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (dynamic_cast<Player*>(player)->checkCollision(goldenCarrot)) {
-                dynamic_cast<Player*>(player)->increaseScore(goldenCarrot.getScore());
+            if (auxPlayer->checkCollision(goldenCarrot)) {
+                auxPlayer->increaseScore(goldenCarrot.getScore());
                 goldenCarrot.isTaken();
 
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (dynamic_cast<Player*>(player)->checkCollision(currentArrow)) {
-                dynamic_cast<Player*>(player)->decreaseHealth(currentArrow.getDamage());
+            if (auxPlayer->checkCollision(currentArrow)) {
+                auxPlayer->decreaseHealth(currentArrow.getDamage());
                 currentArrow.resetCoordinates(*window);
 
-                if (dynamic_cast<Player*>(player)->getHealth() <= 0) {
+                if (auxPlayer->getHealth() <= 0) {
                     lost = true;
                 }
 
@@ -290,12 +296,12 @@ void Game::run() {
             }
 
             for (auto& elem : traps) {
-                if (dynamic_cast<Player*>(player)->checkCollision(static_cast<const Thing&>(*elem))) {
+                if (auxPlayer->checkCollision(static_cast<const Thing&>(*elem))) {
                     if (!elem->getHasCollided()) {
-                        dynamic_cast<Player*>(player)->decreaseHealth(elem->getDamage());
+                        auxPlayer->decreaseHealth(elem->getDamage());
                         elem->setHasCollided(true);
 
-                        if (dynamic_cast<Player*>(player)->getHealth() <= 0) {
+                        if (auxPlayer->getHealth() <= 0) {
                             lost = true;
                         }
 
