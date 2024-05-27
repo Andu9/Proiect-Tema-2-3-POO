@@ -1,7 +1,9 @@
 #include "../Headers/Thing.h"
 
 Thing::Thing(const std::string& fileName) : size{50, 50}, position{10, 10}, texture(), image() {
-    texture.loadFromFile(fileName);
+    if (!texture.loadFromFile(fileName)) {
+        throw MissingTexture("Texture wasn't found!\n");
+    }
     image.setTexture(texture);
 
     box.setSize(size);
@@ -11,7 +13,9 @@ Thing::Thing(const std::string& fileName) : size{50, 50}, position{10, 10}, text
 Thing::Thing(sf::Vector2f _size, sf::Vector2f _position, const std::string& fileName) : size(_size), position(_position),
          texture(), image() {
 
-    texture.loadFromFile(fileName);
+    if (!texture.loadFromFile(fileName)) {
+        throw MissingTexture("Texture wasn't found!\n");
+    }
     image.setTexture(texture);
 
     box.setSize(size);
@@ -31,7 +35,9 @@ void Thing::draw(sf::RenderWindow& window) {
 }
 
 void Thing::initTextures(const std::string& fileName) {
-    texture.loadFromFile(fileName);
+    if (!texture.loadFromFile(fileName)) {
+        throw MissingTexture("Texture wasn't found!\n");
+    }
     image.setTexture(texture);
 }
 

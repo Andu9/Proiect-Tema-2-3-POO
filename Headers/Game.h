@@ -6,6 +6,7 @@
 #include "../Headers/Arrow.h"
 #include "../Headers/Cannonball.h"
 #include "../Headers/SpikeyBall.h"
+#include "../Headers/Exceptions.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -43,6 +44,7 @@ class Game {
         Game(const Game& oth);
         Game& operator=(const Game& oth);
 
+        void close();
         void drawThings();
         void run();
         void drawLost();

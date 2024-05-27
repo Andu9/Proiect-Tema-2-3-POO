@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "../Headers/Exceptions.h"
 
 class Thing {
     protected:

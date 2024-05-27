@@ -6,12 +6,16 @@ Game::Game() : window(new sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny
                       lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1})  {
     player = new Player(*window, "./Iepuri.png");
 
-    texture.loadFromFile("./Background.jpg");
+    if (!texture.loadFromFile("./Background.jpg")) {
+        throw MissingTexture("The texture was not found!\n");
+    }
     background.setTexture(texture);
     background.setPosition(0, 0);
     window->setFramerateLimit(60);
 
-    font.loadFromFile("./yoster.ttf");
+    if (!font.loadFromFile("./yoster.ttf")) {
+        throw MissingFont("The font was not found!\n");
+    }
 
     currentHealth.setFont(font);
     currentHealth.setCharacterSize(30.f);
@@ -371,5 +375,9 @@ Game& Game::operator=(const Game& oth) {
         platforms = oth.platforms;
     }
     return *this;
+}
+
+void Game::close() {
+    (*window).close();
 }
 

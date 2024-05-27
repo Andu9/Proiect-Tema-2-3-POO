@@ -160,6 +160,10 @@ add_executable(${PROJECT_NAME}
         Headers/Game.h
         Source/Game.cpp
         Source/Game.cpp
+        Headers/Exceptions.h
+        Headers/Exceptions.h
+        Source/Exceptions.cpp
+        Source/Exceptions.cpp
 )
 
 ###############################################################################

@@ -2,7 +2,15 @@
 
 int main() {
     Game currentGame;
-    currentGame.run();
+    try {
+        currentGame.run();
+    }
+    catch(MissingTexture&) {
+        currentGame.close();
+    }
+    catch(MissingFont&) {
+        currentGame.close();
+    }
     return 0;
  }
 
