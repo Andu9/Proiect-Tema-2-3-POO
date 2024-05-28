@@ -189,7 +189,7 @@ void Game<T>::drawLost() {
 
     lose.setCharacterSize(50.f);
     lose.setFont(font);
-    if (T == 1) {
+    if constexpr (T == 1) {
         lose.setString("Score:  " + std::to_string(std::dynamic_pointer_cast<Player>(players[0])->getScore()));
     } else {
         std::shared_ptr auxPlayer = std::dynamic_pointer_cast<Player>(players[0]);
