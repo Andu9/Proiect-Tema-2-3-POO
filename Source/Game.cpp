@@ -407,5 +407,6 @@ Game::~Game() {
     for (int i = 0; i < (int) traps.size(); i += 1) {
         delete traps[i];
     }
+    traps.shrink_to_fit();
 }
 
