@@ -238,8 +238,8 @@ void Game::run() {
             if (event.type == sf::Event::Closed) {
                 window->close();
             } else if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Key::P) {
-                    pause = true;
+                if (event.key.code == sf::Keyboard::Key::P || event.key.code == sf::Keyboard::Escape) {
+                    pause = !pause;
                 }
             }
 
@@ -248,7 +248,7 @@ void Game::run() {
         window->clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 0.1f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 8.f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);
