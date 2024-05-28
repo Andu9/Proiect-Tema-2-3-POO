@@ -12,6 +12,7 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
+template<const unsigned short T>
 class Game {
     private:
         sf::RenderWindow window;
@@ -19,14 +20,14 @@ class Game {
         sf::Texture texture;
         sf::Sprite background;
 
-        std::shared_ptr<Player> player;
+        std::array<std::shared_ptr<Player>, T> players;
 
         std::array<Thing, 8> platforms;
 
         sf::Font font;
 
-        sf::Text currentScore;
-        sf::Text currentHealth;
+        std::array<sf::Text, T> currentScores;
+        std::array<sf::Text, T> currentHealths;
 
         Arrow currentArrow;
         Carrot currentCarrot;

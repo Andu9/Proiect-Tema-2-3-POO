@@ -12,13 +12,12 @@ class Player : public MoveableThing {
         float dy;
         int score;
 
-
     public:
         template<typename T>
         friend bool checkCollision(const Player& player, const T& trap);
 
         explicit Player(const sf::RenderWindow& window, const std::string& fileName);
-        void move(sf::RenderWindow& window, std::array<Thing, 8> platforms);
+        void move(sf::RenderWindow& window, std::array<Thing, 8> platforms, int player);
         void increaseHealth(float addedHealth);
         void decreaseHealth(float damage);
         void increaseScore(int addedScore);

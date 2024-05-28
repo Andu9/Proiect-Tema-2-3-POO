@@ -4,11 +4,15 @@ Player::Player(const sf::RenderWindow& window, const std::string& fileName) : Mo
     position.x = (static_cast<float>(window.getSize().x) - size.x) / 2;
     position.y = static_cast<float>(window.getSize().y) - size.y - 111;
 
-    texture.loadFromFile("Iepuri.png");
+    if (fileName == "./Iepuri.png") {
+        texture.loadFromFile("Iepuri.png");
+    } else {
+        texture.loadFromFile("Iepuri2.png");
+    }
     image.setTexture(texture);
 }
 
-void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
+void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms, int player) {
     sf::Vector2f pos, sz;
     for (int i = 0; i < 8; i += 1) {
         Thing currentPlatform = platforms[i];
@@ -22,56 +26,53 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
     }
 
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed((sf::Keyboard::A))) {
-        position.x += speed;
 
-        if (isOnPlatform && position.x >= pos.x + sz.x) {
-            isOnPlatform = false;
-            jumpFlag = true;
-            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { dy = 0; }
+    if (player == 1) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed((sf::Keyboard::A))) {
+            position.x += speed;
+
+            if (isOnPlatform && position.x >= pos.x + sz.x) {
+                isOnPlatform = false;
+                jumpFlag = true;
+                if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { dy = 0; }
+            }
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed((sf::Keyboard::D))) {
+            position.x -= speed;
+
+            if (isOnPlatform && position.x + size.x <= pos.x) {
+                isOnPlatform = false;
+                jumpFlag = true;
+                if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { dy = 0; }
+            }
         }
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed((sf::Keyboard::D))) {
-        position.x -= speed;
 
-        if (isOnPlatform && position.x + size.x <= pos.x) {
-            isOnPlatform = false;
-            jumpFlag = true;
-            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { dy = 0; }
+        if (position.x <= 0) { position.x = 0; }
+        if (position.x >= static_cast<float>(window.getSize().x) - size.x) {
+            position.x = static_cast<float>(window.getSize().x) - size.x;
         }
-    }
 
-    if (position.x <= 0) { position.x = 0; }
-    if (position.x >= static_cast<float>(window.getSize().x) - size.x) {
-        position.x = static_cast<float>(window.getSize().x) - size.x;
-    }
+        const float gravity = 0.6f;
+        const float jumpVelocity = -15.f;
 
-    const float gravity = 0.6f;
-    const float jumpVelocity = -15.f;
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !jumpFlag) {
-        jumpFlag = true;
-        dy = jumpVelocity;
-        isOnPlatform = false;
-    }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !jumpFlag) {
+            jumpFlag = true;
+            dy = jumpVelocity;
+            isOnPlatform = false;
+        }
 
 
-    if (jumpFlag) {
-        dy += gravity;
-        position.y += dy;
+        if (jumpFlag) {
+            dy += gravity;
+            position.y += dy;
 
-        for (const auto& platform : platforms) {
-            ///sf::FloatRect playerBounds(position, size);
-            ///sf::FloatRect platformBounds(platform.getPosition(), platform.getSize());
+            for (const auto& platform : platforms) {
 
-            // Check if player is touching the bottom side of the platform
-
-                if (position.y + size.y >= platform.getPosition().y  // Player's bottom reaches or goes below platform's top
-                    && position.y + size.y <= platform.getPosition().y + 25 // Player's bottom is within 10 pixels of platform's top
+                if (position.y + size.y >= platform.getPosition().y
+                    && position.y + size.y <= platform.getPosition().y + 25
                     && position.x + size.x >= platform.getPosition().x
                     && position.x <= platform.getPosition().x + platform.getSize().x
-                    && dy > 0) {  // Player is moving downwards (falling)
+                    && dy > 0) {
 
-                    // Snap player on top of the platform
                     position.y = platform.getPosition().y - size.y;
                     jumpFlag = false;
                     dy = 0.f;
@@ -81,11 +82,74 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
             }
 
 
-        if (position.y >= static_cast<float>(window.getSize().y) - size.y - 111) {
-            position.y = static_cast<float>(window.getSize().y) - size.y - 111;
-            jumpFlag = false;
+            if (position.y >= static_cast<float>(window.getSize().y) - size.y - 111) {
+                position.y = static_cast<float>(window.getSize().y) - size.y - 111;
+                jumpFlag = false;
+                isOnPlatform = false;
+                dy = 0.f;
+            }
+        }
+    } else {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed((sf::Keyboard::Left))) {
+            position.x += speed;
+
+            if (isOnPlatform && position.x >= pos.x + sz.x) {
+                isOnPlatform = false;
+                jumpFlag = true;
+                if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { dy = 0; }
+            }
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed((sf::Keyboard::Right))) {
+            position.x -= speed;
+
+            if (isOnPlatform && position.x + size.x <= pos.x) {
+                isOnPlatform = false;
+                jumpFlag = true;
+                if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { dy = 0; }
+            }
+        }
+
+        if (position.x <= 0) { position.x = 0; }
+        if (position.x >= static_cast<float>(window.getSize().x) - size.x) {
+            position.x = static_cast<float>(window.getSize().x) - size.x;
+        }
+
+        const float gravity = 0.6f;
+        const float jumpVelocity = -15.f;
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !jumpFlag) {
+            jumpFlag = true;
+            dy = jumpVelocity;
             isOnPlatform = false;
-            dy = 0.f;
+        }
+
+
+        if (jumpFlag) {
+            dy += gravity;
+            position.y += dy;
+
+            for (const auto& platform : platforms) {
+
+                if (position.y + size.y >= platform.getPosition().y
+                    && position.y + size.y <= platform.getPosition().y + 25
+                    && position.x + size.x >= platform.getPosition().x
+                    && position.x <= platform.getPosition().x + platform.getSize().x
+                    && dy > 0) {
+
+                    position.y = platform.getPosition().y - size.y;
+                    jumpFlag = false;
+                    dy = 0.f;
+
+                    isOnPlatform = true;
+                }
+            }
+
+
+            if (position.y >= static_cast<float>(window.getSize().y) - size.y - 111) {
+                position.y = static_cast<float>(window.getSize().y) - size.y - 111;
+                jumpFlag = false;
+                isOnPlatform = false;
+                dy = 0.f;
+            }
         }
     }
 }
