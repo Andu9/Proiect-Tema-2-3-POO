@@ -17,7 +17,7 @@ class Player : public MoveableThing {
         template<typename T>
         friend bool checkCollision(const Player& player, const T& trap);
 
-        explicit Player(sf::RenderWindow& window, const std::string& fileName);
+        explicit Player(const sf::RenderWindow& window, const std::string& fileName);
         void move(sf::RenderWindow& window, std::array<Thing, 8> platforms);
         void increaseHealth(float addedHealth);
         void decreaseHealth(float damage);

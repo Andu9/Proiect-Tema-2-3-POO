@@ -16,6 +16,7 @@ class Thing {
 
     public:
         Thing() = default;
+        Thing& operator=(const Thing& other);
         explicit Thing(const std::string& fileName);
         Thing(sf::Vector2f _size, sf::Vector2f _position, const std::string& fileName);
         void initTextures(const std::string& fileName);

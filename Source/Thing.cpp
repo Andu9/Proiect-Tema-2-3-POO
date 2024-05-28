@@ -10,6 +10,14 @@ Thing::Thing(const std::string& fileName) : size{50, 50}, position{10, 10}, text
     box.setFillColor(sf::Color::White);
 }
 
+Thing& Thing::operator=(const Thing& oth) {
+    if (this != &oth) {
+        size = oth.size, position = oth.position, box = oth.box;
+        texture = oth.texture, image = oth.image;
+    }
+    return *this;
+}
+
 Thing::Thing(sf::Vector2f _size, sf::Vector2f _position, const std::string& fileName) : size(_size), position(_position),
          texture(), image() {
 

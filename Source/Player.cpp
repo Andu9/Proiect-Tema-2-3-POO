@@ -1,6 +1,6 @@
 #include "../Headers/Player.h"
 
-Player::Player(sf::RenderWindow& window, const std::string& fileName) : MoveableThing(fileName), health(3.f), jumpFlag(false), isOnPlatform(false), dy(0), score(0) {
+Player::Player(const sf::RenderWindow& window, const std::string& fileName) : MoveableThing(fileName), health(3.f), jumpFlag(false), isOnPlatform(false), dy(0), score(0) {
     position.x = (static_cast<float>(window.getSize().x) - size.x) / 2;
     position.y = static_cast<float>(window.getSize().y) - size.y - 111;
 
