@@ -25,14 +25,14 @@ void SpikeyBall::move(sf::RenderWindow& window) {
     if (initialPosition.first != 505.f) {
         position.x += float(signHorizontal) * speed;
 
-        if (position.x <= 0 || position.x + size.x >= window.getSize().x) {
+        if (position.x <= 0 || position.x + size.x >= static_cast<float>(window.getSize().x)) {
             signHorizontal = -signHorizontal;
         }
     }
 
     position.y += float(signVertical) * speed;
 
-    if (position.y <= 0 || position.y + size.y >= window.getSize().y - 111.f) {
+    if (position.y <= 0 || position.y + size.y >= static_cast<float>(window.getSize().y) - 111.f) {
         signVertical = -signVertical;
     }
 }

@@ -45,8 +45,8 @@ void CannonBall::resetCoordinates() {
 
 void CannonBall::move(sf::RenderWindow& window) {
     window.draw(cannon);
-    position.x += sign * speed;
-    if (position.x <= 0 || position.x >= window.getSize().x) {
+    position.x += static_cast<float>(sign) * speed;
+    if (position.x <= 0 || position.x >= static_cast<float>(window.getSize().x)) {
         this->resetCoordinates();
     }
 }

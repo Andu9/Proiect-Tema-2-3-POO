@@ -23,7 +23,7 @@ class Thing {
         sf::Vector2f getSize() const;
         sf::Vector2f getPosition() const;
 
-        void draw(sf::RenderWindow& window);
+        virtual void draw(sf::RenderWindow& window);
         void setPosition();
 
         virtual ~Thing() = default;

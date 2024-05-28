@@ -29,7 +29,7 @@ class FiniteChoice : public Trap {
         bool getHasCollided() const;
         void setHasCollided(bool _hasCollided);
 
-        std::pair<float, float> choose(int which);
+        static std::pair<float, float> choose(int which);
         explicit FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName, int which);
 };
 

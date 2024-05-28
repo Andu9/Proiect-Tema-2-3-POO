@@ -8,7 +8,7 @@ class Arrow : public Trap {
         static const float gravity;
         float verticalSpeed;
 
-        static float getRandom(float Min, float Max);
+        static float getRandom(float Max);
     public:
         explicit Arrow(sf::RenderWindow& window, const std::string& fileName);
         void resetCoordinates(sf::RenderWindow& window);

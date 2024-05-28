@@ -30,7 +30,7 @@ void Saw::spawn() {
 }
 
 void Saw::move(sf::RenderWindow& window) {
-    if (onGround == true) {
+    if (onGround) {
         position.x += float(signOnGround) * speed;
 
         if (position.x <= 0.f || int(position.x + size.x) >= int(window.getSize().x)) {
@@ -43,7 +43,7 @@ void Saw::move(sf::RenderWindow& window) {
 
         if (position.y <= 0) {
             signFly = -signFly;
-        } else if (position.y + size.y >= window.getSize().y - 111.f) {
+        } else if (position.y + size.y >= static_cast<float>(window.getSize().y) - 111.f) {
             signFly = -signFly;
             onGround = true;
         }

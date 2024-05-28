@@ -10,7 +10,7 @@ class GoldenCarrot : public Carrot {
 
     public:
         explicit GoldenCarrot(sf::RenderWindow& window, const std::string& fileName);
-        void draw(sf::RenderWindow& window);
+        void draw(sf::RenderWindow& window) override;
         void isTaken();
 };
 

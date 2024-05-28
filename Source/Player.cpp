@@ -1,8 +1,8 @@
 #include "../Headers/Player.h"
 
 Player::Player(sf::RenderWindow& window, const std::string& fileName) : MoveableThing(fileName), health(3.f), jumpFlag(false), isOnPlatform(false), dy(0), score(0) {
-    position.x = (window.getSize().x - size.x) / 2;
-    position.y = window.getSize().y - size.y - 111;
+    position.x = (static_cast<float>(window.getSize().x) - size.x) / 2;
+    position.y = static_cast<float>(window.getSize().y) - size.y - 111;
 
     texture.loadFromFile("Iepuri.png");
     image.setTexture(texture);
@@ -41,8 +41,8 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
     }
 
     if (position.x <= 0) { position.x = 0; }
-    if (position.x >= window.getSize().x - size.x) {
-        position.x = window.getSize().x - size.x;
+    if (position.x >= static_cast<float>(window.getSize().x) - size.x) {
+        position.x = static_cast<float>(window.getSize().x) - size.x;
     }
 
     const float gravity = 0.6f;
@@ -81,8 +81,8 @@ void Player::move(sf::RenderWindow& window, std::array<Thing, 8> platforms) {
             }
 
 
-        if (position.y >= window.getSize().y - size.y - 111) {
-            position.y = window.getSize().y - size.y - 111;
+        if (position.y >= static_cast<float>(window.getSize().y) - size.y - 111) {
+            position.y = static_cast<float>(window.getSize().y) - size.y - 111;
             jumpFlag = false;
             isOnPlatform = false;
             dy = 0.f;

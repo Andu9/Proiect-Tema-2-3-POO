@@ -43,7 +43,7 @@ class Game {
 
     public:
         Game();
-        Game(const Game& oth);
+        Game(const Game& oth) = delete;
         Game& operator=(const Game& oth);
 
         void close();

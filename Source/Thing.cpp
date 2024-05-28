@@ -27,7 +27,7 @@ sf::Vector2f Thing::getPosition() const { return position; }
 
 void Thing::setPosition() {
     box.setPosition(position);
-    image.setPosition(position.x - (texture.getSize().x - size.x) / 2, position.y - (texture.getSize().y - size.y) / 2);
+    image.setPosition(position.x - (static_cast<float>(texture.getSize().x) - size.x) / 2, position.y - (static_cast<float>(texture.getSize().y) - size.y) / 2);
 }
 
 void Thing::draw(sf::RenderWindow& window) {

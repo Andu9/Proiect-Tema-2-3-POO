@@ -61,7 +61,7 @@ void Game::drawThings() {
 
     std::shared_ptr<Player> auxPlayer = std::dynamic_pointer_cast<Player>(player);
 
-    std::string aux = "";
+    std::string aux;
     int temp = static_cast<int>(auxPlayer->getHealth() * 10);
     if (temp % 10 == 0) {
         aux = std::to_string(temp / 10);
@@ -249,7 +249,7 @@ void Game::run() {
         window.clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 0.1f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 8.f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);
@@ -328,35 +328,7 @@ void Game::run() {
     }
 }
 
-Game::Game(const Game& oth) :
-          texture(oth.texture),
-          background(oth.background),
-          font(oth.font),
-          currentScore(oth.currentScore),
-          currentHealth(oth.currentHealth),
-          currentArrow(oth.currentArrow),
-          currentCarrot(oth.currentCarrot),
-          goldenCarrot(oth.goldenCarrot),
-          lost(oth.lost),
-          pause(oth.pause),
-          timer(oth.timer),
-          totalTimer(oth.totalTimer) {
 
-
-    if (oth.player != nullptr) {
-        player =  std::make_shared<Player>(*oth.player);
-    } else {
-        player = nullptr;
-    }
-
-    platforms = oth.platforms;
-
-    for (auto& trap : oth.traps) {
-        traps.push_back(trap->clone());
-    }
-
-    choices = oth.choices;
-}
 
 Game& Game::operator=(const Game& oth) {
     if (this != &oth) {

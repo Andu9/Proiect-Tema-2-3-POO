@@ -10,14 +10,14 @@ float Carrot::getRandom(float Min, float Max) {
 Carrot::Carrot(sf::RenderWindow& window, int _score, const std::string& fileName) : Thing(fileName), score(_score)  {
     size = sf::Vector2f(63.f, 61.f);
     box.setSize(size);
-    position.x = getRandom(0, window.getSize().x - size.x);
-    position.y = getRandom(0, window.getSize().y - 111 - size.y);
+    position.x = getRandom(0, static_cast<float>(window.getSize().x) - size.x);
+    position.y = getRandom(0, static_cast<float>(window.getSize().y) - 111 - size.y);
     box.setFillColor(sf::Color(255, 165, 0));
 }
 
 void Carrot::resetCoordinates(sf::RenderWindow& window) {
-    position.x = getRandom(0, window.getSize().x - size.x);
-    position.y = getRandom(0, window.getSize().y - 111 - size.y);
+    position.x = getRandom(0, static_cast<float>(window.getSize().x) - size.x);
+    position.y = getRandom(0, static_cast<float>(window.getSize().y) - 111 - size.y);
 }
 
 int Carrot::getScore() const { return score; }
