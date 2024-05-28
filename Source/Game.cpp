@@ -6,9 +6,8 @@ Game<T>::Game() : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!
                       currentCarrot{window, 1, "./Carrot.png"}, goldenCarrot{window, "./GoldenCarrot.png"},
                       lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2})  {
     players[0] = std::make_shared<Player>(window, "./Iepuri.png");
-    if (T == 2) {
+    if constexpr (T == 2) {
         players[1] = std::make_shared<Player>(window, "./Iepuri2.png");
-        std::cout << "got here\n";
     }
 
     if (!texture.loadFromFile("./Background.jpg")) {
@@ -32,7 +31,7 @@ Game<T>::Game() : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!
     currentScores[0].setFillColor(sf::Color::Black);
     currentScores[0].setPosition(25.f, 25.f);
 
-    if (T == 2) {
+    if constexpr (T == 2) {
         currentHealths[1].setFont(font);
         currentHealths[1].setCharacterSize(30.f);
         currentHealths[1].setFillColor(sf::Color::Red);
@@ -95,7 +94,7 @@ void Game<T>::drawThings() {
     window.draw(currentScores[0]);
     window.draw(currentHealths[0]);
 
-    if (T == 2) {
+    if constexpr (T == 2) {
         auxPlayer2 = std::dynamic_pointer_cast<Player>(players[1]);
         temp = static_cast<int>(auxPlayer2->getHealth() * 10);
         if (temp % 10 == 0) {
@@ -116,7 +115,7 @@ void Game<T>::drawThings() {
         auxPlayer->setPosition();
         auxPlayer->draw(window);
 
-        if (T == 2) {
+        if constexpr (T == 2) {
             auxPlayer2 = std::dynamic_pointer_cast<Player>(players[1]);
             auxPlayer2->move(window, platforms, 2);
             auxPlayer2->setPosition();
@@ -150,7 +149,7 @@ void Game<T>::reset() {
     auxPlayer->setHealth(3);
     auxPlayer->setScore(3);
 
-    if (T == 2) {
+    if constexpr (T == 2) {
         auxPlayer2 = std::dynamic_pointer_cast<Player>(players[1]);
         auxPlayer2->setHealth(3), auxPlayer2->setScore(3);
     }
@@ -161,7 +160,7 @@ void Game<T>::reset() {
     players[0] = std::make_shared<Player>(window, "./Iepuri.png");
     auxPlayer->initTextures("./Iepuri.png");
 
-    if (T == 2) {
+    if constexpr (T == 2) {
         players[1] = std::make_shared<Player>(window, "./Iepuri2.png");
         auxPlayer2->initTextures("./Iepuri2.png");
     }
@@ -302,7 +301,7 @@ void Game<T>::run() {
     std::shared_ptr<Player> auxPlayer2 = nullptr;
     std::shared_ptr<Player> auxPlayer = dynamic_pointer_cast<Player>(players[0]);
 
-    if (T == 2) {
+    if constexpr (T == 2) {
         auxPlayer2 = std::dynamic_pointer_cast<Player>(players[1]);
     }
 
@@ -391,7 +390,7 @@ void Game<T>::run() {
                 }
             }
 
-            if (T == 2) {
+            if constexpr (T == 2) {
                 if (checkCollision(*auxPlayer2, currentCarrot)) {
                     auxPlayer2->increaseScore(currentCarrot.getScore());
                     currentCarrot.resetCoordinates(window);
