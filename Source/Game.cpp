@@ -269,6 +269,7 @@ void Game::run() {
                 newTrap->spawn();
                 traps.emplace_back(newTrap);
                 choices.erase(choices.begin() + index);
+
             }
 
             drawThings();
