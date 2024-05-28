@@ -40,10 +40,3 @@ void Thing::initTextures(const std::string& fileName) {
     }
     image.setTexture(texture);
 }
-
-bool Thing::checkCollision(const Thing& other) {
-    sf::FloatRect playerBounds(position, size);
-    sf::FloatRect otherBounds(other.getPosition(), other.getSize());
-
-    return playerBounds.intersects(otherBounds);
-}

@@ -271,14 +271,14 @@ void Game::run() {
 
             drawThings();
 
-            if (auxPlayer->checkCollision(currentCarrot)) {
+            if (checkCollision(*auxPlayer, currentCarrot)) {
                 auxPlayer->increaseScore(currentCarrot.getScore());
                 currentCarrot.resetCoordinates(*window);
 
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (auxPlayer->checkCollision(goldenCarrot)) {
+            if (checkCollision(*auxPlayer, goldenCarrot)) {
                 auxPlayer->increaseHealth(1.f);
                 auxPlayer->increaseScore(goldenCarrot.getScore());
                 goldenCarrot.isTaken();
@@ -286,7 +286,7 @@ void Game::run() {
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (auxPlayer->checkCollision(currentArrow)) {
+            if (checkCollision(*auxPlayer, currentArrow)) {
                 auxPlayer->decreaseHealth(currentArrow.getDamage());
                 currentArrow.resetCoordinates(*window);
 
@@ -298,7 +298,7 @@ void Game::run() {
             }
 
             for (auto& elem : traps) {
-                if (auxPlayer->checkCollision(static_cast<const Thing&>(*elem))) {
+                if (checkCollision(*auxPlayer, static_cast<const Thing&>(*elem))) {
                     if (!elem->getHasCollided()) {
                         auxPlayer->decreaseHealth(elem->getDamage());
                         elem->setHasCollided(true);
