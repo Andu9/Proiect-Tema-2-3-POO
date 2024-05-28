@@ -156,11 +156,12 @@ void Game::drawLost() {
 
     sf::Text leave, play;
     leave.setFont(font), play.setFont(font);
+    leave.setString("Leave"), play.setString("Play again");
     leave.setFillColor(sf::Color::Black), play.setFillColor(sf::Color::Black);
     leave.setOutlineColor(sf::Color::White), play.setOutlineColor(sf::Color::White);
-    leave.setOutlineThickness(3.f), play.setOutlineThickness(3.f);
-    leave.setCharacterSize(10.f), play.setCharacterSize(10.f);
-    leave.setPosition(330.f, 380.f), play.setPosition(630.f, 380.f);
+    leave.setOutlineThickness(2.f), play.setOutlineThickness(2.f);
+    leave.setCharacterSize(20.f), play.setCharacterSize(15.f);
+    leave.setPosition(318.f, 421.f), play.setPosition(608.f, 426.f);
 
     window->draw(escape), window->draw(playAgain);
     window->draw(leave), window->draw(play);
@@ -202,11 +203,12 @@ void Game::drawPause() {
 
     sf::Text leave, play;
     leave.setFont(font), play.setFont(font);
+    leave.setString("Leave"), play.setString("Resume");
     leave.setFillColor(sf::Color::Black), play.setFillColor(sf::Color::Black);
     leave.setOutlineColor(sf::Color::White), play.setOutlineColor(sf::Color::White);
-    leave.setOutlineThickness(3.f), play.setOutlineThickness(3.f);
-    leave.setCharacterSize(10.f), play.setCharacterSize(10.f);
-    leave.setPosition(330.f, 380.f), play.setPosition(630.f, 380.f);
+    leave.setOutlineThickness(2.f), play.setOutlineThickness(2.f);
+    leave.setCharacterSize(20.f), play.setCharacterSize(20.f);
+    leave.setPosition(318.f, 421.f), play.setPosition(610.f, 421.f);
 
     window->draw(escape), window->draw(playAgain);
     window->draw(leave), window->draw(play);
@@ -246,7 +248,7 @@ void Game::run() {
         window->clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 7.f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 0.1f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);

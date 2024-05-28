@@ -18,7 +18,7 @@ class Game {
         sf::Texture texture;
         sf::Sprite background;
 
-        Thing* player;
+        Thing* t er;
 
         std::array<Thing, 8> platforms;
 
