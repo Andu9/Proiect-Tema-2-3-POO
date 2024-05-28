@@ -9,6 +9,7 @@
 #include "../Headers/Saw.h"
 #include "../Headers/Exceptions.h"
 
+#include <memory>
 #include <SFML/Graphics.hpp>
 
 class Game {
@@ -18,7 +19,7 @@ class Game {
         sf::Texture texture;
         sf::Sprite background;
 
-        Thing* player;
+        std::shared_ptr<Player> player;
 
         std::array<Thing, 8> platforms;
 
@@ -35,7 +36,7 @@ class Game {
 
         sf::Clock timer;
         sf::Clock totalTimer;
-        std::vector<FiniteChoice *> traps;
+        std::vector<std::shared_ptr<FiniteChoice>> traps;
         std::vector<int> choices;
 
         static int getRandom(int Maxim);

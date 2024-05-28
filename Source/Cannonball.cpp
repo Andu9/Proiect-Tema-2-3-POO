@@ -51,7 +51,7 @@ void CannonBall::move(sf::RenderWindow& window) {
     }
 }
 
-FiniteChoice* CannonBall::clone() const {
-    return new CannonBall(*this);
+std::shared_ptr<FiniteChoice> CannonBall::clone() const {
+    return std::make_shared<CannonBall>(*this);
 }
 

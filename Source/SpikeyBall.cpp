@@ -37,6 +37,6 @@ void SpikeyBall::move(sf::RenderWindow& window) {
     }
 }
 
-FiniteChoice* SpikeyBall::clone() const {
-    return new SpikeyBall(*this);
+std::shared_ptr<FiniteChoice> SpikeyBall::clone() const {
+    return std::make_shared<SpikeyBall>(*this);
 }

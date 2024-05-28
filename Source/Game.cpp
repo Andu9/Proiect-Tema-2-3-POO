@@ -4,7 +4,7 @@ Game::Game() : window(new sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny
                       currentArrow{*window, "./Arrow.png"},
                       currentCarrot{*window, 1, "./Carrot.png"}, goldenCarrot{*window, "./GoldenCarrot.png"},
                       lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2})  {
-    player = new Player(*window, "./Iepuri.png");
+    player =  std::make_shared<Player>(*window, "./Iepuri.png");
 
     if (!texture.loadFromFile("./Background.jpg")) {
         throw MissingTexture("The texture was not found!\n");
@@ -59,7 +59,7 @@ void Game::drawThings() {
         platforms[i].draw(*window);
     }
 
-    Player * auxPlayer = dynamic_cast<Player*>(player);
+    std::shared_ptr<Player> auxPlayer = std::dynamic_pointer_cast<Player>(player);
 
     std::string aux = "";
     int temp = static_cast<int>(auxPlayer->getHealth() * 10);
@@ -75,37 +75,39 @@ void Game::drawThings() {
     window->draw(currentScore);
     window->draw(currentHealth);
 
-    auxPlayer->move(*window, platforms);
-    auxPlayer->setPosition();
-    auxPlayer->draw(*window);
+    if (!pause) {
+        auxPlayer->move(*window, platforms);
+        auxPlayer->setPosition();
+        auxPlayer->draw(*window);
 
-    currentArrow.move(*window);
-    currentArrow.setPosition();
-    currentArrow.draw(*window);
+        currentArrow.move(*window);
+        currentArrow.setPosition();
+        currentArrow.draw(*window);
 
-    currentCarrot.setPosition();
-    currentCarrot.draw(*window);
+        currentCarrot.setPosition();
+        currentCarrot.draw(*window);
 
-    goldenCarrot.initTextures("./GoldenCarrot.png");
-    goldenCarrot.setPosition();
-    goldenCarrot.draw(*window);
+        goldenCarrot.initTextures("./GoldenCarrot.png");
+        goldenCarrot.setPosition();
+        goldenCarrot.draw(*window);
 
-    for (auto& trap : traps) {
-        trap->move(*window);
-        trap->setPosition();
-        trap->draw(*window);
+        for (auto& trap : traps) {
+            trap->move(*window);
+            trap->setPosition();
+            trap->draw(*window);
+        }
     }
 }
 
 void Game::reset() {
     lost = false;
-    Player * auxPlayer = dynamic_cast<Player*>(player);
+    std::shared_ptr<Player> auxPlayer = std::dynamic_pointer_cast<Player>(player);
     auxPlayer->setHealth(3);
     auxPlayer->setScore(3);
     choices = {0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2};
 
-    delete player;
-    player = new Player(*window, "./Iepuri.png");
+
+    player = std::make_shared<Player>(*window, "./Iepuri.png");
     auxPlayer->initTextures("./Iepuri.png");
 
     currentArrow = Arrow{*window, "./Arrow.png"};
@@ -131,7 +133,7 @@ void Game::drawLost() {
 
     lose.setCharacterSize(50.f);
     lose.setFont(font);
-    lose.setString("Score:  " + std::to_string(dynamic_cast<Player*>(player)->getScore()));
+    lose.setString("Score:  " + std::to_string(std::dynamic_pointer_cast<Player>(player)->getScore()));
     lose.setFillColor(sf::Color::Black);
     lose.setPosition(250.f, 300.f);
 
@@ -181,6 +183,8 @@ void Game::drawLost() {
 }
 
 void Game::drawPause() {
+    drawThings();
+
     sf::Text paused;
     paused.setCharacterSize(100.f);
     paused.setFont(font);
@@ -188,10 +192,7 @@ void Game::drawPause() {
     paused.setFillColor(sf::Color::Black);
     paused.setPosition(350.f, 150.f);
 
-
-    window->draw(background);
     window->draw(paused);
-
 
     sf::RectangleShape escape, playAgain;
 
@@ -230,7 +231,7 @@ void Game::run() {
     timer.restart();
     totalTimer.restart();
 
-    Player * auxPlayer = dynamic_cast<Player*>(player);
+    std::shared_ptr<Player> auxPlayer = dynamic_pointer_cast<Player>(player);
 
     while (window->isOpen()) {
         sf::Event event{};
@@ -248,7 +249,7 @@ void Game::run() {
         window->clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 8.f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 0.1f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);
@@ -342,10 +343,9 @@ Game::Game(const Game& oth) :
           timer(oth.timer),
           totalTimer(oth.totalTimer) {
 
-    delete player;
 
     if (oth.player != nullptr) {
-        player = new Thing(*oth.player);
+        player =  std::make_shared<Player>(*oth.player);
     } else {
         player = nullptr;
     }
@@ -376,18 +376,15 @@ Game& Game::operator=(const Game& oth) {
         totalTimer = oth.totalTimer;
         choices = oth.choices;
 
-        delete player;
 
         if (oth.player != nullptr) {
-            player = new Thing(*oth.player);
+            player = std::make_shared<Player>(*oth.player);
         } else {
             player = nullptr;
         }
 
-        for (auto& trap : traps) {
-            delete trap;
-        }
-        traps.clear();
+
+        traps.shrink_to_fit();
         for (auto& trap : oth.traps) {
             traps.push_back(trap->clone());
         }
@@ -402,11 +399,7 @@ void Game::close() {
 }
 
 Game::~Game() {
-    delete player;
     delete window;
-    for (int i = 0; i < (int) traps.size(); i += 1) {
-        delete traps[i];
-    }
     traps.shrink_to_fit();
 }
 

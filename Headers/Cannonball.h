@@ -16,7 +16,7 @@ class CannonBall : public FiniteChoice {
         void resetCoordinates();
         void move(sf::RenderWindow& window) override;
 
-        FiniteChoice* clone() const override;
+        std::shared_ptr<FiniteChoice> clone() const override;
 };
 
 #endif

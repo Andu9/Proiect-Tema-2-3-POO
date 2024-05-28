@@ -50,6 +50,6 @@ void Saw::move(sf::RenderWindow& window) {
     }
 }
 
-FiniteChoice* Saw::clone() const {
-    return new Saw(*this);
+std::shared_ptr<FiniteChoice> Saw::clone() const {
+    return std::make_shared<Saw>(*this);
 }

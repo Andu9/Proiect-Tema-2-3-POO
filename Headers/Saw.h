@@ -13,7 +13,7 @@ class Saw : public FiniteChoice {
         explicit Saw(const std::string& fileName);
         void spawn() override;
         void move(sf::RenderWindow& window) override;
-        FiniteChoice* clone() const override;
+        std::shared_ptr<FiniteChoice> clone() const override;
 };
 
 #endif
