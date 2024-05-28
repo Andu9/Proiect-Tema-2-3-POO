@@ -1,6 +1,6 @@
 #include "../Headers/Thing.h"
 
-Thing::Thing(const std::string& fileName) : size{50, 50}, position{10, 10}, texture(), image() {
+Thing::Thing(const std::string& fileName) : size{50, 50}, position{10, 10}, image() {
     if (!texture.loadFromFile(fileName)) {
         throw MissingTexture("Texture wasn't found!\n");
     }
@@ -18,15 +18,10 @@ Thing& Thing::operator=(const Thing& oth) {
     return *this;
 }
 
-Thing::Thing(const Thing& oth) {
-    size = oth.size;
-    position = oth.position;
-    box = oth.box;
-    image = oth.image;
-}
+Thing::Thing(const Thing& oth) : size(oth.size), position(oth.position), box(oth.box), image(oth.image) {}
 
 Thing::Thing(sf::Vector2f _size, sf::Vector2f _position, const std::string& fileName) : size(_size), position(_position),
-         texture(), image() {
+         image() {
 
     if (!texture.loadFromFile(fileName)) {
         throw MissingTexture("Texture wasn't found!\n");
