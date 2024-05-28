@@ -18,6 +18,14 @@ Thing& Thing::operator=(const Thing& oth) {
     return *this;
 }
 
+Thing::Thing(const Thing& oth) {
+    size = oth.size;
+    position = oth.position;
+    box = oth.box;
+    texture = oth.texture;
+    image = oth.image;
+}
+
 Thing::Thing(sf::Vector2f _size, sf::Vector2f _position, const std::string& fileName) : size(_size), position(_position),
          texture(), image() {
 
