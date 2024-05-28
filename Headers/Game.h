@@ -14,7 +14,7 @@
 
 class Game {
     private:
-        sf::RenderWindow* window;
+        sf::RenderWindow window;
 
         sf::Texture texture;
         sf::Sprite background;
