@@ -13,7 +13,7 @@ Thing::Thing(const std::string& fileName) : size{50, 50}, position{10, 10}, text
 Thing& Thing::operator=(const Thing& oth) {
     if (this != &oth) {
         size = oth.size, position = oth.position, box = oth.box;
-        texture = oth.texture, image = oth.image;
+        image = oth.image;
     }
     return *this;
 }
@@ -22,7 +22,6 @@ Thing::Thing(const Thing& oth) {
     size = oth.size;
     position = oth.position;
     box = oth.box;
-    texture = oth.texture;
     image = oth.image;
 }
 
