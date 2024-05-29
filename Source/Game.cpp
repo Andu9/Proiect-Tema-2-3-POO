@@ -131,12 +131,12 @@ void Game<T>::drawThings() {
         goldenCarrot.draw(window);
 
         for (auto& trap : traps) {
-            if (auto e = dynamic_pointer_cast<CannonBall>(trap)) {
+            if (auto e = std::dynamic_pointer_cast<CannonBall>(trap)) {
                 if ((*e).checkCollision(currentArrow)) {
                     currentArrow.resetCoordinates(window);
                 }
-            } else if (auto e = dynamic_pointer_cast<CannonBall>(trap)) {
-                if ((*e).checkCollision(currentArrow)) {
+            } else if (auto f = std::dynamic_pointer_cast<CannonBall>(trap)) {
+                if ((*f).checkCollision(currentArrow)) {
                     currentArrow.resetCoordinates(window);
                 }
             }
