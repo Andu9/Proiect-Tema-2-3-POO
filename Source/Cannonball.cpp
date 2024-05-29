@@ -38,16 +38,12 @@ void CannonBall::spawn() {
     speed = 5.f;
 }
 
-void CannonBall::resetCoordinates() {
-    position.x = initialPosition.first;
-}
-
 
 void CannonBall::move(sf::RenderWindow& window) {
     window.draw(cannon);
     position.x += static_cast<float>(sign) * speed;
     if (position.x <= 0 || position.x >= static_cast<float>(window.getSize().x)) {
-        this->resetCoordinates();
+        position.x = initialPosition.first;
     }
 }
 

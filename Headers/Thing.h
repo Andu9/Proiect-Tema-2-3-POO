@@ -15,6 +15,14 @@ class Thing {
         sf::Sprite image;
 
     public:
+        template<typename T>
+        bool checkCollision(const T& player, const T& trap) {
+            sf::FloatRect playerBounds(player.position, player.size);
+            sf::FloatRect trapBounds(trap.getPosition(), trap.getSize());
+
+            return playerBounds.intersects(trapBounds);
+        }
+
         Thing() = default;
         Thing& operator=(const Thing& other);
         Thing(const Thing& oth);

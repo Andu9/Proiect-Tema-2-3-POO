@@ -13,7 +13,6 @@ class CannonBall : public FiniteChoice {
     public:
         explicit CannonBall(const std::string& fileName);
         void spawn() override;
-        void resetCoordinates();
         void move(sf::RenderWindow& window) override;
 
         std::shared_ptr<FiniteChoice> clone() const override;

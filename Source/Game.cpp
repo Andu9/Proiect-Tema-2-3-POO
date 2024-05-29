@@ -131,6 +131,15 @@ void Game<T>::drawThings() {
         goldenCarrot.draw(window);
 
         for (auto& trap : traps) {
+            if (auto e = dynamic_pointer_cast<CannonBall>(trap)) {
+                if ((*e).checkCollision(currentArrow)) {
+                    currentArrow.resetCoordinates(window);
+                }
+            } else if (auto e = dynamic_pointer_cast<CannonBall>(trap)) {
+                if ((*e).checkCollision(currentArrow)) {
+                    currentArrow.resetCoordinates(window);
+                }
+            }
             trap->move(window);
             trap->setPosition();
             trap->draw(window);
@@ -303,7 +312,7 @@ void Game<T>::run() {
         window.clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 8.f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 7.f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);
@@ -329,14 +338,14 @@ void Game<T>::run() {
 
             drawThings();
 
-            if (checkCollision(players[0], currentCarrot)) {
+            if (players[0].checkCollision(currentCarrot)) {
                 players[0].increaseScore(currentCarrot.getScore());
                 currentCarrot.resetCoordinates(window);
 
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (checkCollision(players[0], goldenCarrot)) {
+            if (players[0].checkCollision(goldenCarrot)) {
                 players[0].increaseHealth(1.f);
                 players[0].increaseScore(goldenCarrot.getScore());
                 goldenCarrot.isTaken();
@@ -344,7 +353,7 @@ void Game<T>::run() {
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (checkCollision(players[0], currentArrow)) {
+            if (players[0].checkCollision(currentArrow)) {
                 players[0].decreaseHealth(currentArrow.getDamage());
                 currentArrow.resetCoordinates(window);
 
@@ -356,7 +365,7 @@ void Game<T>::run() {
             }
 
             for (auto& elem : traps) {
-                if (checkCollision(players[0], static_cast<const Thing&>(*elem))) {
+                if (players[0].checkCollision(static_cast<const Thing&>(*elem))) {
                     if (!elem->getHasCollided(1)) {
                         players[0].decreaseHealth(elem->getDamage());
                         elem->setHasCollided(1, true);
@@ -373,14 +382,14 @@ void Game<T>::run() {
             }
 
             if constexpr (T == 2) {
-                if (checkCollision(players[1], currentCarrot)) {
+                if (players[1].checkCollision(currentCarrot)) {
                     players[1].increaseScore(currentCarrot.getScore());
                     currentCarrot.resetCoordinates(window);
 
                     //std::cout << "Score: " << player.getScore() << '\n';
                 }
 
-                if (checkCollision(players[1], goldenCarrot)) {
+                if (players[1].checkCollision(goldenCarrot)) {
                     players[1].increaseHealth(1.f);
                     players[1].increaseScore(goldenCarrot.getScore());
                     goldenCarrot.isTaken();
@@ -388,7 +397,7 @@ void Game<T>::run() {
                     //std::cout << "Score: " << player.getScore() << '\n';
                 }
 
-                if (checkCollision(players[1], currentArrow)) {
+                if (players[1].checkCollision(currentArrow)) {
                     players[1].decreaseHealth(currentArrow.getDamage());
                     currentArrow.resetCoordinates(window);
 
@@ -400,7 +409,7 @@ void Game<T>::run() {
                 }
 
                 for (auto& elem : traps) {
-                    if (checkCollision(players[1], static_cast<const Thing&>(*elem))) {
+                    if (players[1].checkCollision(static_cast<const Thing&>(*elem))) {
                         if (!elem->getHasCollided(2)) {
                             players[1].decreaseHealth(elem->getDamage());
                             elem->setHasCollided(2, true);
