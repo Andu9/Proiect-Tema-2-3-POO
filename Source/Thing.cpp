@@ -41,6 +41,7 @@ void Thing::setPosition() {
 }
 
 void Thing::draw(sf::RenderWindow& window) {
+
     window.draw(image);
 }
 

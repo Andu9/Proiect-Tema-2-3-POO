@@ -20,7 +20,7 @@ class Game {
         sf::Texture texture;
         sf::Sprite background;
 
-        std::array<std::shared_ptr<Player>, T> players;
+        std::array<Player, T> players;
 
         std::array<Thing, 8> platforms;
 

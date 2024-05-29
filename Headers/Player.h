@@ -13,6 +13,7 @@ class Player : public MoveableThing {
         int score;
 
     public:
+        Player() = default;
         template<typename T>
         friend bool checkCollision(const Player& player, const T& trap);
 

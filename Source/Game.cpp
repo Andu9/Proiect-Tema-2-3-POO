@@ -5,9 +5,9 @@ Game<T>::Game() : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!
                       currentArrow{window, "./Arrow.png"},
                       currentCarrot{window, 1, "./Carrot.png"}, goldenCarrot{window, "./GoldenCarrot.png"},
                       lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2})  {
-    players[0] = std::make_shared<Player>(window, "./Iepuri.png");
+    players[0] = Player(window, "./Iepuri.png");
     if constexpr (T == 2) {
-        players[1] = std::make_shared<Player>(window, "./Iepuri2.png");
+        players[1] = Player(window, "./Iepuri2.png");
     }
 
     if (!texture.loadFromFile("./Background.jpg")) {
@@ -77,33 +77,29 @@ void Game<T>::drawThings() {
         platforms[i].draw(window);
     }
 
-    std::shared_ptr<Player> auxPlayer2 = nullptr;
-    std::shared_ptr<Player> auxPlayer = std::dynamic_pointer_cast<Player>(players[0]);
-
     std::string aux;
-    int temp = static_cast<int>(auxPlayer->getHealth() * 10);
+    int temp = static_cast<int>(players[0].getHealth() * 10);
     if (temp % 10 == 0) {
         aux = std::to_string(temp / 10);
     } else {
         aux = std::to_string(temp / 10) + "." + std::to_string(temp % 10);
     }
 
-    currentScores[0].setString("Score:  " + std::to_string(auxPlayer->getScore()));
+    currentScores[0].setString("Score:  " + std::to_string(players[0].getScore()));
     currentHealths[0].setString("Health: " + aux);
 
     window.draw(currentScores[0]);
     window.draw(currentHealths[0]);
 
     if constexpr (T == 2) {
-        auxPlayer2 = std::dynamic_pointer_cast<Player>(players[1]);
-        temp = static_cast<int>(auxPlayer2->getHealth() * 10);
+        temp = static_cast<int>(players[1].getHealth() * 10);
         if (temp % 10 == 0) {
             aux = std::to_string(temp / 10);
         } else {
             aux = std::to_string(temp / 10) + "." + std::to_string(temp % 10);
         }
 
-        currentScores[1].setString("Score:  " + std::to_string(auxPlayer2->getScore()));
+        currentScores[1].setString("Score:  " + std::to_string(players[2].getScore()));
         currentHealths[1].setString("Health: " + aux);
 
         window.draw(currentScores[1]);
@@ -111,15 +107,16 @@ void Game<T>::drawThings() {
     }
 
     if (!pause) {
-        auxPlayer->move(window, platforms, 1);
-        auxPlayer->setPosition();
-        auxPlayer->draw(window);
+        players[0].initTextures("./Iepuri.png");
+        players[0].move(window, platforms, 1);
+        players[0].setPosition();
+        players[0].draw(window);
 
         if constexpr (T == 2) {
-            auxPlayer2 = std::dynamic_pointer_cast<Player>(players[1]);
-            auxPlayer2->move(window, platforms, 2);
-            auxPlayer2->setPosition();
-            auxPlayer2->draw(window);
+            players[1].initTextures("./Iepuri2.png");
+            players[1].move(window, platforms, 2);
+            players[1].setPosition();
+            players[1].draw(window);
         }
 
         currentArrow.move(window);
@@ -144,25 +141,20 @@ void Game<T>::drawThings() {
 template<const unsigned short T>
 void Game<T>::reset() {
     lost = false;
-    std::shared_ptr<Player> auxPlayer2 = nullptr;
-    std::shared_ptr<Player> auxPlayer = std::dynamic_pointer_cast<Player>(players[0]);
-    auxPlayer->setHealth(3);
-    auxPlayer->setScore(3);
+    players[0].setHealth(3);
+    players[0].setScore(3);
 
     if constexpr (T == 2) {
-        auxPlayer2 = std::dynamic_pointer_cast<Player>(players[1]);
-        auxPlayer2->setHealth(3), auxPlayer2->setScore(3);
+        players[1].setHealth(3), players[1].setScore(3);
     }
 
     choices = {0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2};
 
 
-    players[0] = std::make_shared<Player>(window, "./Iepuri.png");
-    auxPlayer->initTextures("./Iepuri.png");
+    players[0].initTextures("./Iepuri.png");
 
     if constexpr (T == 2) {
-        players[1] = std::make_shared<Player>(window, "./Iepuri2.png");
-        auxPlayer2->initTextures("./Iepuri2.png");
+        players[1].initTextures("./Iepuri2.png");
     }
 
     currentArrow = Arrow{window, "./Arrow.png"};
@@ -190,12 +182,9 @@ void Game<T>::drawLost() {
     lose.setCharacterSize(50.f);
     lose.setFont(font);
     if constexpr (T == 1) {
-        lose.setString("Score:  " + std::to_string(std::dynamic_pointer_cast<Player>(players[0])->getScore()));
+        lose.setString("Score:  " + std::to_string(players[0].getScore()));
     } else {
-        std::shared_ptr auxPlayer = std::dynamic_pointer_cast<Player>(players[0]);
-        std::shared_ptr auxPlayer2 = std::dynamic_pointer_cast<Player>(players[1]);
-
-        int maximum = std::max(auxPlayer->getScore(), auxPlayer2->getScore());
+        int maximum = std::max(players[0].getScore(), players[1].getScore());
 
         lose.setString("Score:  " + std::to_string(maximum));
     }
@@ -298,13 +287,6 @@ void Game<T>::run() {
     timer.restart();
     totalTimer.restart();
 
-    std::shared_ptr<Player> auxPlayer2 = nullptr;
-    std::shared_ptr<Player> auxPlayer = dynamic_pointer_cast<Player>(players[0]);
-
-    if constexpr (T == 2) {
-        auxPlayer2 = std::dynamic_pointer_cast<Player>(players[1]);
-    }
-
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -347,26 +329,26 @@ void Game<T>::run() {
 
             drawThings();
 
-            if (checkCollision(*auxPlayer, currentCarrot)) {
-                auxPlayer->increaseScore(currentCarrot.getScore());
+            if (checkCollision(players[0], currentCarrot)) {
+                players[0].increaseScore(currentCarrot.getScore());
                 currentCarrot.resetCoordinates(window);
 
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (checkCollision(*auxPlayer, goldenCarrot)) {
-                auxPlayer->increaseHealth(1.f);
-                auxPlayer->increaseScore(goldenCarrot.getScore());
+            if (checkCollision(players[0], goldenCarrot)) {
+                players[0].increaseHealth(1.f);
+                players[0].increaseScore(goldenCarrot.getScore());
                 goldenCarrot.isTaken();
 
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (checkCollision(*auxPlayer, currentArrow)) {
-                auxPlayer->decreaseHealth(currentArrow.getDamage());
+            if (checkCollision(players[0], currentArrow)) {
+                players[0].decreaseHealth(currentArrow.getDamage());
                 currentArrow.resetCoordinates(window);
 
-                if (auxPlayer->getHealth() <= 0) {
+                if (players[0].getHealth() <= 0) {
                     lost = true;
                 }
 
@@ -374,16 +356,16 @@ void Game<T>::run() {
             }
 
             for (auto& elem : traps) {
-                if (checkCollision(*auxPlayer, static_cast<const Thing&>(*elem))) {
+                if (checkCollision(players[0], static_cast<const Thing&>(*elem))) {
                     if (!elem->getHasCollided(1)) {
-                        auxPlayer->decreaseHealth(elem->getDamage());
+                        players[0].decreaseHealth(elem->getDamage());
                         elem->setHasCollided(1, true);
 
-                        if (auxPlayer->getHealth() <= 0) {
+                        if (players[0].getHealth() <= 0) {
                             lost = true;
                         }
 
-                        std::cout << "Health: " << players[0]->getHealth() << '\n';
+                        std::cout << "Health: " << players[0].getHealth() << '\n';
                     }
                 } else {
                     elem->setHasCollided(1, false);
@@ -391,26 +373,26 @@ void Game<T>::run() {
             }
 
             if constexpr (T == 2) {
-                if (checkCollision(*auxPlayer2, currentCarrot)) {
-                    auxPlayer2->increaseScore(currentCarrot.getScore());
+                if (checkCollision(players[1], currentCarrot)) {
+                    players[1].increaseScore(currentCarrot.getScore());
                     currentCarrot.resetCoordinates(window);
 
                     //std::cout << "Score: " << player.getScore() << '\n';
                 }
 
-                if (checkCollision(*auxPlayer2, goldenCarrot)) {
-                    auxPlayer2->increaseHealth(1.f);
-                    auxPlayer2->increaseScore(goldenCarrot.getScore());
+                if (checkCollision(players[1], goldenCarrot)) {
+                    players[1].increaseHealth(1.f);
+                    players[1].increaseScore(goldenCarrot.getScore());
                     goldenCarrot.isTaken();
 
                     //std::cout << "Score: " << player.getScore() << '\n';
                 }
 
-                if (checkCollision(*auxPlayer2, currentArrow)) {
-                    auxPlayer2->decreaseHealth(currentArrow.getDamage());
+                if (checkCollision(players[1], currentArrow)) {
+                    players[1].decreaseHealth(currentArrow.getDamage());
                     currentArrow.resetCoordinates(window);
 
-                    if (auxPlayer2->getHealth() <= 0) {
+                    if (players[1].getHealth() <= 0) {
                         lost = true;
                     }
 
@@ -418,12 +400,12 @@ void Game<T>::run() {
                 }
 
                 for (auto& elem : traps) {
-                    if (checkCollision(*auxPlayer2, static_cast<const Thing&>(*elem))) {
+                    if (checkCollision(players[1], static_cast<const Thing&>(*elem))) {
                         if (!elem->getHasCollided(2)) {
-                            auxPlayer2->decreaseHealth(elem->getDamage());
+                            players[1].decreaseHealth(elem->getDamage());
                             elem->setHasCollided(2, true);
 
-                            if (auxPlayer2->getHealth() <= 0) {
+                            if (players[1].getHealth() <= 0) {
                                 lost = true;
                             }
 
@@ -464,13 +446,7 @@ Game<T>& Game<T>::operator=(const Game& oth) {
         choices = oth.choices;
 
 
-        for (int i = 0; i < (int) oth.players.size(); i += 1) {
-            if (oth.players[i] != nullptr) {
-                players[i] = std::make_shared<Player>(*oth.players[i]);
-            } else {
-                players[i] = nullptr;
-            }
-        }
+        players = oth.players;
 
         traps.shrink_to_fit();
         for (auto& trap : oth.traps) {
