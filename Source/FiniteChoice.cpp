@@ -35,7 +35,7 @@ void FiniteChoice::setHasCollided(int index, bool _val) {
 
 
 std::pair<float, float> FiniteChoice::choose(int which) {
-    if ((which - 1) * (which - 2) * (which - 3)) {
+    if ((which - 1) * (which - 2) * (which - 3) != 0) {
         throw InvalidTrapType("No such trap type!\n");
     }
 
