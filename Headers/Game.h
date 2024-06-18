@@ -11,11 +11,16 @@
 #include "../Headers/TrapFactory.h"
 
 #include <memory>
+#include <string>
+#include <array>
 #include <SFML/Graphics.hpp>
 
 template<const unsigned short T>
 class Game {
     private:
+        static std::array<sf::Vector2f, 2> healthTextPos;
+        static std::array<sf::Vector2f, 2> scoreTextPos;
+
         sf::RenderWindow window;
 
         sf::Texture texture;

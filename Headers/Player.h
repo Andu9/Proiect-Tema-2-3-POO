@@ -22,8 +22,7 @@ class Player : public MoveableThing {
         void increaseScore(int addedScore);
         int getScore() const;
         float getHealth() const;
-        void setScore(int _score);
-        void setHealth(float _health);
+        void reset(const sf::RenderWindow& window, const std::string& fileName);
 };
 
 #endif

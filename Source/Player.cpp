@@ -4,11 +4,7 @@ Player::Player(const sf::RenderWindow& window, const std::string& fileName) : Mo
     position.x = (static_cast<float>(window.getSize().x) - size.x) / 2;
     position.y = static_cast<float>(window.getSize().y) - size.y - 111;
 
-    if (fileName == "./Iepuri.png") {
-        texture.loadFromFile("Iepuri.png");
-    } else {
-        texture.loadFromFile("Iepuri2.png");
-    }
+    texture.loadFromFile(fileName);
     image.setTexture(texture);
 }
 
@@ -162,5 +158,12 @@ void Player::decreaseHealth(float damage) { health -= damage; }
 int Player::getScore() const  { return score; }
 float Player::getHealth() const { return health; }
 
-void Player::setScore(int _score) { score = _score; }
-void Player::setHealth(float _health) { health = _health; }
+void Player::reset(const sf::RenderWindow& window, const std::string& fileName) {
+    health = 3;
+    score = 0;
+    position.x = (static_cast<float>(window.getSize().x) - size.x) / 2;
+    position.y = static_cast<float>(window.getSize().y) - size.y - 111;
+    jumpFlag = false;
+    isOnPlatform = false;
+    this->initTextures(fileName);
+}

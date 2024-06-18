@@ -24,7 +24,7 @@ int FiniteChoice::getRandom(int Max) {
 }
 
 bool FiniteChoice::getHasCollided(int index) const {
-    if (index == 1) {
+    if (index == 0) {
         return hasCollided1;
     } else {
         return hasCollided2;
@@ -32,7 +32,7 @@ bool FiniteChoice::getHasCollided(int index) const {
 }
 
 void FiniteChoice::setHasCollided(int index, bool _val) {
-    if (index == 1) {
+    if (index == 0) {
         hasCollided1 = _val;
     } else {
         hasCollided2 = _val;
