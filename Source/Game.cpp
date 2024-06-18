@@ -210,16 +210,15 @@ void Game<T>::drawLost() {
     if (maxim > highScore) {
         highScore = maxim;
         std::ofstream fout("./highScore.txt"); fout << highScore;
-
-        sf::Text highest;
-        highest.setCharacterSize(80.f);
-        highest.setFont(font);
-        highest.setFillColor(sf::Color::Red);
-        highest.setString("Highest score: " + std::to_string(highScore));
-        highest.setPosition(180.f, 80.f);
-        window.draw(highest);
     }
 
+    sf::Text highest;
+    highest.setCharacterSize(80.f);
+    highest.setFont(font);
+    highest.setFillColor(sf::Color::Red);
+    highest.setString("Highest score: " + std::to_string(highScore));
+    highest.setPosition(180.f, 80.f);
+    window.draw(highest);
 
     sf::RectangleShape escape, playAgain;
 
