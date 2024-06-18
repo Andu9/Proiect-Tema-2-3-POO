@@ -54,7 +54,7 @@ Game<T>::Game() : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!
 template<const unsigned short T>
 int Game<T>::sum() {
     int res = 0;
-    for (const auto& [key, val] : isAlive) {
+    for (const auto& [_, val] : isAlive) {
         res += val;
     }
     return res;
