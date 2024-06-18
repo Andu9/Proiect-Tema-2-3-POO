@@ -16,7 +16,7 @@ int main() {
 
         try {
             game.run();
-        } catch(GeneralException& err) {
+        } catch(GeneralException&) {
             game.close();
         }
     } else {
