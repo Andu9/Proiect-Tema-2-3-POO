@@ -72,7 +72,7 @@ void Game<T>::drawThings() {
         platforms[i].draw(window);
     }
 
-    std::string aux = "";
+    std::string aux;
 
     for (int i = 0; i < T; i += 1) {
         int temp = static_cast<int>(players[i].getHealth() * 10);
