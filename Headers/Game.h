@@ -13,6 +13,7 @@
 #include <memory>
 #include <string>
 #include <array>
+#include <unordered_map>
 #include <SFML/Graphics.hpp>
 
 template<const unsigned short T>
@@ -26,6 +27,7 @@ class Game {
         sf::Texture texture;
         sf::Sprite background;
 
+        std::unordered_map<int, bool> isAlive;
         std::array<Player, T> players;
 
         std::array<Thing, 8> platforms;
@@ -45,6 +47,8 @@ class Game {
         sf::Clock totalTimer;
         std::vector<std::shared_ptr<FiniteChoice>> traps;
         std::vector<int> choices;
+
+        int sum();
 
         static int getRandom(int Maxim);
 

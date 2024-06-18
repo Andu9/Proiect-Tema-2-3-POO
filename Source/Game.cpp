@@ -13,6 +13,7 @@ Game<T>::Game() : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!
                       lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2})  {
     for (int i = 0; i < T; i += 1) {
         players[i] = Player(window, "./Iepuri" + std::to_string(i) + ".png");
+        isAlive[i] = true;
     }
 
     if (!texture.loadFromFile("./Background.jpg")) {
@@ -51,6 +52,15 @@ Game<T>::Game() : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!
 }
 
 template<const unsigned short T>
+int Game<T>::sum() {
+    int res = 0;
+    for (const auto& [key, val] : isAlive) {
+        res += val;
+    }
+    return res;
+}
+
+template<const unsigned short T>
 int Game<T>::getRandom(int Maxim) {
     std::random_device rd;
     std::mt19937 eng(rd());
@@ -76,6 +86,9 @@ void Game<T>::drawThings() {
 
     for (int i = 0; i < T; i += 1) {
         int temp = static_cast<int>(players[i].getHealth() * 10);
+
+        if (temp <= 0) { temp = 0; }
+
         if (temp % 10 == 0) {
             aux = std::to_string(temp / 10);
         } else {
@@ -91,6 +104,10 @@ void Game<T>::drawThings() {
 
     if (!pause) {
         for (int i = 0; i < T; i += 1) {
+            if (!isAlive[i]) {
+                continue;
+            }
+
             players[i].initTextures("./Iepuri" + std::to_string(i) + ".png");
             players[i].move(window, platforms, i);
             players[i].setPosition();
@@ -130,6 +147,7 @@ void Game<T>::reset() {
     lost = false;
 
     for (int i = 0; i < T; i += 1) {
+        isAlive[i] = true;
         players[i].reset(window, "./Iepuri" + std::to_string(i) + ".png");
     }
 
@@ -153,19 +171,21 @@ void Game<T>::drawLost() {
     sf::Text youLost, timeSpent, lose;
     youLost.setCharacterSize(100.f);
     youLost.setFont(font);
-    youLost.setString("You lost : (");
     youLost.setFillColor(sf::Color::Black);
     youLost.setPosition(200.f, 150.f);
 
     lose.setCharacterSize(50.f);
     lose.setFont(font);
 
-    int maxim = players[0].getScore();
+    int maxim = players[0].getScore(), winner = 0;
     for (int i = 1; i < T; i += 1) {
-        if (maxim > players[i].getScore()) {
-            maxim = players[i].getScore();
+        if (maxim < players[i].getScore()) {
+            maxim = players[i].getScore(), winner = i;
         }
     }
+    const std::string text = T == 2 ? "Player " + std::to_string(winner + 1) + " won" : "You lost :(";
+    youLost.setString(text);
+
 
     lose.setString("Score:  " + std::to_string(maxim));
     lose.setFillColor(sf::Color::Black);
@@ -302,11 +322,13 @@ void Game<T>::run() {
             drawThings();
 
             for (int i = 0; i < T; i += 1) {
+                if (!isAlive[i]) {
+                    continue;
+                }
+
                 if (checkCollision(players[i], currentCarrot)) {
                     players[i].increaseScore(currentCarrot.getScore());
                     currentCarrot.resetCoordinates(window);
-
-                    //std::cout << "Score: " << player.getScore() << '\n';
                 }
 
                 if (checkCollision(players[i], goldenCarrot)) {
@@ -322,10 +344,12 @@ void Game<T>::run() {
                     currentArrow.resetCoordinates(window);
 
                     if (players[i].getHealth() <= 0) {
-                        lost = true;
+                        isAlive[i] = false;
                     }
 
-                    //std::cout << "Health: " << player.getHealth() << '\n';
+                    if (sum() == 0) { lost = true; }
+
+                    std::cout << "Arrow Collision: " << players[i].getHealth() << '\n';
                 }
 
                 for (auto& elem : traps) {
@@ -335,8 +359,10 @@ void Game<T>::run() {
                             elem->setHasCollided(i, true);
 
                             if (players[i].getHealth() <= 0) {
-                                lost = true;
+                                isAlive[i] = false;
                             }
+
+                            if (sum() == 0) { lost = true; }
 
                             std::cout << "Health: " << i << " " << players[i].getHealth() << '\n';
                         }
@@ -350,7 +376,6 @@ void Game<T>::run() {
         } else if (pause) {
             drawPause();
         }
-
 
         window.display();
     }
