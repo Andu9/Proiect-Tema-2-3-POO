@@ -1,15 +1,34 @@
 #include "Headers/Game.h"
+#include <fstream>
 
 int main() {
-    int noPlayers; std::cin >> noPlayers;
-    while (noPlayers != 1 && noPlayers != 2) {
-        std::cin >> noPlayers;
+    unsigned short input; std::cin >> input;
+    while (input != 1 && input != 2) {
+        std::cin >> input;
     }
 
-    if (noPlayers == 1) {
-        Game<1> game; game.run();
+
+
+    if (input == 1) {
+        std::ifstream fin("highScore.txt");
+        int x; fin >> x;
+        Game<1> game(x);
+
+        try {
+            game.run();
+        } catch(GeneralException& err) {
+            game.close();
+        }
     } else {
-        Game<2> game; game.run();
+        std::ifstream fin("highScore.txt");
+        int x; fin >> x;
+        Game<2> game(x);
+
+        try {
+            game.run();
+        } catch(GeneralException& err) {
+            game.close();
+        }
     }
     return 0;
 }

@@ -1,13 +1,16 @@
 #include "../Headers/Game.h"
 
-template<const unsigned short T>
+template<unsigned short T>
+int Game<T>::highScore = 0;
+
+template<unsigned short T>
 std::array<sf::Vector2f, 2> Game<T>::healthTextPos = {sf::Vector2f{25.f, 75.f}, sf::Vector2f{860.f, 75.f}};
 
-template<const unsigned short T>
+template<unsigned short T>
 std::array<sf::Vector2f, 2> Game<T>::scoreTextPos = {sf::Vector2f{25.f, 25.f}, sf::Vector2f{860.f, 25.f}};
 
-template<const unsigned short T>
-Game<T>::Game() : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titlebar | sf::Style::Close)),
+template<unsigned short T>
+[[maybe_unused]] Game<T>::Game(int _highScore) : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!", sf::Style::Titlebar | sf::Style::Close)),
                       currentArrow{window, "./Arrow.png"},
                       currentCarrot{window, 1, "./Carrot.png"}, goldenCarrot{window, "./GoldenCarrot.png"},
                       lost(false), pause(false), choices({0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2})  {
@@ -15,6 +18,8 @@ Game<T>::Game() : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!
         players[i] = Player(window, "./Iepuri" + std::to_string(i) + ".png");
         isAlive[i] = true;
     }
+
+    highScore = _highScore;
 
     if (!texture.loadFromFile("./Background.jpg")) {
         throw MissingTexture("The texture was not found!\n");
@@ -51,17 +56,17 @@ Game<T>::Game() : window(sf::RenderWindow(sf::VideoMode(1044, 585), "Poor Bunny!
     platforms[7] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{762, 120}, "SmallPlatform.png");
 }
 
-template<const unsigned short T>
+template<unsigned short T>
 int Game<T>::sum() {
     int res = 0;
-    for (auto it = isAlive.begin(); it != isAlive.end(); ++it) {
-        res += it->second;
+    for (auto & it : isAlive) {
+        res += it.second;
 
     }
     return res;
 }
 
-template<const unsigned short T>
+template<unsigned short T>
 int Game<T>::getRandom(int Maxim) {
     std::random_device rd;
     std::mt19937 eng(rd());
@@ -69,7 +74,7 @@ int Game<T>::getRandom(int Maxim) {
     return gen(eng);
 }
 
-template<const unsigned short T>
+template<unsigned short T>
 void Game<T>::drawThings() {
     window.draw(background);
 
@@ -143,7 +148,7 @@ void Game<T>::drawThings() {
     }
 }
 
-template<const unsigned short T>
+template<unsigned short T>
 void Game<T>::reset() {
     lost = false;
 
@@ -165,7 +170,7 @@ void Game<T>::reset() {
     traps.clear();
 }
 
-template<const unsigned short T>
+template<unsigned short T>
 void Game<T>::drawLost() {
     static int sec = static_cast<int>(totalTimer.getElapsedTime().asSeconds());
 
@@ -187,7 +192,6 @@ void Game<T>::drawLost() {
     const std::string text = T == 2 ? "Player " + std::to_string(winner + 1) + " won" : "You lost :(";
     youLost.setString(text);
 
-
     lose.setString("Score:  " + std::to_string(maxim));
     lose.setFillColor(sf::Color::Black);
     lose.setPosition(250.f, 300.f);
@@ -202,6 +206,21 @@ void Game<T>::drawLost() {
     window.draw(lose);
     window.draw(youLost);
     window.draw(timeSpent);
+
+    if (T == 1) {
+        if (players[0].getScore() > highScore) {
+            highScore = players[0].getScore();
+            std::ofstream fout("./highScore.txt"); fout << highScore;
+        }
+
+        sf::Text highest;
+        highest.setCharacterSize(80.f);
+        highest.setFont(font);
+        highest.setFillColor(sf::Color::Red);
+        highest.setString("Highest score: " + std::to_string(highScore));
+        highest.setPosition(180.f, 80.f);
+        window.draw(highest);
+    }
 
     sf::RectangleShape escape, playAgain;
 
@@ -237,7 +256,7 @@ void Game<T>::drawLost() {
     }
 }
 
-template<const unsigned short T>
+template<unsigned short T>
 void Game<T>::drawPause() {
     drawThings();
 
@@ -283,7 +302,7 @@ void Game<T>::drawPause() {
     }
 }
 
-template<const unsigned short T>
+template<unsigned short T>
 void Game<T>::run() {
     timer.restart();
     totalTimer.restart();
@@ -383,7 +402,7 @@ void Game<T>::run() {
 }
 
 
-template<const unsigned short T>
+template<unsigned short T>
 Game<T>& Game<T>::operator=(const Game& oth) {
     if (this != &oth) {
         texture = oth.texture;
@@ -413,12 +432,12 @@ Game<T>& Game<T>::operator=(const Game& oth) {
     return *this;
 }
 
-template<const unsigned short T>
+template<unsigned short T>
 void Game<T>::close() {
     window.close();
 }
 
-template<const unsigned short T>
+template<unsigned short T>
 Game<T>::~Game() {
     traps.shrink_to_fit();
 }

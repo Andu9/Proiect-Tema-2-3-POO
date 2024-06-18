@@ -14,11 +14,13 @@
 #include <string>
 #include <array>
 #include <unordered_map>
+#include <fstream>
 #include <SFML/Graphics.hpp>
 
-template<const unsigned short T>
+template<unsigned short T>
 class Game {
     private:
+        static int highScore;
         static std::array<sf::Vector2f, 2> healthTextPos;
         static std::array<sf::Vector2f, 2> scoreTextPos;
 
@@ -53,7 +55,7 @@ class Game {
         static int getRandom(int Maxim);
 
     public:
-        Game();
+        [[maybe_unused]] explicit Game(int);
         Game(const Game& oth) = delete;
         Game& operator=(const Game& oth);
 
