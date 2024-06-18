@@ -207,7 +207,7 @@ void Game<T>::drawLost() {
     window.draw(youLost);
     window.draw(timeSpent);
 
-    if (T == 1) {
+    /*if (T == 1) {
         if (players[0].getScore() > highScore) {
             highScore = players[0].getScore();
             std::ofstream fout("./highScore.txt"); fout << highScore;
@@ -220,7 +220,7 @@ void Game<T>::drawLost() {
         highest.setString("Highest score: " + std::to_string(highScore));
         highest.setPosition(180.f, 80.f);
         window.draw(highest);
-    }
+    }*/
 
     sf::RectangleShape escape, playAgain;
 

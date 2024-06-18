@@ -12,11 +12,22 @@ int main() {
     if (input == 1) {
         std::ifstream fin("highScore.txt");
         int x; fin >> x;
-        Game<1> game(x); game.run();
+        Game<1> game(x);
+        try {
+            game.run();
+        } catch(GeneralException&) {
+            game.close();
+        }
     } else {
         std::ifstream fin("highScore.txt");
         int x; fin >> x;
-        Game<2> game(x); game.run();
+        Game<2> game(x);
+
+        try {
+            game.run();
+        } catch(GeneralException&) {
+            game.close();
+        }
     }
     return 0;
 }
