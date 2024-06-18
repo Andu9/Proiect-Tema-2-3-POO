@@ -13,8 +13,7 @@
 
 class FiniteChoice : public Trap {
     protected:
-        bool hasCollided1, hasCollided2;
-
+        std::array<bool, 2> hasCollided;
         static std::array<std::vector<std::pair<float, float>>, 3> choices;
 
         static int getRandom(int Max);

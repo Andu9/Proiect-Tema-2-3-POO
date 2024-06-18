@@ -4,7 +4,7 @@
 
 std::array<std::vector<std::pair<float, float>>, 3> FiniteChoice::choices{};
 
-FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName, int which) : Trap(1.f, fileName), hasCollided1(false), hasCollided2(false) {
+FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName, int which) : Trap(1.f, fileName), hasCollided(std::array<bool, 2>{false, false}) {
     if (choices[which - 1].empty()) {
         choices[which - 1] = _choices;
     }
@@ -18,21 +18,12 @@ int FiniteChoice::getRandom(int Max) {
 }
 
 bool FiniteChoice::getHasCollided(int index) const {
-    if (index == 0) {
-        return hasCollided1;
-    } else {
-        return hasCollided2;
-    }
+    return hasCollided[index];
 }
 
 void FiniteChoice::setHasCollided(int index, bool _val) {
-    if (index == 0) {
-        hasCollided1 = _val;
-    } else {
-        hasCollided2 = _val;
-    }
+    hasCollided[index] = _val;
 }
-
 
 std::pair<float, float> FiniteChoice::choose(int which) {
     if ((which - 1) * (which - 2) * (which - 3) != 0) {
