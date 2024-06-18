@@ -5,8 +5,7 @@ Saw::Saw(const std::string& fileName) : FiniteChoice(std::vector<std::pair<float
 
 
 void Saw::spawn() {
-        initialPosition = Saw::choose(3);
-
+    initialPosition = Saw::choose(3);
 
     position.x = initialPosition.first;
     position.y = initialPosition.second;
