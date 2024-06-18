@@ -283,7 +283,7 @@ void Game<T>::run() {
         window.clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 7.f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 1.f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);

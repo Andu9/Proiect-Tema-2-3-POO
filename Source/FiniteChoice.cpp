@@ -2,17 +2,11 @@
 
 #include <random>
 
-std::vector<std::pair<float, float>> FiniteChoice::choices1{};
-std::vector<std::pair<float, float>> FiniteChoice::choices2{};
-std::vector<std::pair<float, float>> FiniteChoice::choices3{};
+std::array<std::vector<std::pair<float, float>>, 3> FiniteChoice::choices{};
 
 FiniteChoice::FiniteChoice(const std::vector<std::pair<float, float>>& _choices, const std::string& fileName, int which) : Trap(1.f, fileName), hasCollided1(false), hasCollided2(false) {
-    if (which == 1 && choices1.empty()) {
-        choices1 = _choices;
-    } else if (which == 2 && choices2.empty()) {
-        choices2 = _choices;
-    } else if (which == 3 && choices3.empty()) {
-        choices3 = _choices;
+    if (choices[which - 1].empty()) {
+        choices[which - 1] = _choices;
     }
 }
 
@@ -41,22 +35,14 @@ void FiniteChoice::setHasCollided(int index, bool _val) {
 
 
 std::pair<float, float> FiniteChoice::choose(int which) {
-    int index;
-    std::pair<float, float> chosen{};
-    if (which == 1) {
-        index = getRandom(int(choices1.size()) - 1);
-        chosen = choices1[index];
-        choices1.erase(choices1.begin() + index);
-    } else if (which == 2) {
-        index = getRandom(int(choices2.size()) - 1);
-        chosen = choices2[index];
-        choices2.erase(choices2.begin() + index);
-    } else if (which == 3) {
-        index = getRandom(int(choices3.size()) - 1);
-        chosen = choices3[index];
-        choices3.erase(choices3.begin() + index);
-    } else {
+    if ((which - 1) * (which - 2) * (which - 3)) {
         throw InvalidTrapType("No such trap type!\n");
     }
+
+    int index;
+    std::pair<float, float> chosen{};
+    index = getRandom(int(choices[which - 1].size()) - 1);
+    chosen = choices[which - 1][index];
+    choices[which - 1].erase(choices[which - 1].begin() + index);
     return chosen;
 }

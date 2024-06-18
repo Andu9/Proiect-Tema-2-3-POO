@@ -8,15 +8,14 @@
 #include "Trap.h"
 
 #include <utility>
+#include <array>
 #include "../Headers/Exceptions.h"
 
 class FiniteChoice : public Trap {
     protected:
         bool hasCollided1, hasCollided2;
 
-        static std::vector<std::pair<float, float>> choices1;
-        static std::vector<std::pair<float, float>> choices2;
-        static std::vector<std::pair<float, float>> choices3;
+        static std::array<std::vector<std::pair<float, float>>, 3> choices;
 
         static int getRandom(int Max);
 
