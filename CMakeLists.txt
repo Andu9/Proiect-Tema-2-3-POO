@@ -166,6 +166,8 @@ add_executable(${PROJECT_NAME}
         Source/Exceptions.cpp
         Source/Saw.cpp
         Source/Saw.cpp
+        Headers/TrapFactory.h
+        Headers/TrapFactory.h
 )
 
 ###############################################################################

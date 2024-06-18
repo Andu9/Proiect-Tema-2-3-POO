@@ -8,6 +8,7 @@
 #include "../Headers/SpikeyBall.h"
 #include "../Headers/Saw.h"
 #include "../Headers/Exceptions.h"
+#include "../Headers/TrapFactory.h"
 
 #include <memory>
 #include <SFML/Graphics.hpp>
@@ -54,6 +55,17 @@ class Game {
         void reset();
         void drawPause();
         ~Game();
+
+        template<typename X, typename Y>
+        friend bool checkCollision(const X& thing1, const Y& thing2);
 };
+
+template<typename X, typename Y>
+bool checkCollision(const X& thing1, const Y& thing2) {
+    sf::FloatRect bounds1(thing1.getPosition(), thing1.getSize());
+    sf::FloatRect bounds2(thing2.getPosition(), thing2.getSize());
+
+    return bounds1.intersects(bounds2);
+}
 
 #endif

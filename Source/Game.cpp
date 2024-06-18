@@ -132,11 +132,11 @@ void Game<T>::drawThings() {
 
         for (auto& trap : traps) {
             if (auto e = std::dynamic_pointer_cast<CannonBall>(trap)) {
-                if ((*e).checkCollision(currentArrow)) {
+                if (checkCollision((*e), currentArrow)) {
                     currentArrow.resetCoordinates(window);
                 }
-            } else if (auto f = std::dynamic_pointer_cast<CannonBall>(trap)) {
-                if ((*f).checkCollision(currentArrow)) {
+            } else if (auto f = std::dynamic_pointer_cast<SpikeyBall>(trap)) {
+                if (checkCollision((*f), currentArrow)) {
                     currentArrow.resetCoordinates(window);
                 }
             }
@@ -320,7 +320,9 @@ void Game<T>::run() {
 
                 //std::cout << trapType << '\n';
 
-                FiniteChoice *newTrap = nullptr;
+                std::shared_ptr<FiniteChoice> newTrap = TrapFactory::getTrap(trapType);
+
+                /*FiniteChoice *newTrap = nullptr;
 
                 if (trapType == 0) {
                     newTrap = new CannonBall("./CannonBall.png");
@@ -328,7 +330,7 @@ void Game<T>::run() {
                     newTrap = new SpikeyBall("./SpikeyBall.png");
                 } else if (trapType == 2) {
                     newTrap = new Saw("./Saw.png");
-                }
+                }*/
 
                 newTrap->spawn();
                 traps.emplace_back(newTrap);
@@ -338,14 +340,14 @@ void Game<T>::run() {
 
             drawThings();
 
-            if (players[0].checkCollision(currentCarrot)) {
+            if (checkCollision(players[0], currentCarrot)) {
                 players[0].increaseScore(currentCarrot.getScore());
                 currentCarrot.resetCoordinates(window);
 
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (players[0].checkCollision(goldenCarrot)) {
+            if (checkCollision(players[0], goldenCarrot)) {
                 players[0].increaseHealth(1.f);
                 players[0].increaseScore(goldenCarrot.getScore());
                 goldenCarrot.isTaken();
@@ -353,7 +355,7 @@ void Game<T>::run() {
                 //std::cout << "Score: " << player.getScore() << '\n';
             }
 
-            if (players[0].checkCollision(currentArrow)) {
+            if (checkCollision(players[0], currentArrow)) {
                 players[0].decreaseHealth(currentArrow.getDamage());
                 currentArrow.resetCoordinates(window);
 
@@ -365,7 +367,7 @@ void Game<T>::run() {
             }
 
             for (auto& elem : traps) {
-                if (players[0].checkCollision(static_cast<const Thing&>(*elem))) {
+                if (checkCollision(players[0], static_cast<const Thing&>(*elem))) {
                     if (!elem->getHasCollided(1)) {
                         players[0].decreaseHealth(elem->getDamage());
                         elem->setHasCollided(1, true);
@@ -382,14 +384,14 @@ void Game<T>::run() {
             }
 
             if constexpr (T == 2) {
-                if (players[1].checkCollision(currentCarrot)) {
+                if (checkCollision(players[1], currentCarrot)) {
                     players[1].increaseScore(currentCarrot.getScore());
                     currentCarrot.resetCoordinates(window);
 
                     //std::cout << "Score: " << player.getScore() << '\n';
                 }
 
-                if (players[1].checkCollision(goldenCarrot)) {
+                if (checkCollision(players[1],goldenCarrot)) {
                     players[1].increaseHealth(1.f);
                     players[1].increaseScore(goldenCarrot.getScore());
                     goldenCarrot.isTaken();
@@ -397,7 +399,7 @@ void Game<T>::run() {
                     //std::cout << "Score: " << player.getScore() << '\n';
                 }
 
-                if (players[1].checkCollision(currentArrow)) {
+                if (checkCollision(players[1], currentArrow)) {
                     players[1].decreaseHealth(currentArrow.getDamage());
                     currentArrow.resetCoordinates(window);
 
@@ -409,7 +411,7 @@ void Game<T>::run() {
                 }
 
                 for (auto& elem : traps) {
-                    if (players[1].checkCollision(static_cast<const Thing&>(*elem))) {
+                    if (checkCollision(players[1], static_cast<const Thing&>(*elem))) {
                         if (!elem->getHasCollided(2)) {
                             players[1].decreaseHealth(elem->getDamage());
                             elem->setHasCollided(2, true);
@@ -479,4 +481,6 @@ Game<T>::~Game() {
 
 template class Game<1>;
 template class Game<2>;
+
+
 
