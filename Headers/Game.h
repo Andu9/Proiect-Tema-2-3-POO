@@ -9,6 +9,7 @@
 #include "../Headers/Saw.h"
 #include "../Headers/Exceptions.h"
 #include "../Headers/TrapFactory.h"
+#include "../Headers/TextBuilder.h"
 
 #include <memory>
 #include <string>
@@ -34,10 +35,8 @@ class Game {
 
         std::array<Thing, 8> platforms;
 
-        sf::Font font;
-
-        std::array<sf::Text, T> currentScores;
-        std::array<sf::Text, T> currentHealths;
+        std::array<Text, T> currentScores;
+        std::array<Text, T> currentHealths;
 
         Arrow currentArrow;
         Carrot currentCarrot;
@@ -57,7 +56,6 @@ class Game {
     public:
         [[maybe_unused]] explicit Game(int);
         Game(const Game& oth) = delete;
-        Game& operator=(const Game& oth);
 
         void close();
         void drawThings();

@@ -28,21 +28,6 @@ template<unsigned short T>
     background.setPosition(0, 0);
     window.setFramerateLimit(60);
 
-    if (!font.loadFromFile("./yoster.ttf")) {
-        throw MissingFont("The font was not found!\n");
-    }
-
-    for (int i = 0; i < T; i += 1) {
-        currentHealths[i].setFont(font);
-        currentHealths[i].setCharacterSize(30.f);
-        currentHealths[i].setFillColor(sf::Color::Red);
-        currentHealths[i].setPosition(healthTextPos[i]);
-
-        currentScores[i].setFont(font);
-        currentScores[i].setCharacterSize(30.f);
-        currentScores[i].setFillColor(sf::Color::Black);
-        currentScores[i].setPosition(scoreTextPos[i]);
-    }
 
     platforms[0] = Thing(sf::Vector2f{54, 27}, sf::Vector2f{232, 358}, "SmallPlatform.png");
     platforms[1] = Thing(sf::Vector2f{111, 27}, sf::Vector2f{467, 358}, "BigPlatform.png");
@@ -78,18 +63,8 @@ template<unsigned short T>
 void Game<T>::drawThings() {
     window.draw(background);
 
-    for (int i = 0; i < 8; i += 1) {
-        if (i == 1 || i == 3 || i == 4 || i == 6) {
-            platforms[i].initTextures("./BigPlatform.png");
-        } else {
-            platforms[i].initTextures("./SmallPlatform.png");
-        }
-        platforms[i].setPosition();
-        platforms[i].draw(window);
-    }
-
+    TextBuilder builder;
     std::string aux;
-
     for (int i = 0; i < T; i += 1) {
         int temp = static_cast<int>(players[i].getHealth() * 10);
 
@@ -101,12 +76,23 @@ void Game<T>::drawThings() {
             aux = std::to_string(temp / 10) + "." + std::to_string(temp % 10);
         }
 
-        currentScores[i].setString("Score:  " + std::to_string(players[i].getScore()));
-        currentHealths[i].setString("Health: " + aux);
+        currentHealths[i] = builder.setFont().setSize(30.f).setCol(sf::Color::Red).setPos(healthTextPos[i]).setString("Health: " + aux).build();
+        currentScores[i] = builder.setFont().setSize(30.f).setCol(sf::Color::Black).setPos(scoreTextPos[i]).setString("Score:  " + std::to_string(players[i].getScore())).build();
 
-        window.draw(currentScores[i]);
-        window.draw(currentHealths[i]);
+        window.draw(currentHealths[i].getText());
+        window.draw(currentScores[i].getText());
     }
+
+    for (int i = 0; i < 8; i += 1) {
+        if (i == 1 || i == 3 || i == 4 || i == 6) {
+            platforms[i].initTextures("./BigPlatform.png");
+        } else {
+            platforms[i].initTextures("./SmallPlatform.png");
+        }
+        platforms[i].setPosition();
+        platforms[i].draw(window);
+    }
+
 
     if (!pause) {
         for (int i = 0; i < T; i += 1) {
@@ -174,51 +160,34 @@ template<unsigned short T>
 void Game<T>::drawLost() {
     static int sec = static_cast<int>(totalTimer.getElapsedTime().asSeconds());
 
-    sf::Text youLost, timeSpent, lose;
-    youLost.setCharacterSize(100.f);
-    youLost.setFont(font);
-    youLost.setFillColor(sf::Color::Black);
-    youLost.setPosition(200.f, 150.f);
-
-    lose.setCharacterSize(50.f);
-    lose.setFont(font);
-
     int maxim = players[0].getScore(), winner = 0;
     for (int i = 1; i < T; i += 1) {
         if (maxim < players[i].getScore()) {
             maxim = players[i].getScore(), winner = i;
         }
     }
+
+    Text youLost, timeSpent, lose;
+    TextBuilder builder;
+
     const std::string text = T == 2 ? "Player " + std::to_string(winner + 1) + " won" : "You lost :(";
-    youLost.setString(text);
-
-    lose.setString("Score:  " + std::to_string(maxim));
-    lose.setFillColor(sf::Color::Black);
-    lose.setPosition(250.f, 300.f);
-
-    timeSpent.setString("Time: " + std::to_string(sec));
-    timeSpent.setCharacterSize(50.f);
-    timeSpent.setFillColor(sf::Color::Black);
-    timeSpent.setFont(font);
-    timeSpent.setPosition(550.f, 300.f);
+    youLost = builder.setSize(100.f).setFont().setCol(sf::Color::Black).setPos(200.f, 175.f).setString(text).build();
+    lose = builder.setSize(50.f).setFont().setCol(sf::Color::Black).setPos(250.f, 300.f).setString("Score:  " + std::to_string(maxim)).setCol(sf::Color::Black).setPos(250.f, 300.f).build();
+    timeSpent = builder.setSize(50.f).setFont().setString("Time: " + std::to_string(sec)).setSize(50.f).setCol(sf::Color::Black).setFont().setPos(550.f, 300.f).build();
 
     window.draw(background);
-    window.draw(lose);
-    window.draw(youLost);
-    window.draw(timeSpent);
+    window.draw(lose.getText());
+    window.draw(youLost.getText());
+    window.draw(timeSpent.getText());
 
     if (maxim > highScore) {
         highScore = maxim;
         std::ofstream fout("./highScore.txt"); fout << highScore;
     }
 
-    sf::Text highest;
-    highest.setCharacterSize(80.f);
-    highest.setFont(font);
-    highest.setFillColor(sf::Color::Red);
-    highest.setString("Highest score: " + std::to_string(highScore));
-    highest.setPosition(180.f, 80.f);
-    window.draw(highest);
+    Text highest;
+    highest = builder.setSize(80.f).setFont().setCol(sf::Color::Red).setString("Highest score: " + std::to_string(highScore)).setPos(130.f, 80.f).build();
+    window.draw(highest.getText());
 
     sf::RectangleShape escape, playAgain;
 
@@ -228,17 +197,12 @@ void Game<T>::drawLost() {
     escape.setOutlineThickness(4.f), playAgain.setOutlineThickness(4.f);
     escape.setPosition(300.f, 400.f), playAgain.setPosition(600.f, 400.f);
 
-    sf::Text leave, play;
-    leave.setFont(font), play.setFont(font);
-    leave.setString("Leave"), play.setString("Play again");
-    leave.setFillColor(sf::Color::Black), play.setFillColor(sf::Color::Black);
-    leave.setOutlineColor(sf::Color::White), play.setOutlineColor(sf::Color::White);
-    leave.setOutlineThickness(2.f), play.setOutlineThickness(2.f);
-    leave.setCharacterSize(20.f), play.setCharacterSize(15.f);
-    leave.setPosition(318.f, 421.f), play.setPosition(608.f, 426.f);
+    Text leave, play;
+    leave = builder.setFont().setString("Leave").setCol(sf::Color::Black).setOutCol(sf::Color::White).setOutThick(2.f).setSize(20.f).setPos(318.f, 421.f).build();
+    play = builder.setFont().setString("Play again").setCol(sf::Color::Black).setOutCol(sf::Color::White).setOutThick(2.f).setSize(15.f).setPos(608.f, 426.f).build();
 
     window.draw(escape), window.draw(playAgain);
-    window.draw(leave), window.draw(play);
+    window.draw(leave.getText()), window.draw(play.getText());
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         sf::Vector2f posMouse = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
@@ -258,14 +222,10 @@ template<unsigned short T>
 void Game<T>::drawPause() {
     drawThings();
 
-    sf::Text paused;
-    paused.setCharacterSize(100.f);
-    paused.setFont(font);
-    paused.setString("Pause");
-    paused.setFillColor(sf::Color::Black);
-    paused.setPosition(350.f, 150.f);
-
-    window.draw(paused);
+    Text paused;
+    TextBuilder builder;
+    paused = builder.setSize(100.f).setFont().setString("Pause").setCol(sf::Color::Black).setPos(350.f, 150.f).build();
+    window.draw(paused.getText());
 
     sf::RectangleShape escape, playAgain;
 
@@ -275,17 +235,12 @@ void Game<T>::drawPause() {
     escape.setOutlineThickness(4.f), playAgain.setOutlineThickness(4.f);
     escape.setPosition(300.f, 400.f), playAgain.setPosition(600.f, 400.f);
 
-    sf::Text leave, play;
-    leave.setFont(font), play.setFont(font);
-    leave.setString("Leave"), play.setString("Resume");
-    leave.setFillColor(sf::Color::Black), play.setFillColor(sf::Color::Black);
-    leave.setOutlineColor(sf::Color::White), play.setOutlineColor(sf::Color::White);
-    leave.setOutlineThickness(2.f), play.setOutlineThickness(2.f);
-    leave.setCharacterSize(20.f), play.setCharacterSize(20.f);
-    leave.setPosition(318.f, 421.f), play.setPosition(610.f, 421.f);
+    Text leave, play;
+    leave = builder.setFont().setString("Leave").setCol(sf::Color::Black).setOutCol(sf::Color::White).setOutThick(2.f).setSize(20.f).setPos(318.f, 421.f).build();
+    play = builder.setFont().setString("Resume").setCol(sf::Color::Black).setOutCol(sf::Color::White).setOutThick(2.f).setSize(20.f).setPos(610.f, 421.f).build();
 
     window.draw(escape), window.draw(playAgain);
-    window.draw(leave), window.draw(play);
+    window.draw(leave.getText()), window.draw(play.getText());
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         sf::Vector2f posMouse = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
@@ -321,7 +276,7 @@ void Game<T>::run() {
         window.clear();
 
         if (!lost && !pause) {
-            if (timer.getElapsedTime().asSeconds() >= 4.f && !choices.empty()) {
+            if (timer.getElapsedTime().asSeconds() >= 7.f && !choices.empty()) {
                 timer.restart();
 
                 int index = getRandom(int(choices.size()) - 1);
@@ -397,37 +352,6 @@ void Game<T>::run() {
 
         window.display();
     }
-}
-
-
-template<unsigned short T>
-Game<T>& Game<T>::operator=(const Game& oth) {
-    if (this != &oth) {
-        texture = oth.texture;
-        background = oth.background;
-        font = oth.font;
-        currentScores = oth.currentScores;
-        currentHealths = oth.currentHealths;
-        currentArrow = oth.currentArrow;
-        currentCarrot = oth.currentCarrot;
-        goldenCarrot = oth.goldenCarrot;
-        lost = oth.lost;
-        pause = oth.pause;
-        timer = oth.timer;
-        totalTimer = oth.totalTimer;
-        choices = oth.choices;
-
-
-        players = oth.players;
-
-        traps.shrink_to_fit();
-        for (auto& trap : oth.traps) {
-            traps.push_back(trap->clone());
-        }
-
-        platforms = oth.platforms;
-    }
-    return *this;
 }
 
 template<unsigned short T>

@@ -168,6 +168,8 @@ add_executable(${PROJECT_NAME}
         Source/Saw.cpp
         Headers/TrapFactory.h
         Headers/TrapFactory.h
+        Headers/TextBuilder.h
+        Headers/TextBuilder.h
 )
 
 ###############################################################################
