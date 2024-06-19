@@ -36,7 +36,3 @@ void SpikeyBall::move(sf::RenderWindow& window) {
         signVertical = -signVertical;
     }
 }
-
-std::shared_ptr<FiniteChoice> SpikeyBall::clone() const {
-    return std::make_shared<SpikeyBall>(*this);
-}

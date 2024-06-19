@@ -45,6 +45,3 @@ void Saw::move(sf::RenderWindow& window) {
     }
 }
 
-std::shared_ptr<FiniteChoice> Saw::clone() const {
-    return std::make_shared<Saw>(*this);
-}

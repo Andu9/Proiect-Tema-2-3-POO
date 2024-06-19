@@ -15,7 +15,6 @@ class CannonBall : public FiniteChoice {
         void spawn() override;
         void move(sf::RenderWindow& window) override;
 
-        std::shared_ptr<FiniteChoice> clone() const override;
 };
 
 #endif

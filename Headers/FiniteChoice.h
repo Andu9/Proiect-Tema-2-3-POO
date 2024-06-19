@@ -22,7 +22,6 @@ class FiniteChoice : public Trap {
 
         virtual void spawn() = 0;
         virtual void move(sf::RenderWindow& window) = 0;
-        virtual std::shared_ptr<FiniteChoice> clone() const = 0;
 
         void setHasCollided(int index, bool _hasCollided);
         bool getHasCollided(int index) const;

@@ -9,7 +9,7 @@ CannonBall::CannonBall(const std::string& fileName) : FiniteChoice(std::vector<s
 
 
 void CannonBall::spawn() {
-    initialPosition = this->choose(1);
+    initialPosition = CannonBall::choose(1);
 
     if (initialPosition.first == 40.f) {
         textureCannon.loadFromFile("./CannonLeft.png");
@@ -47,7 +47,4 @@ void CannonBall::move(sf::RenderWindow& window) {
     }
 }
 
-std::shared_ptr<FiniteChoice> CannonBall::clone() const {
-    return std::make_shared<CannonBall>(*this);
-}
 
